@@ -1,0 +1,46 @@
+package devlava.stmsapi.domain;
+
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.LocalDateTime;
+
+@Getter
+@Setter
+@Entity
+@NoArgsConstructor
+@Table(name = "TB_TASK_MANAGER")
+public class TbTaskManager {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "task_id", nullable = false)
+    private TbTask task;
+
+    @Column(name = "user_id", nullable = false)
+    private String userId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    private TbLmsMember member;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
+
+    // 생성자
+    public TbTaskManager(TbTask task, String userId) {
+        this.task = task;
+        this.userId = userId;
+    }
+}
