@@ -41,6 +41,11 @@ public class TaskService {
         task.setEvaluationType(request.getEvaluationType());
         task.setMetric(request.getMetric());
 
+        // 기본값 설정
+        task.setStatus("inProgress"); // 진행중
+        task.setIsInputted("N"); // 미입력
+        task.setAchievement(0); // 달성률 0%
+
         // 2. 담당자 매핑 추가
         if (request.getManagerIds() != null) {
             for (String managerId : request.getManagerIds()) {
