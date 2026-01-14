@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    p6spy:
+      enabled: true
+      appender: com.p6spy.engine.spy.appender.Slf4JLogger
+      logMessageFormat:
+        p6spy: "%(currentTime)|%(executionTime)|%(category)|%(sqlSingleLine)"
+    url: jdbc:postgresql://localhost:5433/ragdb
+    username: raguser
+    password: ragpass
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: false
+    defer-datasource-initialization: true
+    open-in-view: false
+
+logging:
+  level:
+    root: INFO
+    devlava.nudgeapi: DEBUG
+    org.springframework.orm.jpa: DEBUG
