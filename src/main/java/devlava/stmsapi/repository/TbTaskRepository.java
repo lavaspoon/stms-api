@@ -41,4 +41,26 @@ public interface TbTaskRepository extends JpaRepository<TbTask, Long> {
             "LEFT JOIN FETCH tm.member " +
             "WHERE t.taskId = :taskId")
     TbTask findByIdWithManagers(Long taskId);
+
+    /**
+     * 사용자별 과제 조회 (담당자로 지정된 과제만)
+     * N+1 문제 방지를 위해 fetch join 사용
+     */
+    @Query("SELECT DISTINCT t FROM TbTask t " +
+            "LEFT JOIN FETCH t.taskManagers tm " +
+            "LEFT JOIN FETCH tm.member " +
+            "WHERE t.useYn = 'Y' AND tm.userId = :userId " +
+            "ORDER BY t.taskId DESC")
+    List<TbTask> findByUserIdWithManagers(String userId);
+
+    /**
+     * 사용자별 과제 타입별 조회 (담당자로 지정된 과제만)
+     * N+1 문제 방지를 위해 fetch join 사용
+     */
+    @Query("SELECT DISTINCT t FROM TbTask t " +
+            "LEFT JOIN FETCH t.taskManagers tm " +
+            "LEFT JOIN FETCH tm.member " +
+            "WHERE t.taskType = :taskType AND t.useYn = 'Y' AND tm.userId = :userId " +
+            "ORDER BY t.taskId DESC")
+    List<TbTask> findByTaskTypeAndUserIdWithManagers(String taskType, String userId);
 }

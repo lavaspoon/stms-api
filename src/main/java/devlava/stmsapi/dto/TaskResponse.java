@@ -39,5 +39,6 @@ public class TaskResponse {
         private String userId;
         private String mbName;
         private String mbPositionName;
+        private String deptName;
     }
 }
