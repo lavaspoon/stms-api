@@ -14,7 +14,8 @@ public class TbLmsDept {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(name = "dept_id")
+    private Integer deptId;
 
     @Column(name = "dept_name")
     private String deptName;

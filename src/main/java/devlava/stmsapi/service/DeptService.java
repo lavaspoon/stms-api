@@ -38,14 +38,14 @@ public class DeptService {
         Map<Integer, DeptResponse> deptMap = new HashMap<>();
         for (TbLmsDept dept : allDepts) {
             DeptResponse deptResponse = DeptResponse.builder()
-                    .id(dept.getId())
+                    .id(dept.getDeptId())
                     .deptName(dept.getDeptName())
-                    .parentDeptId(dept.getParent() != null ? dept.getParent().getId() : null)
+                    .parentDeptId(dept.getParent() != null ? dept.getParent().getDeptId() : null)
                     .depth(dept.getDepth())
                     .useYn(dept.getUseYn())
                     .children(new ArrayList<>())
                     .build();
-            deptMap.put(dept.getId(), deptResponse);
+            deptMap.put(dept.getDeptId(), deptResponse);
         }
 
         // 3. 부모-자식 관계 설정 및 최상위 부서 추출
@@ -75,14 +75,14 @@ public class DeptService {
         Map<Integer, DeptResponse> deptMap = new HashMap<>();
         for (TbLmsDept dept : allDepts) {
             DeptResponse deptResponse = DeptResponse.builder()
-                    .id(dept.getId())
+                    .id(dept.getDeptId())
                     .deptName(dept.getDeptName())
-                    .parentDeptId(dept.getParent() != null ? dept.getParent().getId() : null)
+                    .parentDeptId(dept.getParent() != null ? dept.getParent().getDeptId() : null)
                     .depth(dept.getDepth())
                     .useYn(dept.getUseYn())
                     .children(new ArrayList<>())
                     .build();
-            deptMap.put(dept.getId(), deptResponse);
+            deptMap.put(dept.getDeptId(), deptResponse);
         }
 
         // 부모-자식 관계 설정
@@ -110,10 +110,10 @@ public class DeptService {
         // 2. DTO 변환 (메모리에서 처리)
         return depts.stream()
                 .map(dept -> DeptListResponse.builder()
-                        .id(dept.getId())
+                        .id(dept.getDeptId())
                         .deptName(dept.getDeptName())
                         .depth(dept.getDepth())
-                        .parentDeptId(dept.getParent() != null ? dept.getParent().getId() : null)
+                        .parentDeptId(dept.getParent() != null ? dept.getParent().getDeptId() : null)
                         .build())
                 .collect(Collectors.toList());
     }
@@ -130,7 +130,7 @@ public class DeptService {
         // 2. DTO 변환 (메모리에서 처리)
         return members.stream()
                 .map(member -> MemberListResponse.builder()
-                        .userId(member.getUserId())
+                        .userId(member.getSkid())
                         .mbName(member.getMbName())
                         .deptName(member.getDeptName())
                         .deptIdx(member.getDeptIdx())

@@ -1,9 +1,11 @@
 package devlava.stmsapi.service;
 
 import devlava.stmsapi.domain.TbLmsMember;
+import devlava.stmsapi.domain.TbStmsRole;
 import devlava.stmsapi.dto.LoginResponse;
 import devlava.stmsapi.exception.UserNotFoundException;
 import devlava.stmsapi.repository.TbLmsMemberRepository;
+import devlava.stmsapi.repository.TbStmsRoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class LoginService {
 
     private final TbLmsMemberRepository memberRepository;
+    private final TbStmsRoleRepository roleRepository;
 
     /**
      * 사용자 로그인 (skid로 사용자 정보 조회)
@@ -22,17 +25,31 @@ public class LoginService {
         TbLmsMember member = memberRepository.findById(skid)
                 .orElseThrow(() -> new UserNotFoundException("사용자를 찾을 수 없습니다: " + skid));
 
-        return convertToLoginResponse(member);
+        return convertToLoginResponse(member, skid);
     }
 
     /**
      * TbLmsMember -> LoginResponse 변환
+     * 권한 정보 포함 (TbStmsRole 조회)
      */
-    private LoginResponse convertToLoginResponse(TbLmsMember member) {
+    private LoginResponse convertToLoginResponse(TbLmsMember member, String skid) {
+        // TbStmsRole 조회하여 권한 확인
+        String role = "담당자"; // 기본값
+        java.util.Optional<TbStmsRole> stmsRole = roleRepository.findBySkid(skid);
+        if (stmsRole.isPresent()) {
+            String roleValue = stmsRole.get().getRole();
+            if ("관리자".equals(roleValue)) {
+                role = "관리자";
+            } else {
+                role = "담당자";
+            }
+        }
+        // TbStmsRole에 조회한 계정이 없으면 기본값 "담당자" 유지
+
         return LoginResponse.builder()
-                .skid(member.getUserId())
+                .skid(member.getSkid())
                 .userName(member.getMbName())
-                .role(member.getRevel())
+                .role(role) // TbStmsRole에서 조회한 권한 사용
                 .comCode(parseComCode(member.getComCode()))
                 .deptIdx(member.getDeptIdx())
                 .deptName(member.getDeptName())

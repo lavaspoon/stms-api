@@ -14,4 +14,9 @@ public interface TbLmsDeptRepository extends JpaRepository<TbLmsDept, Integer> {
      * - N+1 문제 없음
      */
     List<TbLmsDept> findByUseYn(String useYn);
+
+    /**
+     * 부서명으로 부서 조회
+     */
+    List<TbLmsDept> findByDeptName(String deptName);
 }

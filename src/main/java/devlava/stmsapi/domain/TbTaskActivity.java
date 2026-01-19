@@ -3,12 +3,10 @@ package devlava.stmsapi.domain;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
 @Entity
 @NoArgsConstructor
 @Table(name = "TB_TASK_ACTIVITY")
@@ -53,5 +51,24 @@ public class TbTaskActivity {
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
+    }
+
+    // 비즈니스 메서드
+    /**
+     * 활동내역 초기화
+     */
+    public void initialize(Long taskId, String userId, Integer activityYear, Integer activityMonth, String activityContent) {
+        this.taskId = taskId;
+        this.userId = userId;
+        this.activityYear = activityYear;
+        this.activityMonth = activityMonth;
+        this.activityContent = activityContent;
+    }
+
+    /**
+     * 활동내역 내용 업데이트
+     */
+    public void updateContent(String activityContent) {
+        this.activityContent = activityContent;
     }
 }

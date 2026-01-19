@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -15,9 +15,8 @@ public class TaskUpdateRequest {
     private String category2;
     private String taskName;
     private String description;
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private Integer deptId;
+    private Date startDate;
+    private Date endDate;
     private List<String> managerIds; // 담당자 ID 목록
     private String performanceType;
     private String evaluationType;

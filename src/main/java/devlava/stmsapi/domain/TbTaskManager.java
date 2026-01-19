@@ -3,12 +3,10 @@ package devlava.stmsapi.domain;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
 @Entity
 @NoArgsConstructor
 @Table(name = "TB_TASK_MANAGER")
@@ -42,5 +40,13 @@ public class TbTaskManager {
     public TbTaskManager(TbTask task, String userId) {
         this.task = task;
         this.userId = userId;
+    }
+
+    // 비즈니스 메서드
+    /**
+     * 담당 과제 설정
+     */
+    public void setTask(TbTask task) {
+        this.task = task;
     }
 }

@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 public class TbLmsMember {
 
     @Id
-    @Column(name = "user_id")
-    private String userId;
+    @Column(name = "skid")
+    private String skid;
 
     @Column(name = "company")
     private String company;

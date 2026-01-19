@@ -31,4 +31,16 @@ public interface TbTaskActivityRepository extends JpaRepository<TbTaskActivity, 
                         @Param("taskId") Long taskId,
                         @Param("year") Integer year,
                         @Param("month") Integer month);
+
+        /**
+         * 여러 과제의 현재 월 활동내역 일괄 조회 (N+1 문제 해결)
+         */
+        @Query("SELECT a FROM TbTaskActivity a " +
+                        "WHERE a.taskId IN :taskIds " +
+                        "AND a.activityYear = :year " +
+                        "AND a.activityMonth = :month")
+        List<TbTaskActivity> findByTaskIdsAndYearAndMonth(
+                        @Param("taskIds") List<Long> taskIds,
+                        @Param("year") Integer year,
+                        @Param("month") Integer month);
 }

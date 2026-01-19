@@ -3,15 +3,13 @@ package devlava.stmsapi.domain;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Getter
-@Setter
 @Entity
 @NoArgsConstructor
 @Table(name = "TB_TASK")
@@ -38,17 +36,10 @@ public class TbTask {
     private String description; // 과제 설명
 
     @Column(name = "start_date")
-    private LocalDate startDate; // 시작일
+    private Date startDate; // 시작일
 
     @Column(name = "end_date")
-    private LocalDate endDate; // 종료일
-
-    @Column(name = "dept_id")
-    private Integer deptId; // 부서 ID
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "dept_id", insertable = false, updatable = false)
-    private TbLmsDept department; // 부서 정보
+    private Date endDate; // 종료일
 
     @Column(name = "performance_type", length = 20)
     private String performanceType; // 재무, 비재무
@@ -104,14 +95,89 @@ public class TbTask {
         updatedAt = LocalDateTime.now();
     }
 
+    // 비즈니스 메서드
+    /**
+     * 과제 기본 정보 설정
+     */
+    public void setBasicInfo(String taskType, String category1, String category2, String taskName, 
+                            String description, Date startDate, Date endDate,
+                            String performanceType, String evaluationType, String metric) {
+        this.taskType = taskType;
+        this.category1 = category1;
+        this.category2 = category2;
+        this.taskName = taskName;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.performanceType = performanceType;
+        this.evaluationType = evaluationType;
+        this.metric = metric;
+    }
+
+    /**
+     * 과제 정보 업데이트
+     */
+    public void updateInfo(String category1, String category2, String taskName, 
+                          String description, Date startDate, Date endDate,
+                          String performanceType, String evaluationType, String metric) {
+        this.category1 = category1;
+        this.category2 = category2;
+        this.taskName = taskName;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.performanceType = performanceType;
+        this.evaluationType = evaluationType;
+        this.metric = metric;
+    }
+
+    /**
+     * 상태 업데이트
+     */
+    public void updateStatus(String status) {
+        this.status = status;
+    }
+
+    /**
+     * 달성률 업데이트
+     */
+    public void updateAchievement(Integer achievement) {
+        this.achievement = achievement;
+    }
+
+    /**
+     * 입력 완료 표시
+     */
+    public void markAsInputted() {
+        this.isInputted = "Y";
+    }
+
+    /**
+     * 입력 미완료 표시
+     */
+    public void markAsNotInputted() {
+        this.isInputted = "N";
+    }
+
+    /**
+     * 논리 삭제
+     */
+    public void delete() {
+        this.useYn = "N";
+    }
+
     // 편의 메서드
     public void addTaskManager(TbTaskManager taskManager) {
         taskManagers.add(taskManager);
-        taskManager.setTask(this);
+        if (taskManager.getTask() != this) {
+            taskManager.setTask(this);
+        }
     }
 
     public void removeTaskManager(TbTaskManager taskManager) {
         taskManagers.remove(taskManager);
-        taskManager.setTask(null);
+        if (taskManager.getTask() == this) {
+            taskManager.setTask(null);
+        }
     }
 }

@@ -38,16 +38,15 @@ public class TaskController {
 
     /**
      * 과제 타입별 조회 (사용자별)
-     * GET /api/tasks?type=OI&userId=USR001&role=관리자
-     * GET /api/tasks?type=중점추진&userId=USR001&role=담당자
+     * GET /api/tasks?type=OI&skid=USR001
+     * GET /api/tasks?type=중점추진&skid=USR001
      */
     @GetMapping(params = "type")
     public List<TaskResponse> getTasksByType(
             @RequestParam("type") String taskType,
-            @RequestParam(value = "userId", required = false) String userId,
-            @RequestParam(value = "role", required = false, defaultValue = "담당자") String role) {
-        if (userId != null && !userId.isEmpty()) {
-            return taskService.getTasksByTypeAndUser(taskType, userId, role);
+            @RequestParam(value = "skid", required = false) String skid) {
+        if (skid != null && !skid.isEmpty()) {
+            return taskService.getTasksByTypeAndUser(taskType, skid);
         } else {
             // 기존 방식 (관리자용 전체 조회)
             return taskService.getTasksByType(taskType);
@@ -56,14 +55,13 @@ public class TaskController {
 
     /**
      * 사용자별 과제 조회
-     * GET /api/tasks/user?userId=USR001&role=관리자
-     * GET /api/tasks/user?userId=USR001&role=담당자
+     * GET /api/tasks/user?skid=USR001
+     * 권한에 따라 관리자는 모든 과제, 담당자는 자신이 담당한 과제만 조회
      */
     @GetMapping("/user")
     public List<TaskResponse> getTasksByUser(
-            @RequestParam("userId") String userId,
-            @RequestParam(value = "role", required = false, defaultValue = "담당자") String role) {
-        return taskService.getTasksByUser(userId, role);
+            @RequestParam("skid") String skid) {
+        return taskService.getTasksByUser(skid);
     }
 
     /**

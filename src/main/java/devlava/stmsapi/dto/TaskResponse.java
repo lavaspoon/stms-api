@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -19,10 +19,8 @@ public class TaskResponse {
     private String category2;
     private String taskName;
     private String description;
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private Integer deptId;
-    private String deptName;
+    private Date startDate;
+    private Date endDate;
     private List<TaskManagerInfo> managers;
     private String performanceType;
     private String evaluationType;
@@ -40,5 +38,6 @@ public class TaskResponse {
         private String mbName;
         private String mbPositionName;
         private String deptName;
+        private String topDeptName; // 담당자의 최상위 부서명 (1depth)
     }
 }

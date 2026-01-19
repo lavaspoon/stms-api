@@ -3,13 +3,11 @@ package devlava.stmsapi.domain;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
 @Entity
 @NoArgsConstructor
 @Table(name = "TB_TASK_MONTHLY_GOAL")
@@ -67,12 +65,41 @@ public class TbTaskMonthlyGoal {
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
         // 달성률 자동 계산
+        calculateAchievementRate();
+    }
+
+    // 비즈니스 메서드
+    /**
+     * 월별 목표 초기화
+     */
+    public void initialize(Long taskId, Integer targetYear, Integer targetMonth, BigDecimal targetValue, BigDecimal actualValue) {
+        this.taskId = taskId;
+        this.targetYear = targetYear;
+        this.targetMonth = targetMonth;
+        this.targetValue = targetValue;
+        this.actualValue = actualValue;
+        calculateAchievementRate();
+    }
+
+    /**
+     * 목표값 및 실적값 업데이트
+     */
+    public void updateValues(BigDecimal targetValue, BigDecimal actualValue) {
+        this.targetValue = targetValue;
+        this.actualValue = actualValue;
+        calculateAchievementRate();
+    }
+
+    /**
+     * 달성률 계산
+     */
+    public void calculateAchievementRate() {
         if (targetValue != null && actualValue != null && targetValue.compareTo(BigDecimal.ZERO) > 0) {
-            achievementRate = actualValue.divide(targetValue, 4, java.math.RoundingMode.HALF_UP)
+            this.achievementRate = actualValue.divide(targetValue, 4, java.math.RoundingMode.HALF_UP)
                     .multiply(BigDecimal.valueOf(100))
                     .setScale(2, java.math.RoundingMode.HALF_UP);
         } else {
-            achievementRate = BigDecimal.ZERO;
+            this.achievementRate = BigDecimal.ZERO;
         }
     }
 }
