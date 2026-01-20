@@ -61,4 +61,23 @@ public class AIController {
                 .result(result)
                 .build());
     }
+
+    /**
+     * 월간 보고서 생성
+     */
+    @PostMapping("/generate-monthly-report")
+    public ResponseEntity<AIResponse> generateMonthlyReport(@RequestBody AIRequest request) {
+        log.info("월간 보고서 생성 요청: taskType={}, tasks count={}", 
+                request.getTaskType(), 
+                request.getTasks() != null ? request.getTasks().size() : 0);
+        
+        String result = aiService.generateMonthlyReport(
+                request.getTaskType(),
+                request.getTasks()
+        );
+        
+        return ResponseEntity.ok(AIResponse.builder()
+                .result(result)
+                .build());
+    }
 }

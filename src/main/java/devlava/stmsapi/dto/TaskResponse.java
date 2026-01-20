@@ -28,6 +28,8 @@ public class TaskResponse {
     private String status;
     private String isInputted;
     private Integer achievement;
+    private java.math.BigDecimal targetValue; // 목표값
+    private java.math.BigDecimal actualValue; // 실적값
 
     @Getter
     @Builder

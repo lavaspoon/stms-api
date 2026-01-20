@@ -106,11 +106,14 @@ public class TaskController {
 
     /**
      * 과제 활동내역 조회
-     * GET /api/tasks/{taskId}/activity
+     * GET /api/tasks/{taskId}/activity?year=2026&month=1
      */
     @GetMapping("/{taskId}/activity")
-    public TaskActivityResponse getTaskActivity(@PathVariable Long taskId) {
-        return taskService.getTaskActivity(taskId);
+    public TaskActivityResponse getTaskActivity(
+            @PathVariable Long taskId,
+            @RequestParam(required = false) Integer year,
+            @RequestParam(required = false) Integer month) {
+        return taskService.getTaskActivity(taskId, year, month);
     }
 
     /**
@@ -124,25 +127,4 @@ public class TaskController {
         return taskService.getPreviousActivities(taskId, limit);
     }
 
-    /**
-     * 1년치 월별 목표/실적 조회
-     * GET /api/tasks/{taskId}/yearly-goals?year=2026
-     */
-    @GetMapping("/{taskId}/yearly-goals")
-    public YearlyGoalResponse getYearlyGoals(
-            @PathVariable Long taskId,
-            @RequestParam Integer year) {
-        return taskService.getYearlyGoals(taskId, year);
-    }
-
-    /**
-     * 1년치 월별 목표/실적 일괄 저장
-     * POST /api/tasks/{taskId}/yearly-goals
-     */
-    @PostMapping("/{taskId}/yearly-goals")
-    public YearlyGoalResponse saveYearlyGoals(
-            @PathVariable Long taskId,
-            @RequestBody YearlyGoalRequest request) {
-        return taskService.saveYearlyGoals(taskId, request);
-    }
 }

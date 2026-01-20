@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class TaskUpdateRequest {
     private String performanceType;
     private String evaluationType;
     private String metric;
+    private BigDecimal targetValue; // 목표값 (정량일 때만)
+    private BigDecimal actualValue; // 실적값 (정량일 때만)
     private String status; // 진행중, 완료, 지연, 중단
-    private Integer achievement; // 달성률
 }

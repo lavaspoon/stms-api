@@ -50,14 +50,17 @@ public class TbTask {
     @Column(name = "metric", length = 20)
     private String metric; // 건수, 금액, %
 
+    @Column(name = "target_value", precision = 15, scale = 2)
+    private java.math.BigDecimal targetValue; // 목표값 (소수점 지원)
+
+    @Column(name = "actual_value", precision = 15, scale = 2)
+    private java.math.BigDecimal actualValue; // 실적값 (소수점 지원)
+
     @Column(name = "status", length = 20)
     private String status; // 진행중, 완료, 지연, 중단
 
-    @Column(name = "is_inputted", length = 1)
-    private String isInputted; // Y/N - 이달 활동내역 입력 여부
-
-    @Column(name = "achievement")
-    private Integer achievement; // 달성률 (%)
+    @Column(name = "achievement", precision = 5, scale = 2)
+    private java.math.BigDecimal achievement; // 달성률 (%) - 소수점 지원
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -79,14 +82,17 @@ public class TbTask {
         if (useYn == null) {
             useYn = "Y";
         }
-        if (isInputted == null) {
-            isInputted = "N";
-        }
         if (status == null) {
             status = "진행중";
         }
+        if (targetValue == null) {
+            targetValue = java.math.BigDecimal.ZERO;
+        }
+        if (actualValue == null) {
+            actualValue = java.math.BigDecimal.ZERO;
+        }
         if (achievement == null) {
-            achievement = 0;
+            achievement = java.math.BigDecimal.ZERO;
         }
     }
 
@@ -139,25 +145,38 @@ public class TbTask {
     }
 
     /**
-     * 달성률 업데이트
+     * 목표값 설정
      */
-    public void updateAchievement(Integer achievement) {
+    public void setTargetValue(java.math.BigDecimal targetValue) {
+        this.targetValue = targetValue;
+    }
+
+    /**
+     * 실적값 설정
+     */
+    public void setActualValue(java.math.BigDecimal actualValue) {
+        this.actualValue = actualValue;
+    }
+
+    /**
+     * 달성률 업데이트 (자동 계산)
+     */
+    public void updateAchievement() {
+        if (targetValue != null && targetValue.compareTo(java.math.BigDecimal.ZERO) > 0 && actualValue != null) {
+            this.achievement = actualValue.divide(targetValue, 4, java.math.RoundingMode.HALF_UP)
+                    .multiply(java.math.BigDecimal.valueOf(100));
+        } else {
+            this.achievement = java.math.BigDecimal.ZERO;
+        }
+    }
+
+    /**
+     * 달성률 직접 설정
+     */
+    public void setAchievement(java.math.BigDecimal achievement) {
         this.achievement = achievement;
     }
 
-    /**
-     * 입력 완료 표시
-     */
-    public void markAsInputted() {
-        this.isInputted = "Y";
-    }
-
-    /**
-     * 입력 미완료 표시
-     */
-    public void markAsNotInputted() {
-        this.isInputted = "N";
-    }
 
     /**
      * 논리 삭제

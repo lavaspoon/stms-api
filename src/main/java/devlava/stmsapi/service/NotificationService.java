@@ -2,12 +2,14 @@ package devlava.stmsapi.service;
 
 import devlava.stmsapi.domain.TbNotification;
 import devlava.stmsapi.domain.TbTask;
+import devlava.stmsapi.domain.TbLmsMember;
 import devlava.stmsapi.dto.NotificationRequest;
 import devlava.stmsapi.dto.NotificationResponse;
 import devlava.stmsapi.dto.TaskResponse;
 import devlava.stmsapi.repository.TbNotificationRepository;
 import devlava.stmsapi.repository.TbTaskRepository;
 import devlava.stmsapi.repository.TbTaskActivityRepository;
+import devlava.stmsapi.repository.TbLmsMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,6 +32,7 @@ public class NotificationService {
     private final TbNotificationRepository notificationRepository;
     private final TbTaskRepository taskRepository;
     private final TbTaskActivityRepository activityRepository;
+    private final TbLmsMemberRepository memberRepository;
 
     /**
      * 이번 달 미입력된 과제 목록 조회
@@ -89,7 +92,7 @@ public class NotificationService {
                             .metric(task.getMetric())
                             .status(task.getStatus())
                             .isInputted("N")
-                            .achievement(task.getAchievement() != null ? task.getAchievement() : 0)
+                            .achievement(task.getAchievement() != null ? task.getAchievement().intValue() : 0)
                             .build();
                 })
                 .collect(Collectors.toList());
@@ -166,7 +169,27 @@ public class NotificationService {
     public Page<NotificationResponse> getAllNotifications(int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createAt"));
         Page<TbNotification> notificationPage = notificationRepository.findAll(pageable);
-        return notificationPage.map(this::convertToResponse);
+        
+        // N+1 문제 방지: 모든 알림의 skid를 수집하여 한 번에 조회
+        List<String> skids = notificationPage.getContent().stream()
+                .map(TbNotification::getSkid)
+                .filter(skid -> skid != null && !skid.isEmpty())
+                .distinct()
+                .collect(Collectors.toList());
+        
+        // 모든 담당자 정보를 한 번에 조회
+        final java.util.Map<String, TbLmsMember> memberMap;
+        if (!skids.isEmpty()) {
+            List<TbLmsMember> members = memberRepository.findAllById(skids);
+            memberMap = members.stream()
+                    .filter(member -> member.getSkid() != null)
+                    .collect(Collectors.toMap(TbLmsMember::getSkid, member -> member));
+        } else {
+            memberMap = new java.util.HashMap<>();
+        }
+        
+        // 각 알림에 담당자 이름 매핑하여 변환
+        return notificationPage.map(notification -> convertToResponse(notification, memberMap));
     }
 
     /**
@@ -174,18 +197,33 @@ public class NotificationService {
      */
     public List<NotificationResponse> getNotificationsByUser(String skid) {
         List<TbNotification> notifications = notificationRepository.findBySkidOrderByCreateAtDesc(skid);
+        
+        // 담당자 정보 조회
+        final java.util.Map<String, TbLmsMember> memberMap = new java.util.HashMap<>();
+        if (skid != null && !skid.isEmpty()) {
+            Optional<TbLmsMember> memberOpt = memberRepository.findById(skid);
+            if (memberOpt.isPresent()) {
+                memberMap.put(skid, memberOpt.get());
+            }
+        }
+        
         return notifications.stream()
-                .map(this::convertToResponse)
+                .map(notification -> convertToResponse(notification, memberMap))
                 .collect(Collectors.toList());
     }
 
     /**
-     * 엔티티 -> DTO 변환
+     * 엔티티 -> DTO 변환 (담당자 정보 포함)
      */
-    private NotificationResponse convertToResponse(TbNotification notification) {
+    private NotificationResponse convertToResponse(TbNotification notification, java.util.Map<String, TbLmsMember> memberMap) {
+        String skid = notification.getSkid();
+        TbLmsMember member = skid != null ? memberMap.get(skid) : null;
+        String managerName = member != null && member.getMbName() != null ? member.getMbName() : null;
+        
         return NotificationResponse.builder()
                 .id(notification.getId())
-                .skid(notification.getSkid())
+                .skid(skid)
+                .managerName(managerName)
                 .gubun(notification.getGubun())
                 .projectNm(notification.getProjectNm())
                 .sendYn(notification.getSendYn())

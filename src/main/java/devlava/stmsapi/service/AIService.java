@@ -98,4 +98,76 @@ public class AIService {
         );
         return callAX4(prompt);
     }
+
+    /**
+     * 월간 보고서 생성
+     */
+    public String generateMonthlyReport(String taskType, List<Map<String, Object>> tasks) {
+        StringBuilder promptBuilder = new StringBuilder();
+        
+        java.time.LocalDate now = java.time.LocalDate.now();
+        int year = now.getYear();
+        int month = now.getMonthValue();
+        String monthName;
+        switch (month) {
+            case 1: monthName = "1월"; break;
+            case 2: monthName = "2월"; break;
+            case 3: monthName = "3월"; break;
+            case 4: monthName = "4월"; break;
+            case 5: monthName = "5월"; break;
+            case 6: monthName = "6월"; break;
+            case 7: monthName = "7월"; break;
+            case 8: monthName = "8월"; break;
+            case 9: monthName = "9월"; break;
+            case 10: monthName = "10월"; break;
+            case 11: monthName = "11월"; break;
+            case 12: monthName = "12월"; break;
+            default: monthName = String.valueOf(month) + "월"; break;
+        }
+        
+        promptBuilder.append(String.format("다음은 %s 과제들의 %d년 %s 활동 내역입니다.\n\n", taskType, year, monthName));
+        
+        int inputtedCount = 0;
+        int notInputtedCount = 0;
+        
+        for (Map<String, Object> task : tasks) {
+            String taskName = (String) task.get("taskName");
+            String activityContent = (String) task.get("activityContent");
+            
+            if (activityContent != null && !activityContent.trim().isEmpty()) {
+                promptBuilder.append(String.format("- **%s**\n  - %s\n\n", taskName, activityContent));
+                inputtedCount++;
+            } else {
+                promptBuilder.append(String.format("- **%s**\n  - 활동내역 없음\n\n", taskName));
+                notInputtedCount++;
+            }
+        }
+        
+        promptBuilder.append("위 정보를 바탕으로 전문적이고 체계적인 월간 보고서를 마크다운 형식으로 작성해주세요.\n\n");
+        promptBuilder.append("## 보고서 작성 요구사항\n\n");
+        promptBuilder.append("1. **보고서 구조**: 다음 섹션을 포함하여 작성해주세요.\n");
+        promptBuilder.append("   - ## 1. 개요\n");
+        promptBuilder.append("   - ## 2. 주요 활동 현황\n");
+        promptBuilder.append("   - ## 3. 성과 및 결과\n");
+        promptBuilder.append("   - ## 4. 향후 계획\n\n");
+        
+        promptBuilder.append("2. **작성 스타일**:\n");
+        promptBuilder.append("   - 각 섹션은 명확한 제목(##)으로 구분\n");
+        promptBuilder.append("   - 구체적이고 객관적인 서술\n");
+        promptBuilder.append("   - 불필요한 인사말이나 서론 없이 핵심 내용만 작성\n");
+        promptBuilder.append("   - 숫자나 통계가 있으면 포함 (예: 총 과제 수, 입력 완료 과제 수 등)\n\n");
+        
+        promptBuilder.append("3. **활동내역 처리**:\n");
+        promptBuilder.append(String.format("   - 입력된 과제 (%d개): 구체적인 활동내역을 바탕으로 상세히 서술\n", inputtedCount));
+        promptBuilder.append(String.format("   - 미입력 과제 (%d개): 해당 과제명을 명시하고, 미입력 사유나 향후 계획을 포함\n\n", notInputtedCount));
+        
+        promptBuilder.append("4. **형식**:\n");
+        promptBuilder.append("   - 마크다운 문법 사용 (##, **, -, 등)\n");
+        promptBuilder.append("   - 가독성을 위한 적절한 줄바꿈\n");
+        promptBuilder.append("   - 각 섹션은 3-5문단 정도로 구성\n\n");
+        
+        promptBuilder.append("보고서를 작성해주세요.");
+        
+        return callAX4(promptBuilder.toString());
+    }
 }

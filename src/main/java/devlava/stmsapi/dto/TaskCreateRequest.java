@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -22,4 +23,5 @@ public class TaskCreateRequest {
     private String performanceType;
     private String evaluationType;
     private String metric;
+    private BigDecimal targetValue; // 목표값 (정량일 때만)
 }

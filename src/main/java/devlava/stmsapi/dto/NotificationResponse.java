@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 public class NotificationResponse {
     private Long id;
     private String skid;
+    private String managerName; // 담당자 이름
     private String gubun;
     private String projectNm;
     private String sendYn;
