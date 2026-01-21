@@ -15,4 +15,6 @@ public class AIRequest {
     private String previousActivities;
     private String taskType;
     private List<Map<String, Object>> tasks;
+    private String format; // 'html', 'markdown', 'custom'
+    private String customQuestion; // 커스텀 스타일에서 사용할 질문
 }
