@@ -20,6 +20,15 @@ spring:
     defer-datasource-initialization: true
     open-in-view: false
 
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+file:
+  upload-dir: ./uploads/task-activity
+
 logging:
   level:
     root: INFO

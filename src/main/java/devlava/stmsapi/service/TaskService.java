@@ -9,6 +9,7 @@ import devlava.stmsapi.repository.TbTaskActivityRepository;
 import devlava.stmsapi.repository.TbTaskRepository;
 import devlava.stmsapi.repository.TbLmsDeptRepository;
 import devlava.stmsapi.repository.TbStmsRoleRepository;
+import devlava.stmsapi.repository.TbTaskActivityFileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +29,7 @@ public class TaskService {
     private final TbTaskActivityRepository activityRepository;
     private final TbLmsDeptRepository deptRepository;
     private final TbStmsRoleRepository roleRepository;
+    private final TbTaskActivityFileRepository fileRepository;
 
     /**
      * 과제 등록
@@ -318,7 +320,23 @@ public class TaskService {
             taskRepository.save(task);
         }
 
-        // 5. 응답 DTO 변환 (TB_TASK의 목표/실적/달성률 사용)
+        // 5. 파일 목록 조회
+        List<TaskActivityFileResponse> files = fileRepository.findByActivityId(activity.getActivityId())
+                .stream()
+                .map(file -> TaskActivityFileResponse.builder()
+                        .fileId(file.getFileId())
+                        .activityId(file.getActivityId())
+                        .fileName(file.getFileName())
+                        .originalFileName(file.getOriginalFileName())
+                        .fileSize(file.getFileSize())
+                        .fileType(file.getFileType())
+                        .uploadedBy(file.getUploadedBy())
+                        .createdAt(file.getCreatedAt())
+                        .updatedAt(file.getUpdatedAt())
+                        .build())
+                .collect(Collectors.toList());
+
+        // 6. 응답 DTO 변환 (TB_TASK의 목표/실적/달성률 사용)
         return TaskActivityResponse.builder()
                 .activityId(activity.getActivityId())
                 .taskId(activity.getTaskId())
@@ -329,6 +347,7 @@ public class TaskService {
                 .targetValue(task.getTargetValue() != null ? task.getTargetValue().intValue() : 0)
                 .actualValue(task.getActualValue() != null ? task.getActualValue().intValue() : 0)
                 .achievementRate(task.getAchievement() != null ? task.getAchievement().intValue() : 0)
+                .files(files)
                 .createdAt(activity.getCreatedAt())
                 .updatedAt(activity.getUpdatedAt())
                 .build();
@@ -355,7 +374,26 @@ public class TaskService {
 
         TbTaskActivity act = activity.orElse(null);
 
-        // 4. 응답 DTO 변환 (TB_TASK의 목표/실적/달성률 사용)
+        // 4. 파일 목록 조회
+        List<TaskActivityFileResponse> files = java.util.Collections.emptyList();
+        if (act != null && act.getActivityId() != null) {
+            files = fileRepository.findByActivityId(act.getActivityId())
+                    .stream()
+                    .map(file -> TaskActivityFileResponse.builder()
+                            .fileId(file.getFileId())
+                            .activityId(file.getActivityId())
+                            .fileName(file.getFileName())
+                            .originalFileName(file.getOriginalFileName())
+                            .fileSize(file.getFileSize())
+                            .fileType(file.getFileType())
+                            .uploadedBy(file.getUploadedBy())
+                            .createdAt(file.getCreatedAt())
+                            .updatedAt(file.getUpdatedAt())
+                            .build())
+                    .collect(Collectors.toList());
+        }
+
+        // 5. 응답 DTO 변환 (TB_TASK의 목표/실적/달성률 사용)
         return TaskActivityResponse.builder()
                 .activityId(act != null ? act.getActivityId() : null)
                 .taskId(taskId)
@@ -366,6 +404,7 @@ public class TaskService {
                 .targetValue(task.getTargetValue() != null ? task.getTargetValue().intValue() : 0)
                 .actualValue(task.getActualValue() != null ? task.getActualValue().intValue() : 0)
                 .achievementRate(task.getAchievement() != null ? task.getAchievement().intValue() : 0)
+                .files(files)
                 .createdAt(act != null ? act.getCreatedAt() : null)
                 .updatedAt(act != null ? act.getUpdatedAt() : null)
                 .build();
@@ -401,6 +440,22 @@ public class TaskService {
         // 각 activity에 대해 TB_TASK의 목표/실적/달성률 매핑
         return limitedActivities.stream()
                 .map(activity -> {
+                    // 파일 목록 조회
+                    List<TaskActivityFileResponse> files = fileRepository.findByActivityId(activity.getActivityId())
+                            .stream()
+                            .map(file -> TaskActivityFileResponse.builder()
+                                    .fileId(file.getFileId())
+                                    .activityId(file.getActivityId())
+                                    .fileName(file.getFileName())
+                                    .originalFileName(file.getOriginalFileName())
+                                    .fileSize(file.getFileSize())
+                                    .fileType(file.getFileType())
+                                    .uploadedBy(file.getUploadedBy())
+                                    .createdAt(file.getCreatedAt())
+                                    .updatedAt(file.getUpdatedAt())
+                                    .build())
+                            .collect(Collectors.toList());
+
                     return TaskActivityResponse.builder()
                             .activityId(activity.getActivityId())
                             .taskId(activity.getTaskId())
@@ -411,6 +466,7 @@ public class TaskService {
                             .targetValue(task.getTargetValue() != null ? task.getTargetValue().intValue() : 0)
                             .actualValue(task.getActualValue() != null ? task.getActualValue().intValue() : 0)
                             .achievementRate(task.getAchievement() != null ? task.getAchievement().intValue() : 0)
+                            .files(files)
                             .createdAt(activity.getCreatedAt())
                             .updatedAt(activity.getUpdatedAt())
                             .build();

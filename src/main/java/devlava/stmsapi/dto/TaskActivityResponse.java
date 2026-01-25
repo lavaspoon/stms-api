@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -21,6 +22,7 @@ public class TaskActivityResponse {
     private Integer targetValue;
     private Integer actualValue;
     private Integer achievementRate;
+    private List<TaskActivityFileResponse> files;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

@@ -2,10 +2,19 @@ package devlava.stmsapi.controller;
 
 import devlava.stmsapi.dto.*;
 import devlava.stmsapi.service.TaskService;
+import devlava.stmsapi.service.TaskActivityFileService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @RestController
@@ -16,6 +25,7 @@ import java.util.List;
 public class TaskController {
 
     private final TaskService taskService;
+    private final TaskActivityFileService fileService;
 
     /**
      * 과제 등록
@@ -125,6 +135,72 @@ public class TaskController {
             @PathVariable Long taskId,
             @RequestParam(required = false, defaultValue = "3") Integer limit) {
         return taskService.getPreviousActivities(taskId, limit);
+    }
+
+    /**
+     * 활동내역 파일 업로드
+     * POST /api/tasks/activity/{activityId}/files
+     */
+    @PostMapping("/activity/{activityId}/files")
+    @ResponseStatus(HttpStatus.CREATED)
+    public TaskActivityFileResponse uploadFile(
+            @PathVariable Long activityId,
+            @RequestParam("file") MultipartFile file,
+            @RequestParam String userId) {
+        try {
+            return fileService.uploadFile(activityId, file, userId);
+        } catch (IOException e) {
+            throw new RuntimeException("파일 업로드 중 오류가 발생했습니다: " + e.getMessage());
+        }
+    }
+
+    /**
+     * 활동내역 파일 다운로드
+     * GET /api/tasks/activity/files/{fileId}
+     */
+    @GetMapping("/activity/files/{fileId}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable Long fileId) {
+        try {
+            Resource resource = fileService.downloadFile(fileId);
+
+            // 파일 정보 가져오기
+            TaskActivityFileResponse fileInfo = fileService.getFileInfo(fileId);
+            String fileName = fileInfo != null ? fileInfo.getOriginalFileName() : "file";
+            String contentType = fileInfo != null && fileInfo.getFileType() != null
+                    ? fileInfo.getFileType()
+                    : "application/octet-stream";
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(contentType))
+                    .header(HttpHeaders.CONTENT_DISPOSITION,
+                            "attachment; filename=\"" + URLEncoder.encode(fileName, StandardCharsets.UTF_8) + "\"")
+                    .body(resource);
+        } catch (IOException e) {
+            throw new RuntimeException("파일 다운로드 중 오류가 발생했습니다: " + e.getMessage());
+        }
+    }
+
+    /**
+     * 활동내역 파일 목록 조회
+     * GET /api/tasks/activity/{activityId}/files
+     */
+    @GetMapping("/activity/{activityId}/files")
+    public List<TaskActivityFileResponse> getFiles(@PathVariable Long activityId) {
+        return fileService.getFilesByActivityId(activityId);
+    }
+
+    /**
+     * 활동내역 파일 삭제
+     * DELETE /api/tasks/activity/files/{fileId}
+     */
+    @DeleteMapping("/activity/files/{fileId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteFile(@PathVariable Long fileId) {
+        try {
+            fileService.deleteFile(fileId);
+        } catch (IOException e) {
+            throw new RuntimeException("파일 삭제 중 오류가 발생했습니다: " + e.getMessage());
+        }
     }
 
 }
