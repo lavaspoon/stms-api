@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="devlava.stmsapi.repository.TbLmsMemberMapper">
+    
+    <!-- 사용자 정보 삽입 -->
+    <insert id="insertMember" parameterType="TbLmsMember">
+        INSERT INTO TB_LMS_MEMBER (
+            skid,
+            company,
+            mb_name,
+            mb_position,
+            dept_name,
+            mb_position_name,
+            email,
+            use_yn,
+            dept_idx,
+            revel,
+            com_code
+        ) VALUES (
+            #{skid},
+            #{company},
+            #{mbName},
+            #{mbPosition},
+            #{deptName},
+            #{mbPositionName},
+            #{email},
+            #{useYn},
+            #{deptIdx},
+            #{revel},
+            #{comCode}
+        )
+    </insert>
+    
+</mapper>
