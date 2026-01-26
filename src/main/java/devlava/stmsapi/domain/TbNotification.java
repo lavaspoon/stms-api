@@ -26,6 +26,9 @@ public class TbNotification {
     @Column(name = "project_nm", length = 200, nullable = false)
     private String projectNm; // 과제명
 
+    @Column(name = "task_count", nullable = false)
+    private Integer taskCount = 1; // 과제 개수
+
     @Column(name = "send_yn", length = 1, nullable = false)
     private String sendYn = "N"; // 전송 여부
 
@@ -45,6 +48,17 @@ public class TbNotification {
         this.skid = skid;
         this.gubun = gubun;
         this.projectNm = projectNm;
+        this.taskCount = 1;
+        this.sendYn = "N";
+        this.readYn = "N";
+    }
+
+    // 생성자 (과제 개수 포함)
+    public TbNotification(String skid, String gubun, String projectNm, Integer taskCount) {
+        this.skid = skid;
+        this.gubun = gubun;
+        this.projectNm = projectNm;
+        this.taskCount = taskCount != null ? taskCount : 1;
         this.sendYn = "N";
         this.readYn = "N";
     }

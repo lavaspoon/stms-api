@@ -17,6 +17,7 @@ public class NotificationResponse {
     private String managerName; // 담당자 이름
     private String gubun;
     private String projectNm;
+    private Integer taskCount; // 과제 개수
     private String sendYn;
     private String readYn;
     private LocalDateTime createAt;

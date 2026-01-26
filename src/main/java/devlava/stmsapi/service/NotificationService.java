@@ -100,6 +100,7 @@ public class NotificationService {
 
     /**
      * 선택된 과제에 대해 담당자에게 알림 생성
+     * 중복 담당자는 하나의 알림으로 통합 (과제 개수 포함)
      */
     @Transactional
     public int sendNotificationsForSelectedTasks(NotificationRequest request) {
@@ -108,9 +109,11 @@ public class NotificationService {
         }
 
         String gubun = request.getGubun();
-        int notificationCount = 0;
+        
+        // 담당자별로 그룹화: Map<skid, List<과제명>>
+        java.util.Map<String, java.util.List<String>> managerTaskMap = new java.util.HashMap<>();
 
-        // 선택된 과제들 조회
+        // 선택된 과제들 조회 및 담당자별 그룹화
         for (Long taskId : request.getTaskIds()) {
             TbTask task = taskRepository.findByIdWithManagers(taskId);
             if (task == null) continue;
@@ -122,15 +125,31 @@ public class NotificationService {
                     .collect(Collectors.toList());
 
             for (String skid : managerSkids) {
-                // 알림 생성
-                TbNotification notification = new TbNotification(
-                        skid,
-                        gubun,
-                        task.getTaskName()
-                );
-                notificationRepository.save(notification);
-                notificationCount++;
+                managerTaskMap.computeIfAbsent(skid, k -> new java.util.ArrayList<>())
+                        .add(task.getTaskName());
             }
+        }
+
+        // 각 담당자에게 하나의 알림 생성
+        int notificationCount = 0;
+        for (java.util.Map.Entry<String, java.util.List<String>> entry : managerTaskMap.entrySet()) {
+            String skid = entry.getKey();
+            java.util.List<String> taskNames = entry.getValue();
+            
+            // 첫 번째 과제명을 projectNm으로 사용
+            String firstTaskName = taskNames.get(0);
+            // 과제 개수
+            Integer taskCount = taskNames.size();
+            
+            // 알림 생성
+            TbNotification notification = new TbNotification(
+                    skid,
+                    gubun,
+                    firstTaskName,
+                    taskCount
+            );
+            notificationRepository.save(notification);
+            notificationCount++;
         }
 
         return notificationCount;
@@ -156,7 +175,8 @@ public class NotificationService {
         TbNotification newNotification = new TbNotification(
                 notification.getSkid(),
                 notification.getGubun(),
-                notification.getProjectNm()
+                notification.getProjectNm(),
+                notification.getTaskCount() != null ? notification.getTaskCount() : 1
         );
         notificationRepository.save(newNotification);
         
@@ -214,18 +234,27 @@ public class NotificationService {
 
     /**
      * 엔티티 -> DTO 변환 (담당자 정보 포함)
+     * 과제명을 "과제명 외 N건" 형태로 변환
      */
     private NotificationResponse convertToResponse(TbNotification notification, java.util.Map<String, TbLmsMember> memberMap) {
         String skid = notification.getSkid();
         TbLmsMember member = skid != null ? memberMap.get(skid) : null;
         String managerName = member != null && member.getMbName() != null ? member.getMbName() : null;
         
+        // 과제명 포맷팅: taskCount가 1보다 크면 "과제명 외 N건" 형태로 표시
+        String projectNm = notification.getProjectNm();
+        Integer taskCount = notification.getTaskCount() != null ? notification.getTaskCount() : 1;
+        if (taskCount > 1) {
+            projectNm = projectNm + " 외 " + (taskCount - 1) + "건";
+        }
+        
         return NotificationResponse.builder()
                 .id(notification.getId())
                 .skid(skid)
                 .managerName(managerName)
                 .gubun(notification.getGubun())
-                .projectNm(notification.getProjectNm())
+                .projectNm(projectNm)
+                .taskCount(taskCount)
                 .sendYn(notification.getSendYn())
                 .readYn(notification.getReadYn())
                 .createAt(notification.getCreateAt())
