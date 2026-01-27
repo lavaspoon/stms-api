@@ -71,43 +71,64 @@ public class AIService {
     }
 
     /**
-     * 맞춤법 검사
+     * 맞춤법 검사 프롬프트 생성
      */
-    public String checkSpelling(String text) {
-        String prompt = String.format(
+    public String generateSpellingPrompt(String text) {
+        return String.format(
                 "다음 텍스트의 맞춤법과 띄어쓰기를 검사하고 교정해주세요. 교정된 텍스트만 출력하고 설명은 하지 마세요.\n\n%s",
                 text
         );
+    }
+
+    /**
+     * 맞춤법 검사 (레거시 - 호환성 유지)
+     */
+    public String checkSpelling(String text) {
+        String prompt = generateSpellingPrompt(text);
         return callAX4(prompt);
     }
 
     /**
-     * 활동내역 추천
+     * 활동내역 추천 프롬프트 생성
      */
-    public String recommendActivity(String taskName, String previousActivities) {
-        String prompt = String.format(
+    public String generateActivityRecommendationPrompt(String taskName, String previousActivities) {
+        return String.format(
                 "과제명: \"%s\"\n\n이전 활동내역:\n%s\n\n위 과제의 이번 달 활동내역을 작성해주세요. 간결하고 구체적으로 3-5줄 정도로 작성해주세요. 불필요한 인사말이나 설명 없이 활동내역만 작성해주세요.",
                 taskName,
                 previousActivities != null && !previousActivities.isEmpty() ? previousActivities : "없음"
         );
+    }
+
+    /**
+     * 활동내역 추천 (레거시 - 호환성 유지)
+     */
+    public String recommendActivity(String taskName, String previousActivities) {
+        String prompt = generateActivityRecommendationPrompt(taskName, previousActivities);
         return callAX4(prompt);
     }
 
     /**
-     * 문맥 교정
+     * 문맥 교정 프롬프트 생성
      */
-    public String improveContext(String text) {
-        String prompt = String.format(
+    public String generateContextImprovementPrompt(String text) {
+        return String.format(
                 "다음 활동내역의 문맥과 표현을 더 명확하고 전문적으로 개선해주세요. 개선된 텍스트만 출력하고 설명은 하지 마세요.\n\n%s",
                 text
         );
+    }
+
+    /**
+     * 문맥 교정 (레거시 - 호환성 유지)
+     */
+    public String improveContext(String text) {
+        String prompt = generateContextImprovementPrompt(text);
         return callAX4(prompt);
     }
 
     /**
-     * 월간 보고서 생성
+     * 월간 보고서 프롬프트 생성
      */
-    public String generateMonthlyReport(String taskType, List<Map<String, Object>> tasks) {
+    public String generateMonthlyReportPrompt(String taskType, List<Map<String, Object>> tasks) {
         StringBuilder promptBuilder = new StringBuilder();
         
         java.time.LocalDate now = java.time.LocalDate.now();
@@ -173,11 +194,43 @@ public class AIService {
         
         promptBuilder.append("보고서를 작성해주세요.");
         
-        return callAX4(promptBuilder.toString());
+        return promptBuilder.toString();
     }
 
     /**
-     * 보고서 생성 (형식별)
+     * 월간 보고서 생성 (레거시 - 호환성 유지)
+     */
+    public String generateMonthlyReport(String taskType, List<Map<String, Object>> tasks) {
+        String prompt = generateMonthlyReportPrompt(taskType, tasks);
+        return callAX4(prompt);
+    }
+
+    /**
+     * 보고서 프롬프트 생성 (형식별)
+     */
+    public String generateReportPrompt(String taskType, List<Map<String, Object>> tasks, String reportType, String format) {
+        if (format == null || format.equals("markdown")) {
+            // 기본 마크다운 형식
+            if (reportType.equals("monthly")) {
+                return generateMonthlyReportPrompt(taskType, tasks);
+            } else {
+                return generateComprehensiveReportPrompt(taskType, tasks);
+            }
+        } else if (format.equals("html")) {
+            // HTML 뉴스클립 스타일
+            return generateHTMLReportPrompt(taskType, tasks, reportType);
+        } else {
+            // 마크다운 기본
+            if (reportType.equals("monthly")) {
+                return generateMonthlyReportPrompt(taskType, tasks);
+            } else {
+                return generateComprehensiveReportPrompt(taskType, tasks);
+            }
+        }
+    }
+
+    /**
+     * 보고서 생성 (형식별) (레거시 - 호환성 유지)
      */
     public String generateReport(String taskType, List<Map<String, Object>> tasks, String reportType, String format) {
         if (format == null || format.equals("markdown")) {
@@ -201,9 +254,9 @@ public class AIService {
     }
 
     /**
-     * HTML 뉴스클립 스타일 보고서 생성
+     * HTML 뉴스클립 스타일 보고서 프롬프트 생성
      */
-    private String generateHTMLReport(String taskType, List<Map<String, Object>> tasks, String reportType) {
+    public String generateHTMLReportPrompt(String taskType, List<Map<String, Object>> tasks, String reportType) {
         StringBuilder promptBuilder = new StringBuilder();
         
         java.time.LocalDate now = java.time.LocalDate.now();
@@ -303,7 +356,15 @@ public class AIService {
         promptBuilder.append("\n```\n\n");
         promptBuilder.append("위 HTML 구조를 유지하면서 플레이스홀더를 실제 데이터로 교체한 완전한 HTML 문서를 작성해주세요.");
         
-        String aiResponse = callAX4(promptBuilder.toString());
+        return promptBuilder.toString();
+    }
+
+    /**
+     * HTML 뉴스클립 스타일 보고서 생성 (레거시 - 호환성 유지)
+     */
+    private String generateHTMLReport(String taskType, List<Map<String, Object>> tasks, String reportType) {
+        String prompt = generateHTMLReportPrompt(taskType, tasks, reportType);
+        String aiResponse = callAX4(prompt);
         
         // AI 응답에서 HTML 코드 블록 추출
         String htmlContent = extractHTMLFromResponse(aiResponse);
@@ -443,9 +504,9 @@ public class AIService {
     }
 
     /**
-     * 커스텀 질문 기반 보고서 생성
+     * 커스텀 질문 기반 보고서 프롬프트 생성
      */
-    public String generateCustomReport(String taskType, List<Map<String, Object>> tasks, String reportType, String question) {
+    public String generateCustomReportPrompt(String taskType, List<Map<String, Object>> tasks, String reportType, String question) {
         StringBuilder promptBuilder = new StringBuilder();
         
         java.time.LocalDate now = java.time.LocalDate.now();
@@ -502,13 +563,21 @@ public class AIService {
         promptBuilder.append(question != null && !question.trim().isEmpty() ? question : "위 활동 내역을 종합적으로 분석하여 주요 성과와 개선점을 요약해주세요.");
         promptBuilder.append("\n\n답변은 구체적이고 전문적으로 작성해주세요.");
         
-        return callAX4(promptBuilder.toString());
+        return promptBuilder.toString();
     }
 
     /**
-     * 종합 보고서 생성
+     * 커스텀 질문 기반 보고서 생성 (레거시 - 호환성 유지)
      */
-    public String generateComprehensiveReport(String taskType, List<Map<String, Object>> tasks) {
+    public String generateCustomReport(String taskType, List<Map<String, Object>> tasks, String reportType, String question) {
+        String prompt = generateCustomReportPrompt(taskType, tasks, reportType, question);
+        return callAX4(prompt);
+    }
+
+    /**
+     * 종합 보고서 프롬프트 생성
+     */
+    public String generateComprehensiveReportPrompt(String taskType, List<Map<String, Object>> tasks) {
         StringBuilder promptBuilder = new StringBuilder();
         
         promptBuilder.append(String.format("다음은 %s 과제들의 지금까지의 모든 활동 내역입니다.\n\n", taskType));
@@ -566,6 +635,14 @@ public class AIService {
         
         promptBuilder.append("보고서를 작성해주세요.");
         
-        return callAX4(promptBuilder.toString());
+        return promptBuilder.toString();
+    }
+
+    /**
+     * 종합 보고서 생성 (레거시 - 호환성 유지)
+     */
+    public String generateComprehensiveReport(String taskType, List<Map<String, Object>> tasks) {
+        String prompt = generateComprehensiveReportPrompt(taskType, tasks);
+        return callAX4(prompt);
     }
 }
