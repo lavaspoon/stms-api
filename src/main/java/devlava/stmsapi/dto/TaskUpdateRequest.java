@@ -25,4 +25,5 @@ public class TaskUpdateRequest {
     private BigDecimal targetValue; // 목표값 (정량일 때만)
     private BigDecimal actualValue; // 실적값 (정량일 때만)
     private String status; // 진행중, 완료, 지연, 중단
+    private String visibleYn; // 공개여부 (Y: 공개, N: 비공개)
 }

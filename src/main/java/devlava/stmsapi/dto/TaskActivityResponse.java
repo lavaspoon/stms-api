@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -19,9 +20,9 @@ public class TaskActivityResponse {
     private Integer activityYear;
     private Integer activityMonth;
     private String activityContent;
-    private Integer targetValue;
-    private Integer actualValue;
-    private Integer achievementRate;
+    private BigDecimal targetValue;
+    private BigDecimal actualValue; // 소수점 지원
+    private BigDecimal achievementRate;
     private List<TaskActivityFileResponse> files;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

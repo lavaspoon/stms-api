@@ -29,17 +29,8 @@ spring:
 file:
   upload-dir: ./uploads/task-activity
 
-mybatis:
-  mapper-locations: classpath:mapper/**/*.xml
-  type-aliases-package: devlava.stmsapi.domain
-  configuration:
-    map-underscore-to-camel-case: true
-    default-fetch-size: 100
-    default-statement-timeout: 30
-
 logging:
   level:
     root: INFO
     devlava.nudgeapi: DEBUG
     org.springframework.orm.jpa: DEBUG
-    devlava.stmsapi.mapper: DEBUG

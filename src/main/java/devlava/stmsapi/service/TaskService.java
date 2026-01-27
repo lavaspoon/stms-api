@@ -56,6 +56,13 @@ public class TaskService {
         // 기본값 설정
         task.updateStatus("inProgress"); // 진행중
 
+        // 공개여부 설정 (기본값 Y)
+        if (request.getVisibleYn() != null) {
+            task.setVisibleYn(request.getVisibleYn());
+        } else {
+            task.setVisibleYn("Y");
+        }
+
         // 목표값 설정 (정량일 때만)
         if ("quantitative".equals(request.getEvaluationType()) && request.getTargetValue() != null) {
             task.setTargetValue(request.getTargetValue());
@@ -209,6 +216,11 @@ public class TaskService {
             task.updateStatus(request.getStatus());
         }
 
+        // 공개여부 수정
+        if (request.getVisibleYn() != null) {
+            task.setVisibleYn(request.getVisibleYn());
+        }
+
         // 3. 담당자 매핑 수정 (변경된 경우만 업데이트)
         if (request.getManagerIds() != null && !request.getManagerIds().isEmpty()) {
             System.out.println("새 담당자 수: " + request.getManagerIds().size());
@@ -296,14 +308,26 @@ public class TaskService {
         TbTaskActivity activity;
         if (existingActivity.isPresent()) {
             activity = existingActivity.get();
-            activity.updateContent(request.getActivityContent());
+            // 정량일 때만 실적값도 함께 업데이트
+            if ("quantitative".equals(task.getEvaluationType()) && request.getActualValue() != null) {
+                activity.updateContentAndActualValue(request.getActivityContent(), request.getActualValue());
+            } else {
+                activity.updateContent(request.getActivityContent());
+            }
         } else {
             activity = new TbTaskActivity();
-            activity.initialize(taskId, userId, targetYear, targetMonth, request.getActivityContent());
+            // 정량일 때만 실적값도 함께 초기화
+            if ("quantitative".equals(task.getEvaluationType()) && request.getActualValue() != null) {
+                activity.initialize(taskId, userId, targetYear, targetMonth, request.getActivityContent(),
+                        request.getActualValue());
+            } else {
+                activity.initialize(taskId, userId, targetYear, targetMonth, request.getActivityContent());
+            }
         }
         activity = activityRepository.save(activity);
 
         // 4. 과제 상태 및 실적값 업데이트 (현재 월인 경우만, 정량일 때만)
+        // 현재 월의 실적값을 TB_TASK에도 반영 (호환성 유지)
         if (targetYear.equals(currentYear) && targetMonth.equals(currentMonth)) {
             if (request.getStatus() != null) {
                 task.updateStatus(request.getStatus());
@@ -336,7 +360,21 @@ public class TaskService {
                         .build())
                 .collect(Collectors.toList());
 
-        // 6. 응답 DTO 변환 (TB_TASK의 목표/실적/달성률 사용)
+        // 6. 응답 DTO 변환
+        // actualValue는 월별로 저장된 값을 우선 사용, 없으면 TB_TASK의 값 사용 (호환성)
+        BigDecimal monthlyActualValue = activity.getActualValue();
+        BigDecimal finalActualValue = monthlyActualValue != null ? monthlyActualValue
+                : (task.getActualValue() != null ? task.getActualValue() : BigDecimal.ZERO);
+
+        // 달성률 계산 (해당 월의 목표값과 실적값으로 계산)
+        BigDecimal achievementRate = BigDecimal.ZERO;
+        if (task.getTargetValue() != null && finalActualValue != null &&
+                task.getTargetValue().compareTo(BigDecimal.ZERO) > 0) {
+            achievementRate = finalActualValue.divide(task.getTargetValue(), 4, java.math.RoundingMode.HALF_UP)
+                    .multiply(BigDecimal.valueOf(100))
+                    .setScale(2, java.math.RoundingMode.HALF_UP);
+        }
+
         return TaskActivityResponse.builder()
                 .activityId(activity.getActivityId())
                 .taskId(activity.getTaskId())
@@ -344,9 +382,9 @@ public class TaskService {
                 .activityYear(activity.getActivityYear())
                 .activityMonth(activity.getActivityMonth())
                 .activityContent(activity.getActivityContent())
-                .targetValue(task.getTargetValue() != null ? task.getTargetValue().intValue() : 0)
-                .actualValue(task.getActualValue() != null ? task.getActualValue().intValue() : 0)
-                .achievementRate(task.getAchievement() != null ? task.getAchievement().intValue() : 0)
+                .targetValue(task.getTargetValue())
+                .actualValue(finalActualValue) // 소수점 유지
+                .achievementRate(achievementRate)
                 .files(files)
                 .createdAt(activity.getCreatedAt())
                 .updatedAt(activity.getUpdatedAt())
@@ -393,7 +431,21 @@ public class TaskService {
                     .collect(Collectors.toList());
         }
 
-        // 5. 응답 DTO 변환 (TB_TASK의 목표/실적/달성률 사용)
+        // 5. 응답 DTO 변환
+        // actualValue는 월별로 저장된 값을 우선 사용, 없으면 TB_TASK의 값 사용 (호환성)
+        BigDecimal monthlyActualValue = act != null ? act.getActualValue() : null;
+        BigDecimal finalActualValue = monthlyActualValue != null ? monthlyActualValue
+                : (task.getActualValue() != null ? task.getActualValue() : BigDecimal.ZERO);
+
+        // 달성률 계산 (해당 월의 목표값과 실적값으로 계산)
+        BigDecimal achievementRate = BigDecimal.ZERO;
+        if (task.getTargetValue() != null && finalActualValue != null &&
+                task.getTargetValue().compareTo(BigDecimal.ZERO) > 0) {
+            achievementRate = finalActualValue.divide(task.getTargetValue(), 4, java.math.RoundingMode.HALF_UP)
+                    .multiply(BigDecimal.valueOf(100))
+                    .setScale(2, java.math.RoundingMode.HALF_UP);
+        }
+
         return TaskActivityResponse.builder()
                 .activityId(act != null ? act.getActivityId() : null)
                 .taskId(taskId)
@@ -401,9 +453,9 @@ public class TaskService {
                 .activityYear(targetYear)
                 .activityMonth(targetMonth)
                 .activityContent(act != null ? act.getActivityContent() : null)
-                .targetValue(task.getTargetValue() != null ? task.getTargetValue().intValue() : 0)
-                .actualValue(task.getActualValue() != null ? task.getActualValue().intValue() : 0)
-                .achievementRate(task.getAchievement() != null ? task.getAchievement().intValue() : 0)
+                .targetValue(task.getTargetValue())
+                .actualValue(finalActualValue) // 소수점 유지
+                .achievementRate(achievementRate)
                 .files(files)
                 .createdAt(act != null ? act.getCreatedAt() : null)
                 .updatedAt(act != null ? act.getUpdatedAt() : null)
@@ -437,7 +489,7 @@ public class TaskService {
             return new java.util.ArrayList<>();
         }
 
-        // 각 activity에 대해 TB_TASK의 목표/실적/달성률 매핑
+        // 각 activity에 대해 월별 실적값 매핑
         return limitedActivities.stream()
                 .map(activity -> {
                     // 파일 목록 조회
@@ -456,6 +508,21 @@ public class TaskService {
                                     .build())
                             .collect(Collectors.toList());
 
+                    // actualValue는 월별로 저장된 값을 우선 사용, 없으면 TB_TASK의 값 사용 (호환성)
+                    BigDecimal monthlyActualValue = activity.getActualValue();
+                    BigDecimal finalActualValue = monthlyActualValue != null ? monthlyActualValue
+                            : (task.getActualValue() != null ? task.getActualValue() : BigDecimal.ZERO);
+
+                    // 달성률 계산 (해당 월의 목표값과 실적값으로 계산)
+                    BigDecimal achievementRate = BigDecimal.ZERO;
+                    if (task.getTargetValue() != null && finalActualValue != null &&
+                            task.getTargetValue().compareTo(BigDecimal.ZERO) > 0) {
+                        achievementRate = finalActualValue
+                                .divide(task.getTargetValue(), 4, java.math.RoundingMode.HALF_UP)
+                                .multiply(BigDecimal.valueOf(100))
+                                .setScale(2, java.math.RoundingMode.HALF_UP);
+                    }
+
                     return TaskActivityResponse.builder()
                             .activityId(activity.getActivityId())
                             .taskId(activity.getTaskId())
@@ -463,14 +530,35 @@ public class TaskService {
                             .activityYear(activity.getActivityYear())
                             .activityMonth(activity.getActivityMonth())
                             .activityContent(activity.getActivityContent())
-                            .targetValue(task.getTargetValue() != null ? task.getTargetValue().intValue() : 0)
-                            .actualValue(task.getActualValue() != null ? task.getActualValue().intValue() : 0)
-                            .achievementRate(task.getAchievement() != null ? task.getAchievement().intValue() : 0)
+                            .targetValue(task.getTargetValue())
+                            .actualValue(finalActualValue) // 소수점 유지
+                            .achievementRate(achievementRate)
                             .files(files)
                             .createdAt(activity.getCreatedAt())
                             .updatedAt(activity.getUpdatedAt())
                             .build();
                 })
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 월별 실적값 조회 (그래프용)
+     * 특정 년도의 월별 실적값만 조회 (정량일 때만)
+     */
+    public List<MonthlyActualValueResponse> getMonthlyActualValues(Long taskId, Integer year) {
+        // 년도가 없으면 현재 년도 사용
+        LocalDate now = LocalDate.now();
+        Integer targetYear = year != null ? year : now.getYear();
+
+        // 월별 실적값 조회 (actualValue가 null이 아닌 것만)
+        List<TbTaskActivity> activities = activityRepository.findByTaskIdAndYearWithActualValue(taskId, targetYear);
+
+        return activities.stream()
+                .map(activity -> MonthlyActualValueResponse.builder()
+                        .year(activity.getActivityYear())
+                        .month(activity.getActivityMonth())
+                        .actualValue(activity.getActualValue() != null ? activity.getActualValue().doubleValue() : 0.0)
+                        .build())
                 .collect(Collectors.toList());
     }
 
@@ -625,6 +713,7 @@ public class TaskService {
                 .achievement(calculatedAchievement != null ? calculatedAchievement : 0)
                 .targetValue(task.getTargetValue())
                 .actualValue(task.getActualValue())
+                .visibleYn(task.getVisibleYn())
                 .build();
     }
 }

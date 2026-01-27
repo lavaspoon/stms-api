@@ -24,4 +24,5 @@ public class TaskCreateRequest {
     private String evaluationType;
     private String metric;
     private BigDecimal targetValue; // 목표값 (정량일 때만)
+    private String visibleYn; // 공개여부 (Y: 공개, N: 비공개)
 }

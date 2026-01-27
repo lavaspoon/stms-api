@@ -138,6 +138,17 @@ public class TaskController {
     }
 
     /**
+     * 월별 실적값 조회 (그래프용)
+     * GET /api/tasks/{taskId}/monthly-actual-values?year=2024
+     */
+    @GetMapping("/{taskId}/monthly-actual-values")
+    public List<devlava.stmsapi.dto.MonthlyActualValueResponse> getMonthlyActualValues(
+            @PathVariable Long taskId,
+            @RequestParam(required = false) Integer year) {
+        return taskService.getMonthlyActualValues(taskId, year);
+    }
+
+    /**
      * 활동내역 파일 업로드
      * POST /api/tasks/activity/{activityId}/files
      */

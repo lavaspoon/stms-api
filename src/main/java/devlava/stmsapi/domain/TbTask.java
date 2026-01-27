@@ -71,6 +71,9 @@ public class TbTask {
     @Column(name = "use_yn", length = 1)
     private String useYn;
 
+    @Column(name = "visible_yn", length = 1)
+    private String visibleYn; // 공개여부 (Y: 공개, N: 비공개)
+
     // 담당자 매핑 (양방향)
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TbTaskManager> taskManagers = new ArrayList<>();
@@ -81,6 +84,9 @@ public class TbTask {
         updatedAt = LocalDateTime.now();
         if (useYn == null) {
             useYn = "Y";
+        }
+        if (visibleYn == null) {
+            visibleYn = "Y"; // 기본값은 공개
         }
         if (status == null) {
             status = "진행중";
@@ -105,9 +111,9 @@ public class TbTask {
     /**
      * 과제 기본 정보 설정
      */
-    public void setBasicInfo(String taskType, String category1, String category2, String taskName, 
-                            String description, Date startDate, Date endDate,
-                            String performanceType, String evaluationType, String metric) {
+    public void setBasicInfo(String taskType, String category1, String category2, String taskName,
+            String description, Date startDate, Date endDate,
+            String performanceType, String evaluationType, String metric) {
         this.taskType = taskType;
         this.category1 = category1;
         this.category2 = category2;
@@ -123,9 +129,9 @@ public class TbTask {
     /**
      * 과제 정보 업데이트
      */
-    public void updateInfo(String category1, String category2, String taskName, 
-                          String description, Date startDate, Date endDate,
-                          String performanceType, String evaluationType, String metric) {
+    public void updateInfo(String category1, String category2, String taskName,
+            String description, Date startDate, Date endDate,
+            String performanceType, String evaluationType, String metric) {
         this.category1 = category1;
         this.category2 = category2;
         this.taskName = taskName;
@@ -177,12 +183,18 @@ public class TbTask {
         this.achievement = achievement;
     }
 
-
     /**
      * 논리 삭제
      */
     public void delete() {
         this.useYn = "N";
+    }
+
+    /**
+     * 공개여부 설정
+     */
+    public void setVisibleYn(String visibleYn) {
+        this.visibleYn = visibleYn;
     }
 
     // 편의 메서드

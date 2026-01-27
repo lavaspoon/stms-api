@@ -30,6 +30,7 @@ public class TaskResponse {
     private Integer achievement;
     private java.math.BigDecimal targetValue; // 목표값
     private java.math.BigDecimal actualValue; // 실적값
+    private String visibleYn; // 공개여부 (Y: 공개, N: 비공개)
 
     @Getter
     @Builder

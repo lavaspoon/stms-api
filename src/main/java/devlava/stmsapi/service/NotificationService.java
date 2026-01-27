@@ -109,14 +109,15 @@ public class NotificationService {
         }
 
         String gubun = request.getGubun();
-        
+
         // 담당자별로 그룹화: Map<skid, List<과제명>>
         java.util.Map<String, java.util.List<String>> managerTaskMap = new java.util.HashMap<>();
 
         // 선택된 과제들 조회 및 담당자별 그룹화
         for (Long taskId : request.getTaskIds()) {
             TbTask task = taskRepository.findByIdWithManagers(taskId);
-            if (task == null) continue;
+            if (task == null)
+                continue;
 
             // 담당자 목록 가져오기
             List<String> managerSkids = task.getTaskManagers().stream()
@@ -135,19 +136,18 @@ public class NotificationService {
         for (java.util.Map.Entry<String, java.util.List<String>> entry : managerTaskMap.entrySet()) {
             String skid = entry.getKey();
             java.util.List<String> taskNames = entry.getValue();
-            
+
             // 첫 번째 과제명을 projectNm으로 사용
             String firstTaskName = taskNames.get(0);
             // 과제 개수
             Integer taskCount = taskNames.size();
-            
+
             // 알림 생성
             TbNotification notification = new TbNotification(
                     skid,
                     gubun,
                     firstTaskName,
-                    taskCount
-            );
+                    taskCount);
             notificationRepository.save(notification);
             notificationCount++;
         }
@@ -163,23 +163,22 @@ public class NotificationService {
         if (notificationId == null) {
             return false;
         }
-        
+
         Optional<TbNotification> notificationOpt = notificationRepository.findById(notificationId);
         if (notificationOpt.isEmpty()) {
             return false;
         }
 
         TbNotification notification = notificationOpt.get();
-        
+
         // 재전송을 위해 새로운 알림 생성
         TbNotification newNotification = new TbNotification(
                 notification.getSkid(),
                 notification.getGubun(),
                 notification.getProjectNm(),
-                notification.getTaskCount() != null ? notification.getTaskCount() : 1
-        );
+                notification.getTaskCount() != null ? notification.getTaskCount() : 1);
         notificationRepository.save(newNotification);
-        
+
         return true;
     }
 
@@ -189,14 +188,14 @@ public class NotificationService {
     public Page<NotificationResponse> getAllNotifications(int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createAt"));
         Page<TbNotification> notificationPage = notificationRepository.findAll(pageable);
-        
+
         // N+1 문제 방지: 모든 알림의 skid를 수집하여 한 번에 조회
         List<String> skids = notificationPage.getContent().stream()
                 .map(TbNotification::getSkid)
                 .filter(skid -> skid != null && !skid.isEmpty())
                 .distinct()
                 .collect(Collectors.toList());
-        
+
         // 모든 담당자 정보를 한 번에 조회
         final java.util.Map<String, TbLmsMember> memberMap;
         if (!skids.isEmpty()) {
@@ -207,7 +206,7 @@ public class NotificationService {
         } else {
             memberMap = new java.util.HashMap<>();
         }
-        
+
         // 각 알림에 담당자 이름 매핑하여 변환
         return notificationPage.map(notification -> convertToResponse(notification, memberMap));
     }
@@ -217,7 +216,7 @@ public class NotificationService {
      */
     public List<NotificationResponse> getNotificationsByUser(String skid) {
         List<TbNotification> notifications = notificationRepository.findBySkidOrderByCreateAtDesc(skid);
-        
+
         // 담당자 정보 조회
         final java.util.Map<String, TbLmsMember> memberMap = new java.util.HashMap<>();
         if (skid != null && !skid.isEmpty()) {
@@ -226,7 +225,7 @@ public class NotificationService {
                 memberMap.put(skid, memberOpt.get());
             }
         }
-        
+
         return notifications.stream()
                 .map(notification -> convertToResponse(notification, memberMap))
                 .collect(Collectors.toList());
@@ -236,18 +235,19 @@ public class NotificationService {
      * 엔티티 -> DTO 변환 (담당자 정보 포함)
      * 과제명을 "과제명 외 N건" 형태로 변환
      */
-    private NotificationResponse convertToResponse(TbNotification notification, java.util.Map<String, TbLmsMember> memberMap) {
+    private NotificationResponse convertToResponse(TbNotification notification,
+            java.util.Map<String, TbLmsMember> memberMap) {
         String skid = notification.getSkid();
         TbLmsMember member = skid != null ? memberMap.get(skid) : null;
         String managerName = member != null && member.getMbName() != null ? member.getMbName() : null;
-        
+
         // 과제명 포맷팅: taskCount가 1보다 크면 "과제명 외 N건" 형태로 표시
         String projectNm = notification.getProjectNm();
         Integer taskCount = notification.getTaskCount() != null ? notification.getTaskCount() : 1;
         if (taskCount > 1) {
             projectNm = projectNm + " 외 " + (taskCount - 1) + "건";
         }
-        
+
         return NotificationResponse.builder()
                 .id(notification.getId())
                 .skid(skid)
