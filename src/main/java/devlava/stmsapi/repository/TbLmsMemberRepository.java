@@ -14,4 +14,11 @@ public interface TbLmsMemberRepository extends JpaRepository<TbLmsMember, String
      * - N+1 문제 없음
      */
     List<TbLmsMember> findByDeptIdxAndUseYn(Integer deptIdx, String useYn);
+    
+    /**
+     * 모든 활성 구성원 조회
+     * - 단일 쿼리 실행
+     * - N+1 문제 없음
+     */
+    List<TbLmsMember> findByUseYn(String useYn);
 }

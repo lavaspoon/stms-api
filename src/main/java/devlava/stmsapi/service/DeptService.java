@@ -138,4 +138,26 @@ public class DeptService {
                         .build())
                 .collect(Collectors.toList());
     }
+
+    /**
+     * 모든 활성 구성원 조회
+     * - 단일 쿼리로 모든 활성 구성원 조회
+     * - N+1 문제 없음
+     * - 검색 기능 등에서 사용
+     */
+    public List<MemberListResponse> getAllMembers() {
+        // 1. 단일 쿼리로 모든 활성 구성원 조회
+        List<TbLmsMember> members = memberRepository.findByUseYn("Y");
+
+        // 2. DTO 변환 (메모리에서 처리)
+        return members.stream()
+                .map(member -> MemberListResponse.builder()
+                        .userId(member.getSkid())
+                        .mbName(member.getMbName())
+                        .deptName(member.getDeptName())
+                        .deptIdx(member.getDeptIdx())
+                        .mbPositionName(member.getMbPositionName())
+                        .build())
+                .collect(Collectors.toList());
+    }
 }

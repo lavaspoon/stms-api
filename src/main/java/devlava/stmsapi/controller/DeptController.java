@@ -51,4 +51,13 @@ public class DeptController {
     public List<MemberListResponse> getDeptMembers(@PathVariable Integer deptId) {
         return deptService.getDeptMembers(deptId);
     }
+
+    /**
+     * 모든 활성 구성원 조회
+     * GET /api/depts/members
+     */
+    @GetMapping("/members")
+    public List<MemberListResponse> getAllMembers() {
+        return deptService.getAllMembers();
+    }
 }

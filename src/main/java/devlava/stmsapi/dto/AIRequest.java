@@ -17,4 +17,5 @@ public class AIRequest {
     private List<Map<String, Object>> tasks;
     private String format; // 'html', 'markdown', 'custom'
     private String customQuestion; // 커스텀 스타일에서 사용할 질문
+    private String existingReport; // 기존 보고서 텍스트 (수정 시 사용)
 }
