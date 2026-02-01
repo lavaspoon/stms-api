@@ -217,70 +217,67 @@ public class AIService {
         promptBuilder.append("## 5. 향후 계획\n");
         promptBuilder.append("```\n\n");
 
-        promptBuilder.append("### 2. 각 섹션별 상세 작성 지침\n\n");
+        promptBuilder.append("### 2. 각 섹션별 작성 지침 (핵심 위주, 간결하게)\n\n");
 
         promptBuilder.append("#### 1. 개요\n");
-        promptBuilder.append("- 보고 기간과 보고 대상 명시\n");
-        promptBuilder.append(String.format("- 전체 과제 현황 요약 (총 %d개 중 입력 완료 %d개, 미입력 %d개)\n", tasks.size(), inputtedCount,
-                notInputtedCount));
-        promptBuilder.append("- 이번 달의 전반적인 진행 상황을 2-3문단으로 요약\n");
-        promptBuilder.append("- 핵심 성과나 주요 이슈를 1-2문장으로 간략히 제시\n\n");
+        promptBuilder.append("- 보고 기간과 보고 대상 명시 (1문장)\n");
+        promptBuilder
+                .append(String.format("- 전체 과제 현황 요약 (총 %d개 중 입력 완료 %d개, 미입력 %d개) - 1문장\n", tasks.size(), inputtedCount,
+                        notInputtedCount));
+        promptBuilder.append("- 이번 달의 핵심 성과나 주요 이슈를 1-2문장으로 간략히 제시\n");
+        promptBuilder.append("**길이 제한: 최대 2-3문단 (200자 이내)**\n\n");
 
         promptBuilder.append("#### 2. 주요 활동 현황\n");
-        promptBuilder.append("- 입력된 과제별로 구체적인 활동 내용을 상세히 서술\n");
-        promptBuilder.append("- 각 과제의 활동 내역을 논리적으로 재구성하여 가독성 있게 작성\n");
+        promptBuilder.append("- 입력된 과제별로 핵심 활동 내용만 간결하게 요약 (과제당 2-3문장)\n");
         promptBuilder.append("- 과제별로 소제목(###)을 사용하여 구분\n");
-        promptBuilder.append("- 활동의 배경, 과정, 결과를 포함하여 서술\n");
-        promptBuilder.append("- 가능한 경우 구체적인 수치, 일정, 참여 인원 등을 포함\n");
-        promptBuilder.append("- 미입력 과제는 별도로 명시하고, 미입력 사유나 예상 계획을 간략히 기술\n\n");
+        promptBuilder.append("- 활동의 핵심 결과와 주요 수치만 포함 (배경 설명 최소화)\n");
+        promptBuilder.append("- 미입력 과제는 간단히 나열만 (사유나 계획 생략)\n");
+        promptBuilder.append("**길이 제한: 과제당 최대 100자, 전체 최대 500자**\n\n");
 
         promptBuilder.append("#### 3. 성과 및 결과\n");
-        promptBuilder.append("- 이번 달 달성한 구체적인 성과를 정량적/정성적으로 제시\n");
-        promptBuilder.append("- 목표 대비 달성률이나 진행률이 있다면 포함\n");
-        promptBuilder.append("- 각 과제별 주요 성과를 요약하여 제시\n");
-        promptBuilder.append("- 전체적인 성과 트렌드나 패턴을 분석\n");
-        promptBuilder.append("- 성과가 뛰어난 과제나 부진한 과제를 구분하여 서술\n");
-        promptBuilder.append("- KPI나 지표가 있다면 구체적인 수치로 제시\n\n");
+        promptBuilder.append("- 이번 달 달성한 핵심 성과만 정량적/정성적으로 제시 (1-2문장)\n");
+        promptBuilder.append("- 목표 대비 달성률이나 주요 지표만 간단히 제시\n");
+        promptBuilder.append("- 성과가 뛰어난 과제나 부진한 과제를 간단히 구분 (1문장씩)\n");
+        promptBuilder.append("**길이 제한: 최대 2-3문단 (300자 이내)**\n\n");
 
         promptBuilder.append("#### 4. 이슈 및 개선사항\n");
-        promptBuilder.append("- 진행 중 발생한 주요 이슈나 장애 요인 분석\n");
-        promptBuilder.append("- 미입력 과제에 대한 원인 분석 및 대응 방안\n");
-        promptBuilder.append("- 성과 부진 과제의 원인 분석\n");
-        promptBuilder.append("- 개선이 필요한 영역이나 프로세스 제시\n");
-        promptBuilder.append("- 리스크 요인이나 주의가 필요한 사항 명시\n\n");
+        promptBuilder.append("- 진행 중 발생한 주요 이슈만 간단히 나열 (1문장씩)\n");
+        promptBuilder.append("- 미입력 과제는 간단히 언급만\n");
+        promptBuilder.append("- 개선이 필요한 핵심 영역만 제시 (최대 3개)\n");
+        promptBuilder.append("**길이 제한: 최대 2문단 (200자 이내)**\n\n");
 
         promptBuilder.append("#### 5. 향후 계획\n");
-        promptBuilder.append("- 다음 달 주요 계획 및 목표 제시\n");
-        promptBuilder.append("- 각 과제별 구체적인 추진 계획\n");
-        promptBuilder.append("- 이번 달 이슈에 대한 해결 방안 및 개선 계획\n");
-        promptBuilder.append("- 예상 일정이나 마일스톤이 있다면 포함\n");
-        promptBuilder.append("- 필요한 지원이나 리소스 요청 사항\n\n");
+        promptBuilder.append("- 다음 달 핵심 계획 및 목표만 간단히 제시 (1-2문장)\n");
+        promptBuilder.append("- 주요 과제별 핵심 추진 계획만 나열 (과제당 1문장)\n");
+        promptBuilder.append("**길이 제한: 최대 2문단 (200자 이내)**\n\n");
 
         promptBuilder.append("### 3. 작성 스타일 및 톤\n\n");
+        promptBuilder.append("- **간결성 최우선**: 핵심 내용만 포함하고 불필요한 수식어, 장황한 설명, 반복 표현 절대 금지\n");
         promptBuilder.append("- **전문성**: 경영진 보고서에 적합한 공식적이고 전문적인 톤 유지\n");
         promptBuilder.append("- **객관성**: 사실에 기반한 객관적이고 중립적인 서술\n");
         promptBuilder.append("- **명확성**: 모호한 표현 없이 구체적이고 명확한 문장 사용\n");
-        promptBuilder.append("- **간결성**: 핵심 내용만 포함하고 불필요한 수식어나 장황한 설명 제거\n");
         promptBuilder.append("- **구조화**: 논리적 흐름과 계층적 구조를 명확히 유지\n");
         promptBuilder.append("- **데이터 중심**: 가능한 한 수치, 통계, 사실에 기반한 서술\n\n");
 
         promptBuilder.append("### 4. 형식 요구사항\n\n");
         promptBuilder.append("- 마크다운 문법을 정확히 사용 (##, ###, **, -, 등)\n");
-        promptBuilder.append("- 각 섹션은 최소 2-3문단 이상으로 구성하여 충분한 내용 제공\n");
+        promptBuilder.append("- **각 섹션은 최대 2-3문단으로 제한하고, 핵심만 포함**\n");
         promptBuilder.append("- 가독성을 위한 적절한 줄바꿈과 공백 활용\n");
         promptBuilder.append("- 리스트나 불릿 포인트를 활용하여 정보 구조화\n");
         promptBuilder.append("- 중요한 내용은 **굵게** 표시하여 강조\n");
-        promptBuilder.append("- 불필요한 인사말, 서론, 결론 없이 핵심 내용만 작성\n\n");
+        promptBuilder.append("- 불필요한 인사말, 서론, 결론, 장식적 표현 절대 금지\n");
+        promptBuilder.append("- **전체 보고서 길이: 최대 1,500자 이내 (매우 간결하게)**\n\n");
 
         promptBuilder.append("### 5. 특별 지침\n\n");
-        promptBuilder.append("- 활동 내역이 없는 과제는 '활동내역 없음'으로 표시하고, 가능한 경우 미입력 사유나 향후 계획을 추론하여 포함\n");
-        promptBuilder.append("- 제공된 활동 내역을 단순 나열하지 말고, 분석하고 재구성하여 의미 있는 정보로 변환\n");
-        promptBuilder.append("- 각 과제의 중요성이나 우선순위를 고려하여 서술의 비중 조절\n");
-        promptBuilder.append("- 전체적인 맥락과 흐름을 고려하여 일관성 있는 보고서 작성\n");
-        promptBuilder.append("- 경영진이 빠르게 핵심을 파악할 수 있도록 요약과 상세 설명의 균형 유지\n\n");
+        promptBuilder.append("- **핵심만 추출**: 제공된 활동 내역에서 핵심 내용만 추출하여 간결하게 요약\n");
+        promptBuilder.append("- **분석 최소화**: 깊은 분석보다는 사실과 핵심 성과만 제시\n");
+        promptBuilder.append("- **반복 금지**: 같은 내용을 여러 섹션에서 반복하지 않음\n");
+        promptBuilder.append("- 활동 내역이 없는 과제는 간단히 '미입력'으로만 표시 (사유나 계획 추론 금지)\n");
+        promptBuilder.append("- 각 과제의 중요성을 고려하여 핵심 과제에만 집중\n");
+        promptBuilder.append("- **경영진이 1-2분 안에 핵심을 파악할 수 있도록 매우 간결하게 작성**\n\n");
 
         promptBuilder.append(
-                "위 지침을 정확히 따르면서 전문적이고 체계적인 월간 보고서를 작성해주세요. 보고서는 경영진의 의사결정에 실질적으로 도움이 될 수 있도록 구체적이고 실행 가능한 내용을 포함해야 합니다.\n");
+                "위 지침을 정확히 따르면서 **매우 간결하고 핵심 위주**의 월간 보고서를 작성해주세요. 불필요한 설명이나 장황한 서술은 절대 금지하며, 핵심 내용만 간결하게 제시해야 합니다.\n");
 
         return promptBuilder.toString();
     }
@@ -468,81 +465,83 @@ public class AIService {
         promptBuilder.append("  - 아래 섹션 구조를 정확히 따라 작성하세요.\n\n");
 
         if (reportType.equals("monthly")) {
-            promptBuilder.append("### 3. {{REPORT_CONTENT}} 섹션 구조 (월간 보고서)\n\n");
-            promptBuilder.append("다음 5개 섹션을 **정확히 이 순서대로** 포함하세요:\n\n");
+            promptBuilder.append("### 3. {{REPORT_CONTENT}} 섹션 구조 (월간 보고서) - 핵심 위주, 매우 간결하게\n\n");
+            promptBuilder.append("다음 5개 섹션을 **정확히 이 순서대로** 포함하세요. **각 섹션은 최대 1-2문단으로 제한하고 핵심만 포함하세요:**\n\n");
             promptBuilder.append("```html\n");
             promptBuilder.append("<div class=\"news-section\">\n");
             promptBuilder.append("    <div class=\"section-title\">1. 개요</div>\n");
             promptBuilder.append("    <div class=\"section-content\">\n");
-            promptBuilder.append("        <!-- 전체 현황 요약, 통계, 핵심 메시지 -->\n");
+            promptBuilder.append("        <!-- 전체 현황 요약, 통계, 핵심 메시지 (최대 200자) -->\n");
             promptBuilder.append("    </div>\n");
             promptBuilder.append("</div>\n");
             promptBuilder.append("<div class=\"news-section\">\n");
             promptBuilder.append("    <div class=\"section-title\">2. 주요 활동 현황</div>\n");
             promptBuilder.append("    <div class=\"section-content\">\n");
-            promptBuilder.append("        <!-- 과제별 상세 활동 내역 -->\n");
+            promptBuilder.append("        <!-- 과제별 핵심 활동 내역만 간결하게 (과제당 100자, 전체 최대 500자) -->\n");
             promptBuilder.append("    </div>\n");
             promptBuilder.append("</div>\n");
             promptBuilder.append("<div class=\"news-section\">\n");
             promptBuilder.append("    <div class=\"section-title\">3. 성과 및 결과</div>\n");
             promptBuilder.append("    <div class=\"section-content\">\n");
-            promptBuilder.append("        <!-- 구체적 성과, 달성률, 주요 결과 -->\n");
+            promptBuilder.append("        <!-- 핵심 성과, 달성률만 간단히 (최대 300자) -->\n");
             promptBuilder.append("    </div>\n");
             promptBuilder.append("</div>\n");
             promptBuilder.append("<div class=\"news-section\">\n");
             promptBuilder.append("    <div class=\"section-title\">4. 이슈 및 개선사항</div>\n");
             promptBuilder.append("    <div class=\"section-content\">\n");
-            promptBuilder.append("        <!-- 주요 이슈, 개선 필요 영역 -->\n");
+            promptBuilder.append("        <!-- 주요 이슈만 간단히 나열 (최대 200자) -->\n");
             promptBuilder.append("    </div>\n");
             promptBuilder.append("</div>\n");
             promptBuilder.append("<div class=\"news-section\">\n");
             promptBuilder.append("    <div class=\"section-title\">5. 향후 계획</div>\n");
             promptBuilder.append("    <div class=\"section-content\">\n");
-            promptBuilder.append("        <!-- 다음 달 계획, 목표, 실행 방안 -->\n");
+            promptBuilder.append("        <!-- 핵심 계획만 간단히 (최대 200자) -->\n");
             promptBuilder.append("    </div>\n");
             promptBuilder.append("</div>\n");
             promptBuilder.append("```\n\n");
+            promptBuilder.append("**전체 보고서 길이: 최대 1,500자 이내 (매우 간결하게)**\n\n");
         } else {
-            promptBuilder.append("### 3. {{REPORT_CONTENT}} 섹션 구조 (종합 보고서)\n\n");
-            promptBuilder.append("다음 6개 섹션을 **정확히 이 순서대로** 포함하세요:\n\n");
+            promptBuilder.append("### 3. {{REPORT_CONTENT}} 섹션 구조 (종합 보고서) - 핵심 위주, 매우 간결하게\n\n");
+            promptBuilder.append("다음 6개 섹션을 **정확히 이 순서대로** 포함하세요. **각 섹션은 최대 1-2문단으로 제한하고 핵심만 포함하세요:**\n\n");
             promptBuilder.append("```html\n");
             promptBuilder.append("<div class=\"news-section\">\n");
             promptBuilder.append("    <div class=\"section-title\">1. 개요 및 목적</div>\n");
             promptBuilder.append("    <div class=\"section-content\">\n");
-            promptBuilder.append("        <!-- 전체 현황, 목적, 배경 -->\n");
+            promptBuilder.append("        <!-- 전체 현황, 목적만 간단히 (최대 300자) -->\n");
             promptBuilder.append("    </div>\n");
             promptBuilder.append("</div>\n");
             promptBuilder.append("<div class=\"news-section\">\n");
             promptBuilder.append("    <div class=\"section-title\">2. 과제별 주요 활동 내역 및 진행 상황</div>\n");
             promptBuilder.append("    <div class=\"section-content\">\n");
-            promptBuilder.append("        <!-- 시간순 활동 내역, 진행 과정 -->\n");
+            promptBuilder.append("        <!-- 과제별 핵심 활동 내역만 간결하게 (과제당 100자, 전체 최대 600자) -->\n");
             promptBuilder.append("    </div>\n");
             promptBuilder.append("</div>\n");
             promptBuilder.append("<div class=\"news-section\">\n");
             promptBuilder.append("    <div class=\"section-title\">3. 전체 성과 분석 및 평가</div>\n");
             promptBuilder.append("    <div class=\"section-content\">\n");
-            promptBuilder.append("        <!-- 종합 성과 분석, 평가, 트렌드 -->\n");
+            promptBuilder.append("        <!-- 핵심 성과만 간단히 (최대 300자) -->\n");
             promptBuilder.append("    </div>\n");
             promptBuilder.append("</div>\n");
             promptBuilder.append("<div class=\"news-section\">\n");
             promptBuilder.append("    <div class=\"section-title\">4. 주요 성과 요약 및 하이라이트</div>\n");
             promptBuilder.append("    <div class=\"section-content\">\n");
-            promptBuilder.append("        <!-- 핵심 성과, 주요 하이라이트 -->\n");
+            promptBuilder.append("        <!-- 핵심 성과 2-3개만 간단히 (최대 300자) -->\n");
             promptBuilder.append("    </div>\n");
             promptBuilder.append("</div>\n");
             promptBuilder.append("<div class=\"news-section\">\n");
             promptBuilder.append("    <div class=\"section-title\">5. 이슈 분석 및 개선과제</div>\n");
             promptBuilder.append("    <div class=\"section-content\">\n");
-            promptBuilder.append("        <!-- 이슈 분석, 개선 과제 -->\n");
+            promptBuilder.append("        <!-- 주요 이슈만 간단히 나열 (최대 200자) -->\n");
             promptBuilder.append("    </div>\n");
             promptBuilder.append("</div>\n");
             promptBuilder.append("<div class=\"news-section\">\n");
             promptBuilder.append("    <div class=\"section-title\">6. 향후 계획 및 전략적 제언</div>\n");
             promptBuilder.append("    <div class=\"section-content\">\n");
-            promptBuilder.append("        <!-- 향후 계획, 전략적 제언 -->\n");
+            promptBuilder.append("        <!-- 핵심 계획만 간단히 (최대 200자) -->\n");
             promptBuilder.append("    </div>\n");
             promptBuilder.append("</div>\n");
             promptBuilder.append("```\n\n");
+            promptBuilder.append("**전체 보고서 길이: 최대 2,000자 이내 (매우 간결하게)**\n\n");
         }
 
         promptBuilder.append("### 4. 사용 가능한 CSS 클래스\n\n");
@@ -557,14 +556,15 @@ public class AIService {
         promptBuilder.append("- **.task-name**: 과제명\n");
         promptBuilder.append("- **.task-content**: 과제 내용\n\n");
 
-        promptBuilder.append("### 5. 내용 작성 요구사항\n\n");
-        promptBuilder.append("- 각 섹션의 내용은 전문적이고 구체적으로 작성하세요.\n");
-        promptBuilder.append("- 활동 내역을 단순 나열하지 말고, 분석하고 재구성하여 의미 있는 정보로 변환하세요.\n");
-        promptBuilder.append("- 구체적인 수치, 통계, 비율 등을 포함하여 객관성을 높이세요.\n");
-        promptBuilder.append("- HTML 태그를 적절히 사용하여 구조화하세요 (예: `<p>`, `<ul>`, `<li>`, `<strong>` 등).\n");
-        promptBuilder.append("- 각 섹션은 충분한 내용(최소 2-3문단 이상)으로 구성하세요.\n");
-        promptBuilder.append("- 중요한 내용은 `<strong>` 태그나 `.highlight-card` 클래스를 사용하여 강조하세요.\n");
-        promptBuilder.append("- 통계나 수치가 있다면 `.stats-grid`와 `.stat-card`를 활용하여 시각화하세요.\n\n");
+        promptBuilder.append("### 5. 내용 작성 요구사항 (핵심 위주, 매우 간결하게)\n\n");
+        promptBuilder.append("- **간결성 최우선**: 각 섹션은 핵심 내용만 포함하고 최대 1-2문단으로 제한\n");
+        promptBuilder.append("- 활동 내역에서 핵심만 추출하여 간결하게 요약 (분석 최소화)\n");
+        promptBuilder.append("- 구체적인 수치, 통계만 간단히 제시 (설명 최소화)\n");
+        promptBuilder.append("- HTML 태그를 적절히 사용하여 구조화 (예: `<p>`, `<ul>`, `<li>`, `<strong>` 등)\n");
+        promptBuilder.append("- **각 섹션은 최대 1-2문단으로 제한 (전체 보고서 최대 1,500자 이내)**\n");
+        promptBuilder.append("- 중요한 내용은 `<strong>` 태그나 `.highlight-card` 클래스를 사용하여 강조\n");
+        promptBuilder.append("- 통계나 수치가 있다면 `.stats-grid`와 `.stat-card`를 활용하여 시각화\n");
+        promptBuilder.append("- **불필요한 설명, 반복, 장황한 서술 절대 금지**\n\n");
 
         promptBuilder.append("### 6. 최종 출력 형식\n\n");
         promptBuilder.append("- **플레이스홀더를 교체한 완전한 HTML 문서만 반환하세요.**\n");
@@ -985,93 +985,70 @@ public class AIService {
         promptBuilder.append("## 6. 향후 계획 및 전략적 제언\n");
         promptBuilder.append("```\n\n");
 
-        promptBuilder.append("### 2. 각 섹션별 상세 작성 지침\n\n");
+        promptBuilder.append("### 2. 각 섹션별 작성 지침 (핵심 위주, 매우 간결하게)\n\n");
 
         promptBuilder.append("#### 1. 개요 및 목적\n");
-        promptBuilder.append("- 보고서의 목적과 범위 명시\n");
-        promptBuilder.append(String.format("- 전체 과제 현황 요약 (총 %d개, 활동 내역 보유 %d개)\n", tasks.size(), tasksWithActivities));
-        promptBuilder.append("- 분석 기간과 주요 배경 설명\n");
-        promptBuilder.append("- 전반적인 진행 상황과 주요 특징을 3-4문단으로 요약\n");
-        promptBuilder.append("- 전체적인 성과 수준과 트렌드를 개괄적으로 제시\n\n");
+        promptBuilder.append("- 보고서의 목적과 범위 명시 (1문장)\n");
+        promptBuilder.append(
+                String.format("- 전체 과제 현황 요약 (총 %d개, 활동 내역 보유 %d개) - 1문장\n", tasks.size(), tasksWithActivities));
+        promptBuilder.append("- 전반적인 진행 상황과 핵심 특징을 1-2문단으로 요약\n");
+        promptBuilder.append("**길이 제한: 최대 2-3문단 (300자 이내)**\n\n");
 
         promptBuilder.append("#### 2. 과제별 주요 활동 내역 및 진행 상황\n");
-        promptBuilder.append("- 각 과제별로 시간순(최신순 또는 과거순)으로 활동 내역을 상세히 서술\n");
-        promptBuilder.append("- 각 과제의 진행 과정, 주요 마일스톤, 변화 추이를 포함\n");
+        promptBuilder.append("- 각 과제별로 핵심 활동 내역만 간결하게 요약 (과제당 2-3문장)\n");
         promptBuilder.append("- 과제별로 소제목(###)을 사용하여 명확히 구분\n");
-        promptBuilder.append("- 활동 내역의 발전 과정과 연속성을 분석하여 서술\n");
-        promptBuilder.append("- 각 시기별 주요 성과나 전환점을 명시\n");
-        promptBuilder.append("- 활동 내역이 없는 과제는 별도로 명시하고, 부재 원인이나 계획을 추론하여 기술\n");
-        promptBuilder.append("- 가능한 경우 구체적인 수치, 일정, 참여 인원, 예산 등 정량적 정보 포함\n\n");
+        promptBuilder.append("- 시간순 나열보다는 핵심 성과와 주요 결과만 제시\n");
+        promptBuilder.append("- 활동 내역이 없는 과제는 간단히 '미입력'으로만 표시\n");
+        promptBuilder.append("**길이 제한: 과제당 최대 100자, 전체 최대 600자**\n\n");
 
         promptBuilder.append("#### 3. 전체 성과 분석 및 평가\n");
-        promptBuilder.append("- 전체 과제의 성과를 종합적으로 분석하고 평가\n");
-        promptBuilder.append("- 목표 대비 달성률, 진행률 등 정량적 지표 분석\n");
-        promptBuilder.append("- 과제별 성과를 비교 분석하여 우수 과제와 개선 필요 과제 구분\n");
-        promptBuilder.append("- 시간에 따른 성과 트렌드 분석 (향상/유지/하락)\n");
-        promptBuilder.append("- 성과 패턴이나 공통점, 차이점 분석\n");
-        promptBuilder.append("- KPI나 핵심 지표가 있다면 구체적인 수치로 제시하고 분석\n");
-        promptBuilder.append("- 성과 요인 분석 (성공 요인, 실패 요인, 개선 포인트)\n");
-        promptBuilder.append("- 정성적 성과와 정량적 성과를 균형 있게 평가\n\n");
+        promptBuilder.append("- 전체 과제의 핵심 성과만 간단히 요약 (1-2문단)\n");
+        promptBuilder.append("- 목표 대비 달성률, 주요 지표만 간단히 제시\n");
+        promptBuilder.append("- 우수 과제와 개선 필요 과제를 간단히 구분 (1문장씩)\n");
+        promptBuilder.append("**길이 제한: 최대 2-3문단 (300자 이내)**\n\n");
 
         promptBuilder.append("#### 4. 주요 성과 요약 및 하이라이트\n");
-        promptBuilder.append("- 전체 기간 동안 달성한 가장 중요한 성과 3-5개를 선정하여 상세히 서술\n");
-        promptBuilder.append("- 각 성과의 배경, 과정, 결과, 영향도를 포함\n");
-        promptBuilder.append("- 정량적 성과와 정성적 성과를 구분하여 제시\n");
-        promptBuilder.append("- 성과가 조직이나 비즈니스에 미친 영향 분석\n");
-        promptBuilder.append("- 혁신적이거나 주목할 만한 성과를 강조\n");
-        promptBuilder.append("- 각 성과를 불릿 포인트나 카드 형식으로 구조화하여 가독성 향상\n\n");
+        promptBuilder.append("- 전체 기간 동안 가장 중요한 성과 2-3개만 선정하여 간단히 서술 (성과당 1-2문장)\n");
+        promptBuilder.append("- 각 성과의 핵심 결과만 제시 (배경, 과정 설명 최소화)\n");
+        promptBuilder.append("**길이 제한: 최대 2-3문단 (300자 이내)**\n\n");
 
         promptBuilder.append("#### 5. 이슈 분석 및 개선과제\n");
-        promptBuilder.append("- 전체 기간 동안 발생한 주요 이슈나 장애 요인을 체계적으로 분석\n");
-        promptBuilder.append("- 이슈의 원인, 영향도, 대응 과정을 상세히 서술\n");
-        promptBuilder.append("- 활동 내역이 부족하거나 없는 과제의 원인 분석\n");
-        promptBuilder.append("- 성과 부진 과제의 근본 원인 분석\n");
-        promptBuilder.append("- 반복적으로 발생하는 문제나 패턴 분석\n");
-        promptBuilder.append("- 개선이 필요한 영역, 프로세스, 시스템을 구체적으로 제시\n");
-        promptBuilder.append("- 리스크 요인이나 주의가 필요한 사항을 우선순위별로 명시\n");
-        promptBuilder.append("- 각 이슈에 대한 해결 방안이나 개선 제안 포함\n\n");
+        promptBuilder.append("- 주요 이슈만 간단히 나열 (이슈당 1문장, 최대 3개)\n");
+        promptBuilder.append("- 개선이 필요한 핵심 영역만 제시 (최대 3개)\n");
+        promptBuilder.append("**길이 제한: 최대 2문단 (200자 이내)**\n\n");
 
         promptBuilder.append("#### 6. 향후 계획 및 전략적 제언\n");
-        promptBuilder.append("- 각 과제별 다음 단계 계획 및 목표 제시\n");
-        promptBuilder.append("- 단기 계획(다음 1-3개월)과 중장기 계획 구분\n");
-        promptBuilder.append("- 예상 일정, 마일스톤, 주요 활동 계획\n");
-        promptBuilder.append("- 이슈 해결을 위한 구체적인 실행 계획\n");
-        promptBuilder.append("- 성과 향상을 위한 전략적 제언 및 개선 방안\n");
-        promptBuilder.append("- 필요한 지원, 리소스, 인력, 예산 등 요청 사항\n");
-        promptBuilder.append("- 조직 차원의 개선 제안이나 프로세스 개선안\n");
-        promptBuilder.append("- 리스크 관리 방안이나 대비 계획\n\n");
+        promptBuilder.append("- 각 과제별 핵심 계획만 간단히 제시 (과제당 1문장)\n");
+        promptBuilder.append("- 주요 전략적 제언만 간단히 나열 (최대 2-3개)\n");
+        promptBuilder.append("**길이 제한: 최대 2문단 (200자 이내)**\n\n");
 
         promptBuilder.append("### 3. 작성 스타일 및 톤\n\n");
+        promptBuilder.append("- **간결성 최우선**: 핵심 내용만 포함하고 불필요한 수식어, 장황한 설명, 반복 표현 절대 금지\n");
         promptBuilder.append("- **전문성**: 경영진 보고서에 적합한 공식적이고 전문적인 톤 유지\n");
-        promptBuilder.append("- **분석적**: 단순 나열이 아닌 심층 분석과 인사이트 제공\n");
         promptBuilder.append("- **객관성**: 사실과 데이터에 기반한 객관적이고 중립적인 서술\n");
-        promptBuilder.append("- **전략적**: 전략적 관점에서 의미와 가치를 부여하여 서술\n");
         promptBuilder.append("- **명확성**: 모호한 표현 없이 구체적이고 명확한 문장 사용\n");
         promptBuilder.append("- **구조화**: 논리적 흐름과 계층적 구조를 명확히 유지\n");
-        promptBuilder.append("- **데이터 중심**: 수치, 통계, 트렌드 분석 등 데이터 기반 서술\n");
-        promptBuilder.append("- **실행 가능성**: 제안이나 계획은 구체적이고 실행 가능하도록 작성\n\n");
+        promptBuilder.append("- **데이터 중심**: 수치, 통계만 간단히 제시 (분석 최소화)\n\n");
 
         promptBuilder.append("### 4. 형식 요구사항\n\n");
         promptBuilder.append("- 마크다운 문법을 정확히 사용 (##, ###, **, -, 등)\n");
-        promptBuilder.append("- 각 섹션은 충분한 내용(최소 3-5문단 이상)으로 구성\n");
+        promptBuilder.append("- **각 섹션은 최대 2-3문단으로 제한하고, 핵심만 포함**\n");
         promptBuilder.append("- 가독성을 위한 적절한 줄바꿈, 공백, 리스트 활용\n");
         promptBuilder.append("- 중요한 내용은 **굵게** 표시하여 강조\n");
         promptBuilder.append("- 표나 리스트를 활용하여 정보를 구조화\n");
-        promptBuilder.append("- 불필요한 인사말, 서론, 결론 없이 핵심 내용만 작성\n");
-        promptBuilder.append("- 각 과제나 성과는 명확히 구분하여 서술\n\n");
+        promptBuilder.append("- 불필요한 인사말, 서론, 결론, 장식적 표현 절대 금지\n");
+        promptBuilder.append("- **전체 보고서 길이: 최대 2,000자 이내 (매우 간결하게)**\n\n");
 
         promptBuilder.append("### 5. 특별 지침\n\n");
-        promptBuilder.append("- 제공된 활동 내역을 단순 나열하지 말고, 분석하고 재구성하여 의미 있는 정보로 변환\n");
-        promptBuilder.append("- 시간의 흐름에 따른 변화와 발전 과정을 명확히 드러내도록 서술\n");
-        promptBuilder.append("- 각 과제의 중요성, 우선순위, 성과 수준을 고려하여 서술의 비중 조절\n");
-        promptBuilder.append("- 전체적인 맥락과 연관성을 고려하여 일관성 있고 통합적인 보고서 작성\n");
-        promptBuilder.append("- 경영진이 전략적 의사결정에 활용할 수 있도록 인사이트와 제언을 포함\n");
-        promptBuilder.append("- 활동 내역이 없는 과제도 보고서에 포함하여 전체 현황을 완전히 제시\n");
-        promptBuilder.append("- 성과와 이슈를 균형 있게 다루어 객관적인 평가 제공\n");
-        promptBuilder.append("- 미래 지향적인 관점에서 향후 계획과 제언을 구체적으로 제시\n\n");
+        promptBuilder.append("- **핵심만 추출**: 제공된 활동 내역에서 핵심 내용만 추출하여 간결하게 요약\n");
+        promptBuilder.append("- **분석 최소화**: 깊은 분석보다는 사실과 핵심 성과만 제시\n");
+        promptBuilder.append("- **반복 금지**: 같은 내용을 여러 섹션에서 반복하지 않음\n");
+        promptBuilder.append("- 활동 내역이 없는 과제는 간단히 '미입력'으로만 표시 (원인이나 계획 추론 금지)\n");
+        promptBuilder.append("- 각 과제의 중요성을 고려하여 핵심 과제에만 집중\n");
+        promptBuilder.append("- **경영진이 2-3분 안에 핵심을 파악할 수 있도록 매우 간결하게 작성**\n\n");
 
         promptBuilder.append(
-                "위 지침을 정확히 따르면서 전문적이고 심층적인 종합 보고서를 작성해주세요. 보고서는 경영진의 전략적 의사결정에 실질적으로 도움이 될 수 있도록 깊이 있는 분석, 명확한 인사이트, 실행 가능한 제언을 포함해야 합니다.\n");
+                "위 지침을 정확히 따르면서 **매우 간결하고 핵심 위주**의 종합 보고서를 작성해주세요. 불필요한 설명이나 장황한 서술은 절대 금지하며, 핵심 내용만 간결하게 제시해야 합니다.\n");
 
         return promptBuilder.toString();
     }

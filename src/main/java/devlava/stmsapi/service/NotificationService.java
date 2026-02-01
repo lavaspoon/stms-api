@@ -44,7 +44,14 @@ public class NotificationService {
         Integer currentMonth = now.getMonthValue();
 
         // 2. 과제 타입에 따라 설정
-        String taskType = "OI".equals(gubun) ? "OI" : "중점추진";
+        String taskType;
+        if ("OI".equals(gubun)) {
+            taskType = "OI";
+        } else if ("KPI".equals(gubun)) {
+            taskType = "KPI";
+        } else {
+            taskType = "중점추진";
+        }
 
         // 3. 해당 타입의 모든 과제 조회
         List<TbTask> tasks = taskRepository.findByTaskTypeWithManagers(taskType);
