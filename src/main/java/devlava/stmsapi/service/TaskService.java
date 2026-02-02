@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -32,6 +33,13 @@ public class TaskService {
     private final TbTaskActivityFileRepository fileRepository;
 
     /**
+     * java.util.Date를 java.sql.Date로 변환
+     */
+    private Date convertToSqlDate(java.util.Date utilDate) {
+        return utilDate != null ? new Date(utilDate.getTime()) : null;
+    }
+
+    /**
      * 과제 등록
      * - 과제 정보 저장
      * - 담당자 매핑 저장 (Cascade로 자동 처리)
@@ -47,8 +55,8 @@ public class TaskService {
                 request.getCategory2(),
                 request.getTaskName(),
                 request.getDescription(),
-                request.getStartDate(),
-                request.getEndDate(),
+                convertToSqlDate(request.getStartDate()),
+                convertToSqlDate(request.getEndDate()),
                 request.getPerformanceType(),
                 request.getEvaluationType(),
                 request.getMetric());
@@ -189,8 +197,8 @@ public class TaskService {
                 request.getCategory2(),
                 request.getTaskName(),
                 request.getDescription(),
-                request.getStartDate(),
-                request.getEndDate(),
+                convertToSqlDate(request.getStartDate()),
+                convertToSqlDate(request.getEndDate()),
                 request.getPerformanceType(),
                 request.getEvaluationType(),
                 request.getMetric());

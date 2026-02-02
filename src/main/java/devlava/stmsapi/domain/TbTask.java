@@ -1,12 +1,13 @@
 package devlava.stmsapi.domain;
 
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+import java.math.BigDecimal;
+import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -112,8 +113,8 @@ public class TbTask {
      * 과제 기본 정보 설정
      */
     public void setBasicInfo(String taskType, String category1, String category2, String taskName,
-            String description, Date startDate, Date endDate,
-            String performanceType, String evaluationType, String metric) {
+                             String description, Date startDate, Date endDate,
+                             String performanceType, String evaluationType, String metric) {
         this.taskType = taskType;
         this.category1 = category1;
         this.category2 = category2;
