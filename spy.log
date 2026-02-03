@@ -1507,3 +1507,4363 @@
     from
         tb_lms_dept tblmsdept0_
 1770041485637|0ms|commit|connection 20|
+1770131393371|13|statement|connection 1|url jdbc:postgresql://localhost:5433/ragdb|select * from information_schema.sequences|select * from information_schema.sequences
+1770131393393|0|statement|connection 1|url jdbc:postgresql://localhost:5433/ragdb|select * from "public"."tb_lms_dept" where 1=0|select * from "public"."tb_lms_dept" where 1=0
+1770131393402|0|statement|connection 1|url jdbc:postgresql://localhost:5433/ragdb|select * from "public"."tb_task" where 1=0|select * from "public"."tb_task" where 1=0
+1770131393409|0|statement|connection 1|url jdbc:postgresql://localhost:5433/ragdb|select * from "public"."tb_task_activity" where 1=0|select * from "public"."tb_task_activity" where 1=0
+1770131393417|0|statement|connection 1|url jdbc:postgresql://localhost:5433/ragdb|select * from "public"."tb_lms_member" where 1=0|select * from "public"."tb_lms_member" where 1=0
+1770131393419|0|statement|connection 1|url jdbc:postgresql://localhost:5433/ragdb|select * from "public"."tb_task" where 1=0|select * from "public"."tb_task" where 1=0
+1770131393425|0|statement|connection 1|url jdbc:postgresql://localhost:5433/ragdb|select * from "public"."tb_task" where 1=0|select * from "public"."tb_task" where 1=0
+1770131399059|13ms|statement|connection 2|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='OI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131399086|2ms|statement|connection 2|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                28 , 27 , 26 , 24 , 22 , 21 , 19
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131399095|2ms|statement|connection 2|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131399099|1ms|commit|connection 2|
+1770131399137|4ms|statement|connection 3|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='OI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131399142|1ms|statement|connection 3|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                28 , 27 , 26 , 24 , 22 , 21 , 19
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131399143|1ms|statement|connection 3|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131399145|1ms|commit|connection 3|
+1770131399151|2ms|statement|connection 4|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='OI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131399156|2ms|statement|connection 4|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                28 , 27 , 26 , 24 , 22 , 21 , 19
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131399157|0ms|statement|connection 4|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131399159|8ms|statement|connection 5|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='중점추진' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131399160|2ms|commit|connection 4|
+1770131399163|2ms|statement|connection 5|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                30 , 29 , 25 , 23 , 20
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131399165|1ms|statement|connection 5|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131399167|2ms|statement|connection 6|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='OI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131399167|1ms|commit|connection 5|
+1770131399171|1ms|statement|connection 6|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                28 , 27 , 26 , 24 , 22 , 21 , 19
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131399172|0ms|statement|connection 6|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131399173|2ms|statement|connection 7|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='KPI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131399174|0ms|commit|connection 6|
+1770131399177|1ms|statement|connection 7|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                31
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131399180|2ms|statement|connection 7|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131399180|2ms|statement|connection 8|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='중점추진' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131399182|1ms|commit|connection 7|
+1770131399183|1ms|statement|connection 8|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                30 , 29 , 25 , 23 , 20
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131399185|1ms|statement|connection 8|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131399187|1ms|commit|connection 8|
+1770131399192|1ms|statement|connection 9|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='KPI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131399196|2ms|statement|connection 9|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                31
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131399198|1ms|statement|connection 9|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131399199|0ms|commit|connection 9|
+1770131403866|3ms|statement|connection 10|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='중점추진' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131403874|2ms|statement|connection 10|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                30 , 29 , 25 , 23 , 20
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131403878|1ms|statement|connection 10|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131403882|1ms|commit|connection 10|
+1770131403892|4ms|statement|connection 11|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='중점추진' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131403899|1ms|statement|connection 11|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                30 , 29 , 25 , 23 , 20
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131403902|1ms|statement|connection 11|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131403905|1ms|commit|connection 11|
+1770131405615|1ms|statement|connection 12|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='KPI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131405620|1ms|statement|connection 12|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                31
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131405623|1ms|statement|connection 12|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131405625|1ms|commit|connection 12|
+1770131405632|1ms|statement|connection 13|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='KPI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131405636|1ms|statement|connection 13|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                31
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131405639|1ms|statement|connection 13|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131405642|1ms|commit|connection 13|
+1770131406576|2ms|statement|connection 14|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='OI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131406586|2ms|statement|connection 14|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                28 , 27 , 26 , 24 , 22 , 21 , 19
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131406591|2ms|statement|connection 14|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131406595|1ms|commit|connection 14|
+1770131406610|4ms|statement|connection 15|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='OI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131406616|1ms|statement|connection 15|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                28 , 27 , 26 , 24 , 22 , 21 , 19
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131406620|2ms|statement|connection 15|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131406623|1ms|commit|connection 15|
+1770131495672|3ms|statement|connection 17|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='OI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131495675|3ms|statement|connection 16|
+    select
+        tbnotifica0_.id as id1_2_,
+        tbnotifica0_.create_at as create_a2_2_,
+        tbnotifica0_.gubun as gubun3_2_,
+        tbnotifica0_.project_nm as project_4_2_,
+        tbnotifica0_.read_yn as read_yn5_2_,
+        tbnotifica0_.send_yn as send_yn6_2_,
+        tbnotifica0_.skid as skid7_2_,
+        tbnotifica0_.task_count as task_cou8_2_ 
+    from
+        tb_notification tbnotifica0_ 
+    order by
+        tbnotifica0_.create_at desc limit 10
+1770131495676|0ms|commit|connection 17|
+1770131495681|2ms|statement|connection 16|
+    select
+        count(tbnotifica0_.id) as col_0_0_ 
+    from
+        tb_notification tbnotifica0_
+1770131495682|1ms|statement|connection 18|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='OI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131495684|0ms|commit|connection 18|
+1770131495689|1ms|statement|connection 16|
+    select
+        tblmsmembe0_.skid as skid1_1_,
+        tblmsmembe0_.com_code as com_code2_1_,
+        tblmsmembe0_.company as company3_1_,
+        tblmsmembe0_.dept_idx as dept_idx4_1_,
+        tblmsmembe0_.dept_name as dept_nam5_1_,
+        tblmsmembe0_.email as email6_1_,
+        tblmsmembe0_.mb_name as mb_name7_1_,
+        tblmsmembe0_.mb_position as mb_posit8_1_,
+        tblmsmembe0_.mb_position_name as mb_posit9_1_,
+        tblmsmembe0_.revel as revel10_1_,
+        tblmsmembe0_.use_yn as use_yn11_1_ 
+    from
+        tb_lms_member tblmsmembe0_ 
+    where
+        tblmsmembe0_.skid in (
+            'USR001' , 'USR012' , 'USR002' , 'USR003'
+        )
+1770131495693|0ms|commit|connection 16|
+1770131495705|1ms|statement|connection 19|
+    select
+        tbnotifica0_.id as id1_2_,
+        tbnotifica0_.create_at as create_a2_2_,
+        tbnotifica0_.gubun as gubun3_2_,
+        tbnotifica0_.project_nm as project_4_2_,
+        tbnotifica0_.read_yn as read_yn5_2_,
+        tbnotifica0_.send_yn as send_yn6_2_,
+        tbnotifica0_.skid as skid7_2_,
+        tbnotifica0_.task_count as task_cou8_2_ 
+    from
+        tb_notification tbnotifica0_ 
+    order by
+        tbnotifica0_.create_at desc limit 10
+1770131495707|0ms|statement|connection 19|
+    select
+        count(tbnotifica0_.id) as col_0_0_ 
+    from
+        tb_notification tbnotifica0_
+1770131495709|0ms|statement|connection 19|
+    select
+        tblmsmembe0_.skid as skid1_1_,
+        tblmsmembe0_.com_code as com_code2_1_,
+        tblmsmembe0_.company as company3_1_,
+        tblmsmembe0_.dept_idx as dept_idx4_1_,
+        tblmsmembe0_.dept_name as dept_nam5_1_,
+        tblmsmembe0_.email as email6_1_,
+        tblmsmembe0_.mb_name as mb_name7_1_,
+        tblmsmembe0_.mb_position as mb_posit8_1_,
+        tblmsmembe0_.mb_position_name as mb_posit9_1_,
+        tblmsmembe0_.revel as revel10_1_,
+        tblmsmembe0_.use_yn as use_yn11_1_ 
+    from
+        tb_lms_member tblmsmembe0_ 
+    where
+        tblmsmembe0_.skid in (
+            'USR001' , 'USR012' , 'USR002' , 'USR003'
+        )
+1770131495710|0ms|commit|connection 19|
+1770131496867|3ms|statement|connection 20|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='중점추진' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131496874|2ms|commit|connection 20|
+1770131497674|1ms|statement|connection 21|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='KPI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131497678|0ms|commit|connection 21|
+1770131498622|4ms|statement|connection 22|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='OI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131498628|2ms|commit|connection 22|
+1770131499271|3ms|statement|connection 23|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='중점추진' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131499278|2ms|commit|connection 23|
+1770131501655|2ms|statement|connection 24|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='중점추진' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131501662|3ms|statement|connection 24|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                30 , 29 , 25 , 23 , 20
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131501666|1ms|statement|connection 24|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131501669|1ms|commit|connection 24|
+1770131501680|1ms|statement|connection 25|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='중점추진' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131501685|2ms|statement|connection 25|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                30 , 29 , 25 , 23 , 20
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131501688|1ms|statement|connection 25|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131501691|1ms|commit|connection 25|
+1770131504942|1ms|statement|connection 27|
+    select
+        tbnotifica0_.id as id1_2_,
+        tbnotifica0_.create_at as create_a2_2_,
+        tbnotifica0_.gubun as gubun3_2_,
+        tbnotifica0_.project_nm as project_4_2_,
+        tbnotifica0_.read_yn as read_yn5_2_,
+        tbnotifica0_.send_yn as send_yn6_2_,
+        tbnotifica0_.skid as skid7_2_,
+        tbnotifica0_.task_count as task_cou8_2_ 
+    from
+        tb_notification tbnotifica0_ 
+    order by
+        tbnotifica0_.create_at desc limit 10
+1770131504944|3ms|statement|connection 26|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='OI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131504946|1ms|statement|connection 27|
+    select
+        count(tbnotifica0_.id) as col_0_0_ 
+    from
+        tb_notification tbnotifica0_
+1770131504948|1ms|commit|connection 26|
+1770131504950|2ms|statement|connection 27|
+    select
+        tblmsmembe0_.skid as skid1_1_,
+        tblmsmembe0_.com_code as com_code2_1_,
+        tblmsmembe0_.company as company3_1_,
+        tblmsmembe0_.dept_idx as dept_idx4_1_,
+        tblmsmembe0_.dept_name as dept_nam5_1_,
+        tblmsmembe0_.email as email6_1_,
+        tblmsmembe0_.mb_name as mb_name7_1_,
+        tblmsmembe0_.mb_position as mb_posit8_1_,
+        tblmsmembe0_.mb_position_name as mb_posit9_1_,
+        tblmsmembe0_.revel as revel10_1_,
+        tblmsmembe0_.use_yn as use_yn11_1_ 
+    from
+        tb_lms_member tblmsmembe0_ 
+    where
+        tblmsmembe0_.skid in (
+            'USR001' , 'USR012' , 'USR002' , 'USR003'
+        )
+1770131504953|1ms|commit|connection 27|
+1770131504957|2ms|statement|connection 28|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='OI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131504961|1ms|commit|connection 28|
+1770131504962|2ms|statement|connection 29|
+    select
+        tbnotifica0_.id as id1_2_,
+        tbnotifica0_.create_at as create_a2_2_,
+        tbnotifica0_.gubun as gubun3_2_,
+        tbnotifica0_.project_nm as project_4_2_,
+        tbnotifica0_.read_yn as read_yn5_2_,
+        tbnotifica0_.send_yn as send_yn6_2_,
+        tbnotifica0_.skid as skid7_2_,
+        tbnotifica0_.task_count as task_cou8_2_ 
+    from
+        tb_notification tbnotifica0_ 
+    order by
+        tbnotifica0_.create_at desc limit 10
+1770131504964|1ms|statement|connection 29|
+    select
+        count(tbnotifica0_.id) as col_0_0_ 
+    from
+        tb_notification tbnotifica0_
+1770131504968|1ms|statement|connection 29|
+    select
+        tblmsmembe0_.skid as skid1_1_,
+        tblmsmembe0_.com_code as com_code2_1_,
+        tblmsmembe0_.company as company3_1_,
+        tblmsmembe0_.dept_idx as dept_idx4_1_,
+        tblmsmembe0_.dept_name as dept_nam5_1_,
+        tblmsmembe0_.email as email6_1_,
+        tblmsmembe0_.mb_name as mb_name7_1_,
+        tblmsmembe0_.mb_position as mb_posit8_1_,
+        tblmsmembe0_.mb_position_name as mb_posit9_1_,
+        tblmsmembe0_.revel as revel10_1_,
+        tblmsmembe0_.use_yn as use_yn11_1_ 
+    from
+        tb_lms_member tblmsmembe0_ 
+    where
+        tblmsmembe0_.skid in (
+            'USR001' , 'USR012' , 'USR002' , 'USR003'
+        )
+1770131504970|1ms|commit|connection 29|
+1770131506641|1ms|statement|connection 30|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='중점추진' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131506646|0ms|commit|connection 30|
+1770131507780|1ms|statement|connection 31|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='KPI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131507784|1ms|commit|connection 31|
+1770131508542|3ms|statement|connection 32|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='OI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131508548|2ms|commit|connection 32|
+1770131508887|1ms|statement|connection 33|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='중점추진' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131508893|2ms|commit|connection 33|
+1770131509520|2ms|statement|connection 34|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='중점추진' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131509526|3ms|statement|connection 34|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                30 , 29 , 25 , 23 , 20
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131509530|1ms|statement|connection 34|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131509533|1ms|commit|connection 34|
+1770131509545|2ms|statement|connection 35|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='중점추진' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131509551|2ms|statement|connection 35|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                30 , 29 , 25 , 23 , 20
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131509554|1ms|statement|connection 35|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131509556|0ms|commit|connection 35|
+1770131541611|4|statement|connection 1|url jdbc:postgresql://localhost:5433/ragdb|select * from information_schema.sequences|select * from information_schema.sequences
+1770131541632|0|statement|connection 1|url jdbc:postgresql://localhost:5433/ragdb|select * from "public"."tb_lms_dept" where 1=0|select * from "public"."tb_lms_dept" where 1=0
+1770131541642|0|statement|connection 1|url jdbc:postgresql://localhost:5433/ragdb|select * from "public"."tb_task" where 1=0|select * from "public"."tb_task" where 1=0
+1770131541651|0|statement|connection 1|url jdbc:postgresql://localhost:5433/ragdb|select * from "public"."tb_task_activity" where 1=0|select * from "public"."tb_task_activity" where 1=0
+1770131541658|0|statement|connection 1|url jdbc:postgresql://localhost:5433/ragdb|select * from "public"."tb_lms_member" where 1=0|select * from "public"."tb_lms_member" where 1=0
+1770131541661|0|statement|connection 1|url jdbc:postgresql://localhost:5433/ragdb|select * from "public"."tb_task" where 1=0|select * from "public"."tb_task" where 1=0
+1770131541665|0|statement|connection 1|url jdbc:postgresql://localhost:5433/ragdb|select * from "public"."tb_task" where 1=0|select * from "public"."tb_task" where 1=0
+1770131544930|7ms|statement|connection 2|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='중점추진' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131544933|9ms|statement|connection 3|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='OI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131544951|1ms|statement|connection 2|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                30 , 29 , 25 , 23 , 20
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131544952|1ms|statement|connection 3|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                28 , 27 , 26 , 24 , 22 , 21 , 19
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131544959|1ms|statement|connection 2|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131544959|1ms|statement|connection 3|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131544963|1ms|commit|connection 2|
+1770131544963|1ms|commit|connection 3|
+1770131544996|3ms|statement|connection 5|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='OI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131544996|3ms|statement|connection 4|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='중점추진' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131545000|1ms|statement|connection 4|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                30 , 29 , 25 , 23 , 20
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131545000|1ms|statement|connection 5|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                28 , 27 , 26 , 24 , 22 , 21 , 19
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131545002|1ms|statement|connection 5|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131545002|1ms|statement|connection 4|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131545004|0ms|commit|connection 4|
+1770131545004|0ms|commit|connection 5|
+1770131545011|3ms|statement|connection 6|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='중점추진' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131545014|1ms|statement|connection 6|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                30 , 29 , 25 , 23 , 20
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131545015|0ms|statement|connection 6|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131545017|0ms|commit|connection 6|
+1770131545023|3ms|statement|connection 8|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='KPI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131545023|3ms|statement|connection 7|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='중점추진' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131545026|0ms|statement|connection 8|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                31
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131545026|0ms|statement|connection 7|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                30 , 29 , 25 , 23 , 20
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131545027|0ms|statement|connection 8|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131545027|0ms|statement|connection 7|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131545028|0ms|commit|connection 8|
+1770131545028|0ms|commit|connection 7|
+1770131545034|1ms|statement|connection 9|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='KPI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131545036|1ms|statement|connection 9|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                31
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131545037|0ms|statement|connection 9|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131545038|0ms|commit|connection 9|
+1770131546590|4ms|statement|connection 10|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='OI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131546601|2ms|statement|connection 10|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                28 , 27 , 26 , 24 , 22 , 21 , 19
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131546605|1ms|statement|connection 10|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131546608|1ms|commit|connection 10|
+1770131546617|3ms|statement|connection 11|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='OI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131546622|2ms|statement|connection 11|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                28 , 27 , 26 , 24 , 22 , 21 , 19
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131546625|1ms|statement|connection 11|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131546627|0ms|commit|connection 11|
+1770131548393|3ms|statement|connection 12|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='KPI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131548398|2ms|statement|connection 12|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                31
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131548402|1ms|statement|connection 12|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131548406|2ms|commit|connection 12|
+1770131548415|3ms|statement|connection 13|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='KPI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131548420|2ms|statement|connection 13|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                31
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131548424|1ms|statement|connection 13|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131548427|1ms|commit|connection 13|
+1770131549618|3ms|statement|connection 14|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='OI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131549618|3ms|statement|connection 15|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='KPI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131549623|2ms|statement|connection 15|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                31
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131549624|1ms|statement|connection 14|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                28 , 27 , 26 , 24 , 22 , 21 , 19
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131549626|1ms|statement|connection 15|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131549627|1ms|statement|connection 14|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131549632|2ms|commit|connection 14|
+1770131549632|2ms|commit|connection 15|
+1770131549643|4ms|statement|connection 16|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='KPI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131549644|5ms|statement|connection 17|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='OI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131549648|2ms|statement|connection 16|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                31
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131549650|0ms|statement|connection 16|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131549650|1ms|statement|connection 17|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                28 , 27 , 26 , 24 , 22 , 21 , 19
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131549651|0ms|commit|connection 16|
+1770131549652|1ms|statement|connection 17|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131549653|0ms|commit|connection 17|
+1770131549655|9ms|statement|connection 18|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='중점추진' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131549658|1ms|statement|connection 18|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                30 , 29 , 25 , 23 , 20
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131549661|1ms|statement|connection 18|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131549663|1ms|commit|connection 18|
+1770131549668|1ms|statement|connection 19|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='중점추진' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131549668|1ms|statement|connection 20|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='KPI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131549670|1ms|statement|connection 19|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                30 , 29 , 25 , 23 , 20
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131549670|1ms|statement|connection 20|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                31
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131549672|1ms|statement|connection 20|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131549672|1ms|statement|connection 19|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131549674|0ms|commit|connection 19|
+1770131549674|0ms|commit|connection 20|
+1770131549682|3ms|statement|connection 21|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='KPI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131549685|1ms|statement|connection 21|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                31
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131549687|1ms|statement|connection 21|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131549689|1ms|commit|connection 21|
+1770131550712|3ms|statement|connection 22|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='OI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131550719|2ms|statement|connection 22|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                28 , 27 , 26 , 24 , 22 , 21 , 19
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131550724|2ms|statement|connection 22|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131550727|1ms|commit|connection 22|
+1770131550736|2ms|statement|connection 23|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='OI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131550741|2ms|statement|connection 23|
+    select
+        tbtaskacti0_.activity_id as activity1_5_,
+        tbtaskacti0_.activity_content as activity2_5_,
+        tbtaskacti0_.activity_month as activity3_5_,
+        tbtaskacti0_.activity_year as activity4_5_,
+        tbtaskacti0_.actual_value as actual_v5_5_,
+        tbtaskacti0_.created_at as created_6_5_,
+        tbtaskacti0_.task_id as task_id7_5_,
+        tbtaskacti0_.updated_at as updated_8_5_,
+        tbtaskacti0_.user_id as user_id9_5_ 
+    from
+        tb_task_activity tbtaskacti0_ 
+    where
+        (
+            tbtaskacti0_.task_id in (
+                28 , 27 , 26 , 24 , 22 , 21 , 19
+            )
+        ) 
+        and tbtaskacti0_.activity_year=2026 
+        and tbtaskacti0_.activity_month=2
+1770131550745|1ms|statement|connection 23|
+    select
+        tblmsdept0_.dept_id as dept_id1_0_,
+        tblmsdept0_.dept_name as dept_nam2_0_,
+        tblmsdept0_.depth as depth3_0_,
+        tblmsdept0_.parent_dept_id as parent_d5_0_,
+        tblmsdept0_.use_yn as use_yn4_0_ 
+    from
+        tb_lms_dept tblmsdept0_
+1770131550748|1ms|commit|connection 23|
+1770131552363|1ms|statement|connection 24|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='OI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131552368|2ms|statement|connection 25|
+    select
+        tbnotifica0_.id as id1_2_,
+        tbnotifica0_.create_at as create_a2_2_,
+        tbnotifica0_.gubun as gubun3_2_,
+        tbnotifica0_.project_nm as project_4_2_,
+        tbnotifica0_.read_yn as read_yn5_2_,
+        tbnotifica0_.send_yn as send_yn6_2_,
+        tbnotifica0_.skid as skid7_2_,
+        tbnotifica0_.task_count as task_cou8_2_ 
+    from
+        tb_notification tbnotifica0_ 
+    order by
+        tbnotifica0_.create_at desc limit 10
+1770131552368|0ms|commit|connection 24|
+1770131552382|1ms|statement|connection 25|
+    select
+        count(tbnotifica0_.id) as col_0_0_ 
+    from
+        tb_notification tbnotifica0_
+1770131552382|1ms|statement|connection 26|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='OI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131552384|0ms|commit|connection 26|
+1770131552389|1ms|statement|connection 25|
+    select
+        tblmsmembe0_.skid as skid1_1_,
+        tblmsmembe0_.com_code as com_code2_1_,
+        tblmsmembe0_.company as company3_1_,
+        tblmsmembe0_.dept_idx as dept_idx4_1_,
+        tblmsmembe0_.dept_name as dept_nam5_1_,
+        tblmsmembe0_.email as email6_1_,
+        tblmsmembe0_.mb_name as mb_name7_1_,
+        tblmsmembe0_.mb_position as mb_posit8_1_,
+        tblmsmembe0_.mb_position_name as mb_posit9_1_,
+        tblmsmembe0_.revel as revel10_1_,
+        tblmsmembe0_.use_yn as use_yn11_1_ 
+    from
+        tb_lms_member tblmsmembe0_ 
+    where
+        tblmsmembe0_.skid in (
+            'USR001' , 'USR012' , 'USR002' , 'USR003'
+        )
+1770131552393|1ms|commit|connection 25|
+1770131552404|1ms|statement|connection 27|
+    select
+        tbnotifica0_.id as id1_2_,
+        tbnotifica0_.create_at as create_a2_2_,
+        tbnotifica0_.gubun as gubun3_2_,
+        tbnotifica0_.project_nm as project_4_2_,
+        tbnotifica0_.read_yn as read_yn5_2_,
+        tbnotifica0_.send_yn as send_yn6_2_,
+        tbnotifica0_.skid as skid7_2_,
+        tbnotifica0_.task_count as task_cou8_2_ 
+    from
+        tb_notification tbnotifica0_ 
+    order by
+        tbnotifica0_.create_at desc limit 10
+1770131552405|0ms|statement|connection 27|
+    select
+        count(tbnotifica0_.id) as col_0_0_ 
+    from
+        tb_notification tbnotifica0_
+1770131552406|0ms|statement|connection 27|
+    select
+        tblmsmembe0_.skid as skid1_1_,
+        tblmsmembe0_.com_code as com_code2_1_,
+        tblmsmembe0_.company as company3_1_,
+        tblmsmembe0_.dept_idx as dept_idx4_1_,
+        tblmsmembe0_.dept_name as dept_nam5_1_,
+        tblmsmembe0_.email as email6_1_,
+        tblmsmembe0_.mb_name as mb_name7_1_,
+        tblmsmembe0_.mb_position as mb_posit8_1_,
+        tblmsmembe0_.mb_position_name as mb_posit9_1_,
+        tblmsmembe0_.revel as revel10_1_,
+        tblmsmembe0_.use_yn as use_yn11_1_ 
+    from
+        tb_lms_member tblmsmembe0_ 
+    where
+        tblmsmembe0_.skid in (
+            'USR001' , 'USR012' , 'USR002' , 'USR003'
+        )
+1770131552407|0ms|commit|connection 27|
+1770131554518|3ms|statement|connection 28|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='KPI' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131554522|2ms|commit|connection 28|
+1770131554970|1ms|statement|connection 29|
+    select
+        distinct tbtask0_.task_id as task_id1_4_0_,
+        taskmanage1_.id as id1_7_1_,
+        tblmsmembe2_.skid as skid1_1_2_,
+        tbtask0_.achievement as achievem2_4_0_,
+        tbtask0_.actual_value as actual_v3_4_0_,
+        tbtask0_.category1 as category4_4_0_,
+        tbtask0_.category2 as category5_4_0_,
+        tbtask0_.created_at as created_6_4_0_,
+        tbtask0_.description as descript7_4_0_,
+        tbtask0_.end_date as end_date8_4_0_,
+        tbtask0_.evaluation_type as evaluati9_4_0_,
+        tbtask0_.metric as metric10_4_0_,
+        tbtask0_.performance_type as perform11_4_0_,
+        tbtask0_.start_date as start_d12_4_0_,
+        tbtask0_.status as status13_4_0_,
+        tbtask0_.target_value as target_14_4_0_,
+        tbtask0_.task_name as task_na15_4_0_,
+        tbtask0_.task_type as task_ty16_4_0_,
+        tbtask0_.updated_at as updated17_4_0_,
+        tbtask0_.use_yn as use_yn18_4_0_,
+        tbtask0_.visible_yn as visible19_4_0_,
+        taskmanage1_.created_at as created_2_7_1_,
+        taskmanage1_.user_id as user_id3_7_1_,
+        taskmanage1_.task_id as task_id4_7_1_,
+        taskmanage1_.task_id as task_id4_7_0__,
+        taskmanage1_.id as id1_7_0__,
+        tblmsmembe2_.com_code as com_code2_1_2_,
+        tblmsmembe2_.company as company3_1_2_,
+        tblmsmembe2_.dept_idx as dept_idx4_1_2_,
+        tblmsmembe2_.dept_name as dept_nam5_1_2_,
+        tblmsmembe2_.email as email6_1_2_,
+        tblmsmembe2_.mb_name as mb_name7_1_2_,
+        tblmsmembe2_.mb_position as mb_posit8_1_2_,
+        tblmsmembe2_.mb_position_name as mb_posit9_1_2_,
+        tblmsmembe2_.revel as revel10_1_2_,
+        tblmsmembe2_.use_yn as use_yn11_1_2_ 
+    from
+        tb_task tbtask0_ 
+    left outer join
+        tb_task_manager taskmanage1_ 
+            on tbtask0_.task_id=taskmanage1_.task_id 
+    left outer join
+        tb_lms_member tblmsmembe2_ 
+            on taskmanage1_.user_id=tblmsmembe2_.skid 
+    where
+        tbtask0_.task_type='중점추진' 
+        and tbtask0_.use_yn='Y' 
+    order by
+        tbtask0_.task_id DESC
+1770131554975|1ms|commit|connection 29|
