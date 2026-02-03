@@ -56,4 +56,15 @@ public interface TbTaskActivityRepository extends JpaRepository<TbTaskActivity, 
         List<TbTaskActivity> findByTaskIdAndYearWithActualValue(
                         @Param("taskId") Long taskId,
                         @Param("year") Integer year);
+
+        /**
+         * 여러 과제의 모든 활동내역 일괄 조회 (실적값 계산용)
+         * actualValue가 null이 아닌 것만 조회
+         */
+        @Query("SELECT a FROM TbTaskActivity a " +
+                        "WHERE a.taskId IN :taskIds " +
+                        "AND a.actualValue IS NOT NULL " +
+                        "ORDER BY a.taskId, a.activityYear DESC, a.activityMonth DESC")
+        List<TbTaskActivity> findByTaskIdsWithActualValue(
+                        @Param("taskIds") List<Long> taskIds);
 }

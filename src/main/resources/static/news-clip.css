@@ -138,16 +138,6 @@ body {
     text-indent: 0;
 }
 
-.section-content p:first-of-type::first-letter {
-    font-size: 48px;
-    font-weight: bold;
-    float: left;
-    line-height: 0.9;
-    margin-right: 8px;
-    margin-top: 5px;
-    color: #1a1a1a;
-}
-
 .section-content ul,
 .section-content ol {
     margin-left: 30px;

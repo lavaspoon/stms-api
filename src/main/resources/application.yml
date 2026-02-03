@@ -27,7 +27,7 @@ spring:
       max-request-size: 50MB
 
 file:
-  upload-dir: ./uploads/task-activity
+  upload-dir: /Users/lavaspoon/Desktop/task-activity
 
 logging:
   level:

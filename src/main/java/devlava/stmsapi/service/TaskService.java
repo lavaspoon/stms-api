@@ -589,12 +589,20 @@ public class TaskService {
                 .collect(Collectors.toList());
 
         // 모든 task의 현재 월 활동내역을 한 번에 조회
-        List<TbTaskActivity> activities = activityRepository
+        List<TbTaskActivity> currentMonthActivities = activityRepository
                 .findByTaskIdsAndYearAndMonth(taskIds, currentYear, currentMonth);
 
         // Map으로 변환하여 빠른 조회 가능하도록 함
-        java.util.Map<Long, TbTaskActivity> activityMap = activities.stream()
+        java.util.Map<Long, TbTaskActivity> currentActivityMap = currentMonthActivities.stream()
                 .collect(Collectors.toMap(TbTaskActivity::getTaskId, activity -> activity));
+
+        // 모든 task의 모든 활동내역을 일괄 조회 (실적값 계산용)
+        List<TbTaskActivity> allActivities = activityRepository
+                .findByTaskIdsWithActualValue(taskIds);
+
+        // taskId별로 그룹화 (실적값 계산용)
+        java.util.Map<Long, List<TbTaskActivity>> activitiesByTaskId = allActivities.stream()
+                .collect(Collectors.groupingBy(TbTaskActivity::getTaskId));
 
         // 모든 부서를 한 번만 조회 (N+1 문제 해결)
         List<devlava.stmsapi.domain.TbLmsDept> allDepts = deptRepository.findAll();
@@ -606,7 +614,9 @@ public class TaskService {
 
         // 각 task를 DTO로 변환 (조회한 데이터 사용)
         return tasks.stream()
-                .map(task -> convertToResponse(task, activityMap.get(task.getTaskId()),
+                .map(task -> convertToResponse(task,
+                        currentActivityMap.get(task.getTaskId()),
+                        activitiesByTaskId.getOrDefault(task.getTaskId(), java.util.Collections.emptyList()),
                         deptNameMap))
                 .collect(Collectors.toList());
     }
@@ -623,6 +633,10 @@ public class TaskService {
         Optional<TbTaskActivity> currentActivity = activityRepository
                 .findByTaskIdAndActivityYearAndActivityMonth(task.getTaskId(), currentYear, currentMonth);
 
+        // 모든 활동내역 조회 (실적값 계산용)
+        List<TbTaskActivity> allActivities = activityRepository
+                .findByTaskIdsWithActualValue(java.util.Collections.singletonList(task.getTaskId()));
+
         // 단일 과제 조회 시에도 부서를 한 번만 조회
         List<devlava.stmsapi.domain.TbLmsDept> allDepts = deptRepository.findAll();
         java.util.Map<String, devlava.stmsapi.domain.TbLmsDept> deptNameMap = allDepts.stream()
@@ -631,7 +645,7 @@ public class TaskService {
                         dept -> dept,
                         (existing, replacement) -> existing));
 
-        return convertToResponse(task, currentActivity.orElse(null), deptNameMap);
+        return convertToResponse(task, currentActivity.orElse(null), allActivities, deptNameMap);
     }
 
     /**
@@ -640,6 +654,7 @@ public class TaskService {
      * 활동내역은 이미 조회된 데이터를 사용
      */
     private TaskResponse convertToResponse(TbTask task, TbTaskActivity currentActivity,
+            List<TbTaskActivity> allActivities,
             java.util.Map<String, devlava.stmsapi.domain.TbLmsDept> deptNameMap) {
         // 1. 담당자들의 부서명 수집 (중복 제거)
         java.util.Set<String> deptNames = task.getTaskManagers().stream()
@@ -682,26 +697,61 @@ public class TaskService {
                 })
                 .collect(Collectors.toList());
 
-        // 달성률 계산 (TB_TASK의 achievement 필드 사용)
-        Integer calculatedAchievement = task.getAchievement() != null
-                ? task.getAchievement().intValue()
-                : 0;
+        // 평가 기준에 따라 실적값과 달성률 계산
+        String metric = task.getMetric();
+        BigDecimal calculatedActualValue = java.math.BigDecimal.ZERO;
+        Integer calculatedAchievement = 0;
+
+        // 정량 평가인 경우만 실적값 계산
+        if ("quantitative".equals(task.getEvaluationType()) && allActivities != null && !allActivities.isEmpty()) {
+            if ("percent".equals(metric)) {
+                // '%'인 경우: 가장 최근 입력한 실적 % 사용
+                // allActivities는 이미 년월 내림차순으로 정렬되어 있음
+                TbTaskActivity latestActivity = allActivities.get(0);
+                if (latestActivity.getActualValue() != null) {
+                    calculatedActualValue = latestActivity.getActualValue();
+                }
+            } else {
+                // '건수', '금액'인 경우: 전체 월의 실적 합계
+                calculatedActualValue = allActivities.stream()
+                        .filter(a -> a.getActualValue() != null)
+                        .map(TbTaskActivity::getActualValue)
+                        .reduce(java.math.BigDecimal.ZERO, java.math.BigDecimal::add);
+            }
+
+            // 달성률 계산
+            if (task.getTargetValue() != null && calculatedActualValue != null &&
+                    task.getTargetValue().compareTo(java.math.BigDecimal.ZERO) > 0) {
+                BigDecimal achievementDecimal = calculatedActualValue
+                        .divide(task.getTargetValue(), 4, java.math.RoundingMode.HALF_UP)
+                        .multiply(java.math.BigDecimal.valueOf(100))
+                        .setScale(2, java.math.RoundingMode.HALF_UP);
+                calculatedAchievement = achievementDecimal.intValue();
+            }
+        } else {
+            // 정성 평가이거나 활동내역이 없는 경우 기본값 사용
+            calculatedActualValue = task.getActualValue() != null ? task.getActualValue() : java.math.BigDecimal.ZERO;
+            calculatedAchievement = task.getAchievement() != null ? task.getAchievement().intValue() : 0;
+        }
 
         // 현재 월 기준으로 활동내역 입력 여부 계산
-        // TB_TASK_ACTIVITY 테이블의 activity_year, activity_month, activity_content를 기준으로
-        // 판단
-        // (TB_TASK의 isInputted 필드는 사용하지 않음 - 월별로 정확한 판단을 위해)
-        // 매개변수로 받은 currentActivity 사용 (이미 조회된 데이터)
-        String calculatedIsInputted = "N"; // 기본값은 미입력
-        if (currentActivity != null) {
-            String content = currentActivity.getActivityContent();
-            // 활동내역이 존재하고 내용이 있으면 입력 완료
-            if (content != null && !content.trim().isEmpty()) {
-                calculatedIsInputted = "Y";
+        // 진행중 상태인 과제만 미입력 여부를 확인하고, 완료/지연/중단 상태는 항상 입력된 것으로 처리
+        String calculatedIsInputted = "Y"; // 기본값은 입력 완료
+        String taskStatus = task.getStatus();
+        // 상태가 '진행중'인 경우만 활동내역 입력 여부 확인
+        if (taskStatus != null && ("진행중".equals(taskStatus) || "inProgress".equals(taskStatus))) {
+            calculatedIsInputted = "N"; // 진행중인 경우 기본값은 미입력
+            if (currentActivity != null) {
+                String content = currentActivity.getActivityContent();
+                // 활동내역이 존재하고 내용이 있으면 입력 완료
+                if (content != null && !content.trim().isEmpty()) {
+                    calculatedIsInputted = "Y";
+                }
+                // 활동내역 레코드는 있지만 내용이 비어있으면 미입력으로 처리
             }
-            // 활동내역 레코드는 있지만 내용이 비어있으면 미입력으로 처리
+            // 활동내역 레코드가 아예 없으면 당연히 미입력 (기본값 "N" 유지)
         }
-        // 활동내역 레코드가 아예 없으면 당연히 미입력 (기본값 "N" 유지)
+        // 완료/지연/중단 상태인 과제는 항상 입력된 것으로 처리 (더 이상 활동내역 입력 불필요)
 
         return TaskResponse.builder()
                 .taskId(task.getTaskId())
@@ -718,9 +768,9 @@ public class TaskService {
                 .metric(task.getMetric())
                 .status(task.getStatus())
                 .isInputted(calculatedIsInputted) // 현재 월 기준으로 계산된 값 사용
-                .achievement(calculatedAchievement != null ? calculatedAchievement : 0)
+                .achievement(calculatedAchievement)
                 .targetValue(task.getTargetValue())
-                .actualValue(task.getActualValue())
+                .actualValue(calculatedActualValue)
                 .visibleYn(task.getVisibleYn())
                 .build();
     }

@@ -56,9 +56,15 @@ public class NotificationService {
         // 3. 해당 타입의 모든 과제 조회
         List<TbTask> tasks = taskRepository.findByTaskTypeWithManagers(taskType);
 
-        // 4. 이번 달 미입력된 과제 찾기
+        // 4. 이번 달 미입력된 과제 찾기 (진행중 상태인 과제만 대상)
         List<TbTask> notInputtedTasks = new ArrayList<>();
         for (TbTask task : tasks) {
+            // 진행중 상태인 과제만 확인
+            String taskStatus = task.getStatus();
+            if (taskStatus == null || (!"진행중".equals(taskStatus) && !"inProgress".equals(taskStatus))) {
+                continue; // 진행중이 아닌 과제는 제외
+            }
+
             // 현재 월 활동내역 확인
             boolean hasActivity = activityRepository
                     .findByTaskIdAndActivityYearAndActivityMonth(

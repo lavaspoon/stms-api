@@ -103,15 +103,44 @@ public class TaskController {
     }
 
     /**
-     * 과제 활동내역 입력
+     * 과제 활동내역 입력 (파일 포함 가능)
      * POST /api/tasks/{taskId}/activity
      */
-    @PostMapping("/{taskId}/activity")
+    @PostMapping(value = "/{taskId}/activity", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public TaskActivityResponse inputTaskActivity(
             @PathVariable Long taskId,
             @RequestParam String userId,
-            @RequestBody TaskActivityInputRequest request) {
-        return taskService.inputTaskActivity(taskId, userId, request);
+            @RequestParam(required = false) String activityContent,
+            @RequestParam(required = false) java.math.BigDecimal actualValue,
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) Integer year,
+            @RequestParam(required = false) Integer month,
+            @RequestPart(value = "files", required = false) List<MultipartFile> files) {
+        try {
+            // TaskActivityInputRequest 객체 생성
+            TaskActivityInputRequest request = new TaskActivityInputRequest(
+                    activityContent != null ? activityContent : "",
+                    actualValue,
+                    status,
+                    year,
+                    month
+            );
+            
+            TaskActivityResponse response = taskService.inputTaskActivity(taskId, userId, request);
+            
+            // 파일이 있으면 업로드
+            if (files != null && !files.isEmpty() && response.getActivityId() != null) {
+                for (MultipartFile file : files) {
+                    if (!file.isEmpty()) {
+                        fileService.uploadFile(response.getActivityId(), file, userId);
+                    }
+                }
+            }
+            
+            return response;
+        } catch (IOException e) {
+            throw new RuntimeException("활동내역 저장 중 오류가 발생했습니다: " + e.getMessage());
+        }
     }
 
     /**

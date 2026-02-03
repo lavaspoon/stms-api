@@ -109,7 +109,7 @@ public class AIService {
      */
     public String generateContextImprovementPrompt(String text) {
         return String.format(
-                "다음 활동내역의 문맥과 표현을 더 명확하고 전문적으로 개선해주세요. 개선된 텍스트만 출력하고 설명은 하지 마세요.\n\n%s",
+                "다음 활동내역의 문맥과 표현을 더 명확하고 전문적으로 개선해주세요. 개선된 텍스트만 출력하고, 설명이나 추가 텍스트 없이 개선된 텍스트만 제공해주세요.\n\n%s",
                 text);
     }
 
@@ -224,8 +224,22 @@ public class AIService {
         promptBuilder
                 .append(String.format("- 전체 과제 현황 요약 (총 %d개 중 입력 완료 %d개, 미입력 %d개) - 1문장\n", tasks.size(), inputtedCount,
                         notInputtedCount));
-        promptBuilder.append("- 이번 달의 핵심 성과나 주요 이슈를 1-2문장으로 간략히 제시\n");
-        promptBuilder.append("**길이 제한: 최대 2-3문단 (200자 이내)**\n\n");
+
+        // 입력된 과제들의 핵심 내용을 기반으로 구체적인 지침 제공
+        if (inputtedCount > 0) {
+            promptBuilder.append("- **입력된 과제들의 실제 활동 내역을 분석하여** 이번 달의 핵심 성과를 구체적으로 제시 (1-2문장)\n");
+            promptBuilder.append("  - 활동 내역에서 추출한 주요 성과, 달성 수치, 핵심 결과물 등을 포함\n");
+            promptBuilder.append("  - 일반적인 표현이 아닌 실제 활동 내역에 기반한 구체적인 내용으로 작성\n");
+        } else {
+            promptBuilder.append("- 이번 달의 주요 이슈나 진행 상황을 간략히 제시 (1-2문장)\n");
+        }
+
+        if (notInputtedCount > 0) {
+            promptBuilder.append(String.format("- 미입력 과제 %d개에 대한 간단한 언급 (1문장)\n", notInputtedCount));
+        }
+
+        promptBuilder.append("**길이 제한: 최대 2-3문단 (200자 이내)**\n");
+        promptBuilder.append("**중요**: 제공된 활동 내역 데이터를 직접 참조하여 구체적이고 사실에 기반한 내용으로 작성하세요.\n\n");
 
         promptBuilder.append("#### 2. 주요 활동 현황\n");
         promptBuilder.append("- 입력된 과제별로 핵심 활동 내용만 간결하게 요약 (과제당 2-3문장)\n");
@@ -732,14 +746,40 @@ public class AIService {
     /**
      * 커스텀 질문 기반 보고서 프롬프트 생성
      * 
-     * @param taskType   과제 유형 (null 가능)
-     * @param tasks      과제 목록 (null 가능)
-     * @param reportType 보고서 유형 (null 가능)
-     * @param question   질문 또는 기존 보고서 + 수정 프롬프트
+     * @param taskType       과제 유형 (null 가능)
+     * @param tasks          과제 목록 (null 가능)
+     * @param reportType     보고서 유형 (null 가능)
+     * @param existingReport 기존 보고서 텍스트 (수정 모드일 때)
+     * @param modifyPrompt   수정 요청 프롬프트 (수정 모드일 때)
      */
     public String generateCustomReportPrompt(String taskType, List<Map<String, Object>> tasks, String reportType,
-            String question) {
-        // 기존 보고서 수정 모드: 기존 보고서 텍스트와 프롬프트만 전달
+            String existingReport, String modifyPrompt) {
+        // 기존 보고서 수정 모드: 기존 보고서 생성 프롬프트 + 수정 요청
+        if (existingReport != null && !existingReport.trim().isEmpty() &&
+                taskType != null && tasks != null && !tasks.isEmpty()) {
+
+            // 1. 기존 보고서 생성 시 사용했던 프롬프트 재생성
+            String originalPrompt;
+            if ("monthly".equals(reportType)) {
+                originalPrompt = generateMonthlyReportPrompt(taskType, tasks);
+            } else {
+                originalPrompt = generateComprehensiveReportPrompt(taskType, tasks);
+            }
+
+            // 2. 구조화된 수정 프롬프트 생성
+            StringBuilder modifyPromptBuilder = new StringBuilder();
+            modifyPromptBuilder.append(originalPrompt);
+            modifyPromptBuilder.append("\n\n");
+            modifyPromptBuilder.append("---\n\n");
+            modifyPromptBuilder.append("위 내용을 기반으로 아래 요청사항을 반영하여 수정해주세요.\n\n");
+            modifyPromptBuilder.append("**수정 요청사항**:\n");
+            modifyPromptBuilder.append(modifyPrompt != null ? modifyPrompt.trim() : "");
+
+            return modifyPromptBuilder.toString();
+        }
+
+        // 기존 로직 (레거시 호환성 유지)
+        String question = modifyPrompt;
         if ((taskType == null || tasks == null || tasks.isEmpty()) && question != null) {
             // 기존 보고서 + 프롬프트 형식으로 간단하게 처리
             return question;
@@ -914,8 +954,8 @@ public class AIService {
      * 커스텀 질문 기반 보고서 생성 (레거시 - 호환성 유지)
      */
     public String generateCustomReport(String taskType, List<Map<String, Object>> tasks, String reportType,
-            String question) {
-        String prompt = generateCustomReportPrompt(taskType, tasks, reportType, question);
+            String existingReport, String modifyPrompt) {
+        String prompt = generateCustomReportPrompt(taskType, tasks, reportType, existingReport, modifyPrompt);
         return callAX4(prompt);
     }
 
@@ -991,8 +1031,19 @@ public class AIService {
         promptBuilder.append("- 보고서의 목적과 범위 명시 (1문장)\n");
         promptBuilder.append(
                 String.format("- 전체 과제 현황 요약 (총 %d개, 활동 내역 보유 %d개) - 1문장\n", tasks.size(), tasksWithActivities));
-        promptBuilder.append("- 전반적인 진행 상황과 핵심 특징을 1-2문단으로 요약\n");
-        promptBuilder.append("**길이 제한: 최대 2-3문단 (300자 이내)**\n\n");
+
+        // 실제 활동 내역을 기반으로 구체적인 지침 제공
+        if (tasksWithActivities > 0) {
+            promptBuilder.append("- **제공된 모든 활동 내역을 종합 분석하여** 전반적인 진행 상황과 핵심 특징을 구체적으로 요약 (1-2문단)\n");
+            promptBuilder.append("  - 각 과제의 활동 내역에서 추출한 주요 성과, 진행 상황, 달성 수치 등을 종합\n");
+            promptBuilder.append("  - 시간에 따른 변화나 트렌드를 간단히 언급 (가능한 경우)\n");
+            promptBuilder.append("  - 일반적인 표현이 아닌 실제 활동 내역 데이터에 기반한 구체적인 내용으로 작성\n");
+        } else {
+            promptBuilder.append("- 전반적인 진행 상황과 핵심 특징을 1-2문단으로 요약\n");
+        }
+
+        promptBuilder.append("**길이 제한: 최대 2-3문단 (300자 이내)**\n");
+        promptBuilder.append("**중요**: 제공된 활동 내역 데이터를 직접 참조하여 구체적이고 사실에 기반한 내용으로 작성하세요.\n\n");
 
         promptBuilder.append("#### 2. 과제별 주요 활동 내역 및 진행 상황\n");
         promptBuilder.append("- 각 과제별로 핵심 활동 내역만 간결하게 요약 (과제당 2-3문장)\n");

@@ -108,17 +108,22 @@ public class AIController {
          */
         @PostMapping("/generate-custom-report")
         public ResponseEntity<AIResponse> generateCustomReport(@RequestBody AIRequest request) {
-                log.info("커스텀 보고서 프롬프트 생성 요청: taskType={}, tasks count={}, question={}",
+                log.info("커스텀 보고서 프롬프트 생성 요청: taskType={}, tasks count={}, reportType={}, hasExistingReport={}, question={}",
                                 request.getTaskType(),
                                 request.getTasks() != null ? request.getTasks().size() : 0,
+                                request.getReportType(),
+                                request.getExistingReport() != null && !request.getExistingReport().isEmpty(),
                                 request.getCustomQuestion());
 
-                String reportType = request.getTaskType() != null && request.getTaskType().contains("월간") ? "monthly"
-                                : "comprehensive";
+                String reportType = request.getReportType() != null ? request.getReportType()
+                                : (request.getTaskType() != null && request.getTaskType().contains("월간") ? "monthly"
+                                                : "comprehensive");
+
                 String prompt = aiService.generateCustomReportPrompt(
                                 request.getTaskType(),
                                 request.getTasks(),
                                 reportType,
+                                request.getExistingReport(),
                                 request.getCustomQuestion());
 
                 return ResponseEntity.ok(AIResponse.builder()
