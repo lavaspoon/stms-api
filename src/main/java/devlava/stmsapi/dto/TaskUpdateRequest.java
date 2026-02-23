@@ -16,6 +16,7 @@ public class TaskUpdateRequest {
     private String category2;
     private String taskName;
     private String description;
+    private String targetDescription; // 목표 설명 (선택)
     private Date startDate;
     private Date endDate;
     private List<String> managerIds; // 담당자 ID 목록

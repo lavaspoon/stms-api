@@ -36,6 +36,9 @@ public class TbTask {
     @Column(name = "description", length = 1000)
     private String description; // 과제 설명
 
+    @Column(name = "target_description", length = 1000)
+    private String targetDescription; // 목표 설명 (선택)
+
     @Column(name = "start_date")
     private Date startDate; // 시작일
 
@@ -113,13 +116,14 @@ public class TbTask {
      * 과제 기본 정보 설정
      */
     public void setBasicInfo(String taskType, String category1, String category2, String taskName,
-                             String description, Date startDate, Date endDate,
-                             String performanceType, String evaluationType, String metric) {
+            String description, String targetDescription, Date startDate, Date endDate,
+            String performanceType, String evaluationType, String metric) {
         this.taskType = taskType;
         this.category1 = category1;
         this.category2 = category2;
         this.taskName = taskName;
         this.description = description;
+        this.targetDescription = targetDescription;
         this.startDate = startDate;
         this.endDate = endDate;
         this.performanceType = performanceType;
@@ -131,12 +135,13 @@ public class TbTask {
      * 과제 정보 업데이트
      */
     public void updateInfo(String category1, String category2, String taskName,
-            String description, Date startDate, Date endDate,
+            String description, String targetDescription, Date startDate, Date endDate,
             String performanceType, String evaluationType, String metric) {
         this.category1 = category1;
         this.category2 = category2;
         this.taskName = taskName;
         this.description = description;
+        this.targetDescription = targetDescription;
         this.startDate = startDate;
         this.endDate = endDate;
         this.performanceType = performanceType;

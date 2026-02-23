@@ -55,6 +55,7 @@ public class TaskService {
                 request.getCategory2(),
                 request.getTaskName(),
                 request.getDescription(),
+                request.getTargetDescription(),
                 convertToSqlDate(request.getStartDate()),
                 convertToSqlDate(request.getEndDate()),
                 request.getPerformanceType(),
@@ -197,6 +198,7 @@ public class TaskService {
                 request.getCategory2(),
                 request.getTaskName(),
                 request.getDescription(),
+                request.getTargetDescription(),
                 convertToSqlDate(request.getStartDate()),
                 convertToSqlDate(request.getEndDate()),
                 request.getPerformanceType(),
@@ -760,6 +762,7 @@ public class TaskService {
                 .category2(task.getCategory2())
                 .taskName(task.getTaskName())
                 .description(task.getDescription())
+                .targetDescription(task.getTargetDescription())
                 .startDate(task.getStartDate())
                 .endDate(task.getEndDate())
                 .managers(managers)
