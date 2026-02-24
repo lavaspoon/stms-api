@@ -78,6 +78,9 @@ public class TbTask {
     @Column(name = "visible_yn", length = 1)
     private String visibleYn; // 공개여부 (Y: 공개, N: 비공개)
 
+    @Column(name = "reverse_yn", length = 1)
+    private String reverseYn; // 역계산 여부 (Y: 역계산, N: 일반계산) - 목표가 낮을수록 달성률이 높은 경우
+
     // 담당자 매핑 (양방향)
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TbTaskManager> taskManagers = new ArrayList<>();
@@ -92,8 +95,14 @@ public class TbTask {
         if (visibleYn == null) {
             visibleYn = "Y"; // 기본값은 공개
         }
+        if (reverseYn == null) {
+            reverseYn = "N"; // 기본값은 일반계산
+        }
         if (status == null) {
             status = "진행중";
+        }
+        if (targetDescription == null) {
+            targetDescription = ""; // 기본값은 빈 문자열
         }
         if (targetValue == null) {
             targetValue = java.math.BigDecimal.ZERO;
@@ -123,7 +132,7 @@ public class TbTask {
         this.category2 = category2;
         this.taskName = taskName;
         this.description = description;
-        this.targetDescription = targetDescription;
+        this.targetDescription = (targetDescription != null) ? targetDescription : "";
         this.startDate = startDate;
         this.endDate = endDate;
         this.performanceType = performanceType;
@@ -141,7 +150,7 @@ public class TbTask {
         this.category2 = category2;
         this.taskName = taskName;
         this.description = description;
-        this.targetDescription = targetDescription;
+        this.targetDescription = (targetDescription != null) ? targetDescription : "";
         this.startDate = startDate;
         this.endDate = endDate;
         this.performanceType = performanceType;
@@ -175,8 +184,22 @@ public class TbTask {
      */
     public void updateAchievement() {
         if (targetValue != null && targetValue.compareTo(java.math.BigDecimal.ZERO) > 0 && actualValue != null) {
-            this.achievement = actualValue.divide(targetValue, 4, java.math.RoundingMode.HALF_UP)
-                    .multiply(java.math.BigDecimal.valueOf(100));
+            if ("Y".equals(reverseYn)) {
+                // 역계산: (1 - 실적값 / 목표값) * 100
+                this.achievement = java.math.BigDecimal.ONE
+                        .subtract(actualValue.divide(targetValue, 4, java.math.RoundingMode.HALF_UP))
+                        .multiply(java.math.BigDecimal.valueOf(100))
+                        .setScale(2, java.math.RoundingMode.HALF_UP);
+                // 0% 이하 방지
+                if (this.achievement.compareTo(java.math.BigDecimal.ZERO) < 0) {
+                    this.achievement = java.math.BigDecimal.ZERO;
+                }
+            } else {
+                // 일반계산: 실적값 / 목표값 * 100
+                this.achievement = actualValue.divide(targetValue, 4, java.math.RoundingMode.HALF_UP)
+                        .multiply(java.math.BigDecimal.valueOf(100))
+                        .setScale(2, java.math.RoundingMode.HALF_UP);
+            }
         } else {
             this.achievement = java.math.BigDecimal.ZERO;
         }
@@ -201,6 +224,13 @@ public class TbTask {
      */
     public void setVisibleYn(String visibleYn) {
         this.visibleYn = visibleYn;
+    }
+
+    /**
+     * 역계산 여부 설정
+     */
+    public void setReverseYn(String reverseYn) {
+        this.reverseYn = reverseYn;
     }
 
     // 편의 메서드

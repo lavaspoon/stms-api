@@ -72,6 +72,13 @@ public class TaskService {
             task.setVisibleYn("Y");
         }
 
+        // 역계산 여부 설정 (기본값 N)
+        if (request.getReverseYn() != null) {
+            task.setReverseYn(request.getReverseYn());
+        } else {
+            task.setReverseYn("N");
+        }
+
         // 목표값 설정 (정량일 때만)
         if ("quantitative".equals(request.getEvaluationType()) && request.getTargetValue() != null) {
             task.setTargetValue(request.getTargetValue());
@@ -231,6 +238,11 @@ public class TaskService {
             task.setVisibleYn(request.getVisibleYn());
         }
 
+        // 역계산 여부 수정
+        if (request.getReverseYn() != null) {
+            task.setReverseYn(request.getReverseYn());
+        }
+
         // 3. 담당자 매핑 수정 (변경된 경우만 업데이트)
         if (request.getManagerIds() != null && !request.getManagerIds().isEmpty()) {
             System.out.println("새 담당자 수: " + request.getManagerIds().size());
@@ -376,13 +388,25 @@ public class TaskService {
         BigDecimal finalActualValue = monthlyActualValue != null ? monthlyActualValue
                 : (task.getActualValue() != null ? task.getActualValue() : BigDecimal.ZERO);
 
-        // 달성률 계산 (해당 월의 목표값과 실적값으로 계산)
+        // 달성률 계산 (역계산 여부에 따라 다른 공식 적용)
         BigDecimal achievementRate = BigDecimal.ZERO;
+        boolean isReverseForActivity = "Y".equals(task.getReverseYn());
         if (task.getTargetValue() != null && finalActualValue != null &&
                 task.getTargetValue().compareTo(BigDecimal.ZERO) > 0) {
-            achievementRate = finalActualValue.divide(task.getTargetValue(), 4, java.math.RoundingMode.HALF_UP)
-                    .multiply(BigDecimal.valueOf(100))
-                    .setScale(2, java.math.RoundingMode.HALF_UP);
+            if (isReverseForActivity) {
+                // 역계산: (1 - 실적값 / 목표값) * 100
+                achievementRate = BigDecimal.ONE
+                        .subtract(finalActualValue.divide(task.getTargetValue(), 4, java.math.RoundingMode.HALF_UP))
+                        .multiply(BigDecimal.valueOf(100))
+                        .setScale(2, java.math.RoundingMode.HALF_UP);
+                if (achievementRate.compareTo(BigDecimal.ZERO) < 0) {
+                    achievementRate = BigDecimal.ZERO;
+                }
+            } else {
+                achievementRate = finalActualValue.divide(task.getTargetValue(), 4, java.math.RoundingMode.HALF_UP)
+                        .multiply(BigDecimal.valueOf(100))
+                        .setScale(2, java.math.RoundingMode.HALF_UP);
+            }
         }
 
         return TaskActivityResponse.builder()
@@ -447,13 +471,25 @@ public class TaskService {
         BigDecimal finalActualValue = monthlyActualValue != null ? monthlyActualValue
                 : (task.getActualValue() != null ? task.getActualValue() : BigDecimal.ZERO);
 
-        // 달성률 계산 (해당 월의 목표값과 실적값으로 계산)
+        // 달성률 계산 (역계산 여부에 따라 다른 공식 적용)
         BigDecimal achievementRate = BigDecimal.ZERO;
+        boolean isReverseForGet = "Y".equals(task.getReverseYn());
         if (task.getTargetValue() != null && finalActualValue != null &&
                 task.getTargetValue().compareTo(BigDecimal.ZERO) > 0) {
-            achievementRate = finalActualValue.divide(task.getTargetValue(), 4, java.math.RoundingMode.HALF_UP)
-                    .multiply(BigDecimal.valueOf(100))
-                    .setScale(2, java.math.RoundingMode.HALF_UP);
+            if (isReverseForGet) {
+                // 역계산: (1 - 실적값 / 목표값) * 100
+                achievementRate = BigDecimal.ONE
+                        .subtract(finalActualValue.divide(task.getTargetValue(), 4, java.math.RoundingMode.HALF_UP))
+                        .multiply(BigDecimal.valueOf(100))
+                        .setScale(2, java.math.RoundingMode.HALF_UP);
+                if (achievementRate.compareTo(BigDecimal.ZERO) < 0) {
+                    achievementRate = BigDecimal.ZERO;
+                }
+            } else {
+                achievementRate = finalActualValue.divide(task.getTargetValue(), 4, java.math.RoundingMode.HALF_UP)
+                        .multiply(BigDecimal.valueOf(100))
+                        .setScale(2, java.math.RoundingMode.HALF_UP);
+            }
         }
 
         return TaskActivityResponse.builder()
@@ -523,14 +559,26 @@ public class TaskService {
                     BigDecimal finalActualValue = monthlyActualValue != null ? monthlyActualValue
                             : (task.getActualValue() != null ? task.getActualValue() : BigDecimal.ZERO);
 
-                    // 달성률 계산 (해당 월의 목표값과 실적값으로 계산)
+                    // 달성률 계산 (역계산 여부에 따라 다른 공식 적용)
                     BigDecimal achievementRate = BigDecimal.ZERO;
+                    boolean isReversePrev = "Y".equals(task.getReverseYn());
                     if (task.getTargetValue() != null && finalActualValue != null &&
                             task.getTargetValue().compareTo(BigDecimal.ZERO) > 0) {
-                        achievementRate = finalActualValue
-                                .divide(task.getTargetValue(), 4, java.math.RoundingMode.HALF_UP)
-                                .multiply(BigDecimal.valueOf(100))
-                                .setScale(2, java.math.RoundingMode.HALF_UP);
+                        if (isReversePrev) {
+                            // 역계산: (1 - 실적값 / 목표값) * 100
+                            achievementRate = BigDecimal.ONE
+                                    .subtract(finalActualValue.divide(task.getTargetValue(), 4, java.math.RoundingMode.HALF_UP))
+                                    .multiply(BigDecimal.valueOf(100))
+                                    .setScale(2, java.math.RoundingMode.HALF_UP);
+                            if (achievementRate.compareTo(BigDecimal.ZERO) < 0) {
+                                achievementRate = BigDecimal.ZERO;
+                            }
+                        } else {
+                            achievementRate = finalActualValue
+                                    .divide(task.getTargetValue(), 4, java.math.RoundingMode.HALF_UP)
+                                    .multiply(BigDecimal.valueOf(100))
+                                    .setScale(2, java.math.RoundingMode.HALF_UP);
+                        }
                     }
 
                     return TaskActivityResponse.builder()
@@ -701,6 +749,7 @@ public class TaskService {
 
         // 평가 기준에 따라 실적값과 달성률 계산
         String metric = task.getMetric();
+        boolean isReverse = "Y".equals(task.getReverseYn()); // 역계산 여부
         BigDecimal calculatedActualValue = java.math.BigDecimal.ZERO;
         Integer calculatedAchievement = 0;
 
@@ -721,13 +770,28 @@ public class TaskService {
                         .reduce(java.math.BigDecimal.ZERO, java.math.BigDecimal::add);
             }
 
-            // 달성률 계산
+            // 달성률 계산 (역계산 여부에 따라 다른 공식 적용)
             if (task.getTargetValue() != null && calculatedActualValue != null &&
                     task.getTargetValue().compareTo(java.math.BigDecimal.ZERO) > 0) {
-                BigDecimal achievementDecimal = calculatedActualValue
-                        .divide(task.getTargetValue(), 4, java.math.RoundingMode.HALF_UP)
-                        .multiply(java.math.BigDecimal.valueOf(100))
-                        .setScale(2, java.math.RoundingMode.HALF_UP);
+                BigDecimal achievementDecimal;
+                if (isReverse) {
+                    // 역계산: (1 - 실적값 / 목표값) * 100
+                    // 목표가 낮을수록 달성률이 높아짐 (예: 불손응대 2.2% 목표 -> 실적 0.1%이면 달성률 95.5%)
+                    achievementDecimal = java.math.BigDecimal.ONE
+                            .subtract(calculatedActualValue.divide(task.getTargetValue(), 4, java.math.RoundingMode.HALF_UP))
+                            .multiply(java.math.BigDecimal.valueOf(100))
+                            .setScale(2, java.math.RoundingMode.HALF_UP);
+                    // 음수 방지 (0 이하면 0으로 처리)
+                    if (achievementDecimal.compareTo(java.math.BigDecimal.ZERO) < 0) {
+                        achievementDecimal = java.math.BigDecimal.ZERO;
+                    }
+                } else {
+                    // 일반계산: 실적값 / 목표값 * 100
+                    achievementDecimal = calculatedActualValue
+                            .divide(task.getTargetValue(), 4, java.math.RoundingMode.HALF_UP)
+                            .multiply(java.math.BigDecimal.valueOf(100))
+                            .setScale(2, java.math.RoundingMode.HALF_UP);
+                }
                 calculatedAchievement = achievementDecimal.intValue();
             }
         } else {
@@ -775,6 +839,7 @@ public class TaskService {
                 .targetValue(task.getTargetValue())
                 .actualValue(calculatedActualValue)
                 .visibleYn(task.getVisibleYn())
+                .reverseYn(task.getReverseYn())
                 .build();
     }
 }

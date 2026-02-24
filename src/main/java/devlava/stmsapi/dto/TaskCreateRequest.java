@@ -26,4 +26,5 @@ public class TaskCreateRequest {
     private String metric;
     private BigDecimal targetValue; // 목표값 (정량일 때만)
     private String visibleYn; // 공개여부 (Y: 공개, N: 비공개)
+    private String reverseYn; // 역계산 여부 (Y: 역계산, N: 일반계산)
 }

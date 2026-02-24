@@ -32,6 +32,7 @@ public class TaskResponse {
     private java.math.BigDecimal targetValue; // 목표값
     private java.math.BigDecimal actualValue; // 실적값
     private String visibleYn; // 공개여부 (Y: 공개, N: 비공개)
+    private String reverseYn; // 역계산 여부 (Y: 역계산, N: 일반계산)
 
     @Getter
     @Builder
