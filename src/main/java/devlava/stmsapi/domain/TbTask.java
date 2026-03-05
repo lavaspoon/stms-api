@@ -185,13 +185,13 @@ public class TbTask {
     public void updateAchievement() {
         if (targetValue != null && targetValue.compareTo(java.math.BigDecimal.ZERO) > 0 && actualValue != null) {
             if ("Y".equals(reverseYn)) {
-                // 역계산: (1 - 실적값 / 목표값) * 100
-                this.achievement = java.math.BigDecimal.ONE
-                        .subtract(actualValue.divide(targetValue, 4, java.math.RoundingMode.HALF_UP))
-                        .multiply(java.math.BigDecimal.valueOf(100))
-                        .setScale(2, java.math.RoundingMode.HALF_UP);
-                // 0% 이하 방지
-                if (this.achievement.compareTo(java.math.BigDecimal.ZERO) < 0) {
+                // 역계산: 목표값 / 실적값 * 100 (실적이 낮을수록 달성률이 높아짐)
+                if (actualValue.compareTo(java.math.BigDecimal.ZERO) > 0) {
+                    this.achievement = targetValue
+                            .divide(actualValue, 4, java.math.RoundingMode.HALF_UP)
+                            .multiply(java.math.BigDecimal.valueOf(100))
+                            .setScale(2, java.math.RoundingMode.HALF_UP);
+                } else {
                     this.achievement = java.math.BigDecimal.ZERO;
                 }
             } else {

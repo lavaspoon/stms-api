@@ -29,6 +29,9 @@ spring:
 file:
   upload-dir: /Users/lavaspoon/Desktop/task-activity
 
+sms:
+  api-url: https://localhost:7474/api/users/send-sms
+
 logging:
   level:
     root: INFO

@@ -394,12 +394,13 @@ public class TaskService {
         if (task.getTargetValue() != null && finalActualValue != null &&
                 task.getTargetValue().compareTo(BigDecimal.ZERO) > 0) {
             if (isReverseForActivity) {
-                // 역계산: (1 - 실적값 / 목표값) * 100
-                achievementRate = BigDecimal.ONE
-                        .subtract(finalActualValue.divide(task.getTargetValue(), 4, java.math.RoundingMode.HALF_UP))
-                        .multiply(BigDecimal.valueOf(100))
-                        .setScale(2, java.math.RoundingMode.HALF_UP);
-                if (achievementRate.compareTo(BigDecimal.ZERO) < 0) {
+                // 역계산: 목표값 / 실적값 * 100 (실적이 낮을수록 달성률이 높아짐)
+                if (finalActualValue.compareTo(BigDecimal.ZERO) > 0) {
+                    achievementRate = task.getTargetValue()
+                            .divide(finalActualValue, 4, java.math.RoundingMode.HALF_UP)
+                            .multiply(BigDecimal.valueOf(100))
+                            .setScale(2, java.math.RoundingMode.HALF_UP);
+                } else {
                     achievementRate = BigDecimal.ZERO;
                 }
             } else {
@@ -477,12 +478,13 @@ public class TaskService {
         if (task.getTargetValue() != null && finalActualValue != null &&
                 task.getTargetValue().compareTo(BigDecimal.ZERO) > 0) {
             if (isReverseForGet) {
-                // 역계산: (1 - 실적값 / 목표값) * 100
-                achievementRate = BigDecimal.ONE
-                        .subtract(finalActualValue.divide(task.getTargetValue(), 4, java.math.RoundingMode.HALF_UP))
-                        .multiply(BigDecimal.valueOf(100))
-                        .setScale(2, java.math.RoundingMode.HALF_UP);
-                if (achievementRate.compareTo(BigDecimal.ZERO) < 0) {
+                // 역계산: 목표값 / 실적값 * 100 (실적이 낮을수록 달성률이 높아짐)
+                if (finalActualValue.compareTo(BigDecimal.ZERO) > 0) {
+                    achievementRate = task.getTargetValue()
+                            .divide(finalActualValue, 4, java.math.RoundingMode.HALF_UP)
+                            .multiply(BigDecimal.valueOf(100))
+                            .setScale(2, java.math.RoundingMode.HALF_UP);
+                } else {
                     achievementRate = BigDecimal.ZERO;
                 }
             } else {
@@ -565,12 +567,13 @@ public class TaskService {
                     if (task.getTargetValue() != null && finalActualValue != null &&
                             task.getTargetValue().compareTo(BigDecimal.ZERO) > 0) {
                         if (isReversePrev) {
-                            // 역계산: (1 - 실적값 / 목표값) * 100
-                            achievementRate = BigDecimal.ONE
-                                    .subtract(finalActualValue.divide(task.getTargetValue(), 4, java.math.RoundingMode.HALF_UP))
-                                    .multiply(BigDecimal.valueOf(100))
-                                    .setScale(2, java.math.RoundingMode.HALF_UP);
-                            if (achievementRate.compareTo(BigDecimal.ZERO) < 0) {
+                            // 역계산: 목표값 / 실적값 * 100 (실적이 낮을수록 달성률이 높아짐)
+                            if (finalActualValue.compareTo(BigDecimal.ZERO) > 0) {
+                                achievementRate = task.getTargetValue()
+                                        .divide(finalActualValue, 4, java.math.RoundingMode.HALF_UP)
+                                        .multiply(BigDecimal.valueOf(100))
+                                        .setScale(2, java.math.RoundingMode.HALF_UP);
+                            } else {
                                 achievementRate = BigDecimal.ZERO;
                             }
                         } else {
@@ -775,14 +778,13 @@ public class TaskService {
                     task.getTargetValue().compareTo(java.math.BigDecimal.ZERO) > 0) {
                 BigDecimal achievementDecimal;
                 if (isReverse) {
-                    // 역계산: (1 - 실적값 / 목표값) * 100
-                    // 목표가 낮을수록 달성률이 높아짐 (예: 불손응대 2.2% 목표 -> 실적 0.1%이면 달성률 95.5%)
-                    achievementDecimal = java.math.BigDecimal.ONE
-                            .subtract(calculatedActualValue.divide(task.getTargetValue(), 4, java.math.RoundingMode.HALF_UP))
-                            .multiply(java.math.BigDecimal.valueOf(100))
-                            .setScale(2, java.math.RoundingMode.HALF_UP);
-                    // 음수 방지 (0 이하면 0으로 처리)
-                    if (achievementDecimal.compareTo(java.math.BigDecimal.ZERO) < 0) {
+                    // 역계산: 목표값 / 실적값 * 100 (실적이 낮을수록 달성률이 높아짐)
+                    if (calculatedActualValue.compareTo(java.math.BigDecimal.ZERO) > 0) {
+                        achievementDecimal = task.getTargetValue()
+                                .divide(calculatedActualValue, 4, java.math.RoundingMode.HALF_UP)
+                                .multiply(java.math.BigDecimal.valueOf(100))
+                                .setScale(2, java.math.RoundingMode.HALF_UP);
+                    } else {
                         achievementDecimal = java.math.BigDecimal.ZERO;
                     }
                 } else {

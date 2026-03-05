@@ -46,4 +46,7 @@ public class TbLmsMember {
 
     @Column(name = "com_code")
     private String comCode;
+
+    @Column(name = "mb_hp", length = 20)
+    private String mbHp; // 휴대폰 번호
 }

@@ -36,6 +36,9 @@ dependencies {
     annotationProcessor "jakarta.annotation:jakarta.annotation-api"
     annotationProcessor "javax.persistence:javax.persistence-api"
 
+    // SSL 자체 서명 인증서 허용 (내부 SMS API 호출용)
+    implementation 'org.apache.httpcomponents:httpclient:4.5.14'
+
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
