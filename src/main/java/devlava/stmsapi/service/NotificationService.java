@@ -165,9 +165,7 @@ public class NotificationService {
                             .metric(task.getMetric())
                             .status(task.getStatus())
                             .isInputted("N")
-                            .achievement(task.getAchievement() != null
-                                    ? task.getAchievement()
-                                    : java.math.BigDecimal.ZERO)
+                            .achievement(task.getAchievement() != null ? task.getAchievement() : java.math.BigDecimal.ZERO)
                             .build();
                 })
                 .collect(Collectors.toList());

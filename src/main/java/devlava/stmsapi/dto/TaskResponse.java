@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class TaskResponse {
     private String metric;
     private String status;
     private String isInputted;
-    private Integer achievement;
+    private BigDecimal achievement; // 달성률(%) - 소수점 유지
     private java.math.BigDecimal targetValue; // 목표값
     private java.math.BigDecimal actualValue; // 실적값
     private String visibleYn; // 공개여부 (Y: 공개, N: 비공개)

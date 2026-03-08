@@ -3,6 +3,8 @@ package devlava.stmsapi.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import devlava.stmsapi.util.AchievementRateCalculator;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -91,15 +93,9 @@ public class TbTaskMonthlyGoal {
     }
 
     /**
-     * 달성률 계산
+     * 달성률 계산 (월별 목표는 역계산 미지원, 일반 공식만 사용)
      */
     public void calculateAchievementRate() {
-        if (targetValue != null && actualValue != null && targetValue.compareTo(BigDecimal.ZERO) > 0) {
-            this.achievementRate = actualValue.divide(targetValue, 4, java.math.RoundingMode.HALF_UP)
-                    .multiply(BigDecimal.valueOf(100))
-                    .setScale(2, java.math.RoundingMode.HALF_UP);
-        } else {
-            this.achievementRate = BigDecimal.ZERO;
-        }
+        this.achievementRate = AchievementRateCalculator.calculate(targetValue, actualValue, false);
     }
 }

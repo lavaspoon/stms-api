@@ -6,6 +6,7 @@ import devlava.stmsapi.domain.TbTaskManager;
 import devlava.stmsapi.domain.TbStmsRole;
 import devlava.stmsapi.dto.*;
 import devlava.stmsapi.repository.TbTaskActivityRepository;
+import devlava.stmsapi.util.AchievementRateCalculator;
 import devlava.stmsapi.repository.TbTaskRepository;
 import devlava.stmsapi.repository.TbLmsDeptRepository;
 import devlava.stmsapi.repository.TbStmsRoleRepository;
@@ -388,27 +389,8 @@ public class TaskService {
         BigDecimal finalActualValue = monthlyActualValue != null ? monthlyActualValue
                 : (task.getActualValue() != null ? task.getActualValue() : BigDecimal.ZERO);
 
-        // 달성률 계산 (역계산 여부에 따라 다른 공식 적용)
-        BigDecimal achievementRate = BigDecimal.ZERO;
-        boolean isReverseForActivity = "Y".equals(task.getReverseYn());
-        if (task.getTargetValue() != null && finalActualValue != null &&
-                task.getTargetValue().compareTo(BigDecimal.ZERO) > 0) {
-            if (isReverseForActivity) {
-                // 역계산: 목표값 / 실적값 * 100 (실적이 낮을수록 달성률이 높아짐)
-                if (finalActualValue.compareTo(BigDecimal.ZERO) > 0) {
-                    achievementRate = task.getTargetValue()
-                            .divide(finalActualValue, 4, java.math.RoundingMode.HALF_UP)
-                            .multiply(BigDecimal.valueOf(100))
-                            .setScale(2, java.math.RoundingMode.HALF_UP);
-                } else {
-                    achievementRate = BigDecimal.ZERO;
-                }
-            } else {
-                achievementRate = finalActualValue.divide(task.getTargetValue(), 4, java.math.RoundingMode.HALF_UP)
-                        .multiply(BigDecimal.valueOf(100))
-                        .setScale(2, java.math.RoundingMode.HALF_UP);
-            }
-        }
+        BigDecimal achievementRate = AchievementRateCalculator.calculate(
+                task.getTargetValue(), finalActualValue, task.getReverseYn());
 
         return TaskActivityResponse.builder()
                 .activityId(activity.getActivityId())
@@ -472,27 +454,8 @@ public class TaskService {
         BigDecimal finalActualValue = monthlyActualValue != null ? monthlyActualValue
                 : (task.getActualValue() != null ? task.getActualValue() : BigDecimal.ZERO);
 
-        // 달성률 계산 (역계산 여부에 따라 다른 공식 적용)
-        BigDecimal achievementRate = BigDecimal.ZERO;
-        boolean isReverseForGet = "Y".equals(task.getReverseYn());
-        if (task.getTargetValue() != null && finalActualValue != null &&
-                task.getTargetValue().compareTo(BigDecimal.ZERO) > 0) {
-            if (isReverseForGet) {
-                // 역계산: 목표값 / 실적값 * 100 (실적이 낮을수록 달성률이 높아짐)
-                if (finalActualValue.compareTo(BigDecimal.ZERO) > 0) {
-                    achievementRate = task.getTargetValue()
-                            .divide(finalActualValue, 4, java.math.RoundingMode.HALF_UP)
-                            .multiply(BigDecimal.valueOf(100))
-                            .setScale(2, java.math.RoundingMode.HALF_UP);
-                } else {
-                    achievementRate = BigDecimal.ZERO;
-                }
-            } else {
-                achievementRate = finalActualValue.divide(task.getTargetValue(), 4, java.math.RoundingMode.HALF_UP)
-                        .multiply(BigDecimal.valueOf(100))
-                        .setScale(2, java.math.RoundingMode.HALF_UP);
-            }
-        }
+        BigDecimal achievementRate = AchievementRateCalculator.calculate(
+                task.getTargetValue(), finalActualValue, task.getReverseYn());
 
         return TaskActivityResponse.builder()
                 .activityId(act != null ? act.getActivityId() : null)
@@ -561,28 +524,8 @@ public class TaskService {
                     BigDecimal finalActualValue = monthlyActualValue != null ? monthlyActualValue
                             : (task.getActualValue() != null ? task.getActualValue() : BigDecimal.ZERO);
 
-                    // 달성률 계산 (역계산 여부에 따라 다른 공식 적용)
-                    BigDecimal achievementRate = BigDecimal.ZERO;
-                    boolean isReversePrev = "Y".equals(task.getReverseYn());
-                    if (task.getTargetValue() != null && finalActualValue != null &&
-                            task.getTargetValue().compareTo(BigDecimal.ZERO) > 0) {
-                        if (isReversePrev) {
-                            // 역계산: 목표값 / 실적값 * 100 (실적이 낮을수록 달성률이 높아짐)
-                            if (finalActualValue.compareTo(BigDecimal.ZERO) > 0) {
-                                achievementRate = task.getTargetValue()
-                                        .divide(finalActualValue, 4, java.math.RoundingMode.HALF_UP)
-                                        .multiply(BigDecimal.valueOf(100))
-                                        .setScale(2, java.math.RoundingMode.HALF_UP);
-                            } else {
-                                achievementRate = BigDecimal.ZERO;
-                            }
-                        } else {
-                            achievementRate = finalActualValue
-                                    .divide(task.getTargetValue(), 4, java.math.RoundingMode.HALF_UP)
-                                    .multiply(BigDecimal.valueOf(100))
-                                    .setScale(2, java.math.RoundingMode.HALF_UP);
-                        }
-                    }
+                    BigDecimal achievementRate = AchievementRateCalculator.calculate(
+                            task.getTargetValue(), finalActualValue, task.getReverseYn());
 
                     return TaskActivityResponse.builder()
                             .activityId(activity.getActivityId())
@@ -754,7 +697,7 @@ public class TaskService {
         String metric = task.getMetric();
         boolean isReverse = "Y".equals(task.getReverseYn()); // 역계산 여부
         BigDecimal calculatedActualValue = java.math.BigDecimal.ZERO;
-        Integer calculatedAchievement = 0;
+        BigDecimal calculatedAchievement = java.math.BigDecimal.ZERO;
 
         // 정량 평가인 경우만 실적값 계산
         if ("quantitative".equals(task.getEvaluationType()) && allActivities != null && !allActivities.isEmpty()) {
@@ -773,33 +716,12 @@ public class TaskService {
                         .reduce(java.math.BigDecimal.ZERO, java.math.BigDecimal::add);
             }
 
-            // 달성률 계산 (역계산 여부에 따라 다른 공식 적용)
-            if (task.getTargetValue() != null && calculatedActualValue != null &&
-                    task.getTargetValue().compareTo(java.math.BigDecimal.ZERO) > 0) {
-                BigDecimal achievementDecimal;
-                if (isReverse) {
-                    // 역계산: 목표값 / 실적값 * 100 (실적이 낮을수록 달성률이 높아짐)
-                    if (calculatedActualValue.compareTo(java.math.BigDecimal.ZERO) > 0) {
-                        achievementDecimal = task.getTargetValue()
-                                .divide(calculatedActualValue, 4, java.math.RoundingMode.HALF_UP)
-                                .multiply(java.math.BigDecimal.valueOf(100))
-                                .setScale(2, java.math.RoundingMode.HALF_UP);
-                    } else {
-                        achievementDecimal = java.math.BigDecimal.ZERO;
-                    }
-                } else {
-                    // 일반계산: 실적값 / 목표값 * 100
-                    achievementDecimal = calculatedActualValue
-                            .divide(task.getTargetValue(), 4, java.math.RoundingMode.HALF_UP)
-                            .multiply(java.math.BigDecimal.valueOf(100))
-                            .setScale(2, java.math.RoundingMode.HALF_UP);
-                }
-                calculatedAchievement = achievementDecimal.intValue();
-            }
+            calculatedAchievement = AchievementRateCalculator.calculate(
+                    task.getTargetValue(), calculatedActualValue, isReverse);
         } else {
             // 정성 평가이거나 활동내역이 없는 경우 기본값 사용
             calculatedActualValue = task.getActualValue() != null ? task.getActualValue() : java.math.BigDecimal.ZERO;
-            calculatedAchievement = task.getAchievement() != null ? task.getAchievement().intValue() : 0;
+            calculatedAchievement = task.getAchievement() != null ? task.getAchievement() : java.math.BigDecimal.ZERO;
         }
 
         // 현재 월 기준으로 활동내역 입력 여부 계산

@@ -3,8 +3,9 @@ package devlava.stmsapi.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import devlava.stmsapi.util.AchievementRateCalculator;
+
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -183,26 +184,7 @@ public class TbTask {
      * 달성률 업데이트 (자동 계산)
      */
     public void updateAchievement() {
-        if (targetValue != null && targetValue.compareTo(java.math.BigDecimal.ZERO) > 0 && actualValue != null) {
-            if ("Y".equals(reverseYn)) {
-                // 역계산: 목표값 / 실적값 * 100 (실적이 낮을수록 달성률이 높아짐)
-                if (actualValue.compareTo(java.math.BigDecimal.ZERO) > 0) {
-                    this.achievement = targetValue
-                            .divide(actualValue, 4, java.math.RoundingMode.HALF_UP)
-                            .multiply(java.math.BigDecimal.valueOf(100))
-                            .setScale(2, java.math.RoundingMode.HALF_UP);
-                } else {
-                    this.achievement = java.math.BigDecimal.ZERO;
-                }
-            } else {
-                // 일반계산: 실적값 / 목표값 * 100
-                this.achievement = actualValue.divide(targetValue, 4, java.math.RoundingMode.HALF_UP)
-                        .multiply(java.math.BigDecimal.valueOf(100))
-                        .setScale(2, java.math.RoundingMode.HALF_UP);
-            }
-        } else {
-            this.achievement = java.math.BigDecimal.ZERO;
-        }
+        this.achievement = AchievementRateCalculator.calculate(targetValue, actualValue, reverseYn);
     }
 
     /**
