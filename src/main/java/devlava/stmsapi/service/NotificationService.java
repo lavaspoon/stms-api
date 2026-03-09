@@ -10,6 +10,7 @@ import devlava.stmsapi.repository.TbNotificationRepository;
 import devlava.stmsapi.repository.TbTaskRepository;
 import devlava.stmsapi.repository.TbTaskActivityRepository;
 import devlava.stmsapi.repository.TbLmsMemberRepository;
+import devlava.stmsapi.util.AchievementRateCalculator;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,9 +28,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -139,8 +143,33 @@ public class NotificationService {
             }
         }
 
+        // 활동 기반 달성률 계산용: 과제별 활동 일괄 조회
+        List<Long> taskIds = notInputtedTasks.stream().map(TbTask::getTaskId).collect(Collectors.toList());
+        Map<Long, List<devlava.stmsapi.domain.TbTaskActivity>> activitiesByTaskId = taskIds.isEmpty()
+                ? Collections.emptyMap()
+                : activityRepository.findByTaskIdsWithActualValue(taskIds).stream()
+                        .collect(Collectors.groupingBy(devlava.stmsapi.domain.TbTaskActivity::getTaskId));
+
         return notInputtedTasks.stream()
                 .map(task -> {
+                    List<BigDecimal> monthlyValues = (activitiesByTaskId.getOrDefault(task.getTaskId(), Collections.emptyList())).stream()
+                            .map(devlava.stmsapi.domain.TbTaskActivity::getActualValue)
+                            .filter(v -> v != null)
+                            .collect(Collectors.toList());
+                    BigDecimal achievement;
+                    String metric = task.getMetric();
+                    if ("percent".equals(metric) || "%".equals(metric)) {
+                        if ("Y".equals(task.getReverseYn())) {
+                            achievement = AchievementRateCalculator.calculatePercentReverseFromMonthlyActuals(
+                                    task.getTargetValue(), monthlyValues);
+                        } else {
+                            achievement = AchievementRateCalculator.calculatePercentFromMonthlyRates(monthlyValues);
+                        }
+                    } else {
+                        BigDecimal sum = monthlyValues.stream().reduce(BigDecimal.ZERO, BigDecimal::add);
+                        achievement = AchievementRateCalculator.calculateFromSum(task.getTargetValue(), sum, task.getReverseYn());
+                    }
+
                     List<TaskResponse.TaskManagerInfo> managers = task.getTaskManagers().stream()
                             .map(tm -> TaskResponse.TaskManagerInfo.builder()
                                     .userId(tm.getUserId())
@@ -165,7 +194,7 @@ public class NotificationService {
                             .metric(task.getMetric())
                             .status(task.getStatus())
                             .isInputted("N")
-                            .achievement(task.getAchievement() != null ? task.getAchievement() : java.math.BigDecimal.ZERO)
+                            .achievement(achievement)
                             .build();
                 })
                 .collect(Collectors.toList());

@@ -2,11 +2,14 @@ package devlava.stmsapi.util;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * 실적 대비 목표 달성률을 한 곳에서 계산하는 유틸리티.
- * - 일반: 달성률 = 실적값 / 목표값 * 100
- * - 역계산: 달성률 = 목표값 / 실적값 * 100 (실적이 낮을수록 달성률이 높아짐, 예: 불량률·불손응대 비율 등)
+ * 달성률을 백엔드 한 곳에서 계산하는 유틸리티.
+ * - 기준이 % (일반): 달성률(%) = 각 월 달성률의 합 / 월수
+ * - 기준이 % (역계산): 월별 달성률 = 목표 ÷ 실적 × 100, 과제 달성률 = 각 월 달성률의 합 / 월수
+ * - 기준이 건수·금액: 달성률(%) = 각 월 실적의 합 / 과제 목표 × 100 (역계산 시 목표/실적×100)
  */
 public final class AchievementRateCalculator {
 
@@ -17,7 +20,105 @@ public final class AchievementRateCalculator {
     }
 
     /**
-     * 목표값·실적값·역계산 여부로 달성률(%)을 계산한다.
+     * 기준이 % (역계산) 단일 월: 월별 달성률 = 목표 ÷ 실적 × 100
+     *
+     * @param targetValue 목표값 (null이거나 0 이하면 0 반환)
+     * @param actualValue 해당 월 실적 (null이거나 0 이하면 0 반환)
+     * @return 소수점 둘째자리까지 반올림
+     */
+    public static BigDecimal calculatePercentReverseSingleMonth(BigDecimal targetValue, BigDecimal actualValue) {
+        BigDecimal target = targetValue != null ? targetValue : BigDecimal.ZERO;
+        BigDecimal actual = actualValue != null ? actualValue : BigDecimal.ZERO;
+        if (target.compareTo(BigDecimal.ZERO) <= 0 || actual.compareTo(BigDecimal.ZERO) <= 0) {
+            return BigDecimal.ZERO;
+        }
+        return target
+                .divide(actual, SCALE_DIVISION, RoundingMode.HALF_UP)
+                .multiply(BigDecimal.valueOf(100))
+                .setScale(SCALE_RESULT, RoundingMode.HALF_UP);
+    }
+
+    /**
+     * 기준이 % (역계산): 월별 달성률 = 목표 ÷ 실적 × 100, 과제 달성률 = 각 월 달성률의 합 / 월수
+     *
+     * @param targetValue     과제 목표값 (예: 2.1%)
+     * @param monthlyActuals  각 월 실적 목록 (예: 2.1, 1.5, 1.5)
+     * @return 소수점 둘째자리까지 반올림, 목록이 비어 있으면 0
+     */
+    public static BigDecimal calculatePercentReverseFromMonthlyActuals(BigDecimal targetValue, List<BigDecimal> monthlyActuals) {
+        if (targetValue == null || targetValue.compareTo(BigDecimal.ZERO) <= 0 || monthlyActuals == null || monthlyActuals.isEmpty()) {
+            return BigDecimal.ZERO;
+        }
+        List<BigDecimal> monthlyRates = monthlyActuals.stream()
+                .filter(v -> v != null)
+                .map(actual -> calculatePercentReverseSingleMonth(targetValue, actual))
+                .collect(Collectors.toList());
+        if (monthlyRates.isEmpty()) {
+            return BigDecimal.ZERO;
+        }
+        return calculatePercentFromMonthlyRates(monthlyRates);
+    }
+
+    /**
+     * 기준이 % (일반 방향): 달성률(%) = 각 월 달성률의 합 / 월수
+     *
+     * @param monthlyRates 각 월의 달성률(%) 목록 (TbTaskActivity.actualValue가 월별 %인 경우)
+     * @return 소수점 둘째자리까지 반올림, 목록이 비어 있으면 0
+     */
+    public static BigDecimal calculatePercentFromMonthlyRates(List<BigDecimal> monthlyRates) {
+        if (monthlyRates == null || monthlyRates.isEmpty()) {
+            return BigDecimal.ZERO;
+        }
+        List<BigDecimal> valid = monthlyRates.stream()
+                .filter(r -> r != null)
+                .collect(Collectors.toList());
+        if (valid.isEmpty()) {
+            return BigDecimal.ZERO;
+        }
+        BigDecimal sum = valid.stream().reduce(BigDecimal.ZERO, BigDecimal::add);
+        return sum
+                .divide(BigDecimal.valueOf(valid.size()), SCALE_DIVISION, RoundingMode.HALF_UP)
+                .setScale(SCALE_RESULT, RoundingMode.HALF_UP);
+    }
+
+    /**
+     * 기준이 건수·금액인 경우: 달성률(%) = 각 월 실적의 합 / 과제 목표 * 100 (역계산 시 목표/실적*100)
+     *
+     * @param targetValue      과제 목표값 (null이거나 0 이하면 0 반환)
+     * @param sumOfActualValue 각 월 실적의 합 (null이면 0으로 간주)
+     * @param reverseYn       역계산 여부 (true: 목표/실적*100)
+     * @return 소수점 둘째자리까지 반올림한 달성률
+     */
+    public static BigDecimal calculateFromSum(BigDecimal targetValue, BigDecimal sumOfActualValue, boolean reverseYn) {
+        BigDecimal target = targetValue != null ? targetValue : BigDecimal.ZERO;
+        BigDecimal sum = sumOfActualValue != null ? sumOfActualValue : BigDecimal.ZERO;
+
+        if (target.compareTo(BigDecimal.ZERO) <= 0) {
+            return BigDecimal.ZERO;
+        }
+
+        if (reverseYn) {
+            if (sum.compareTo(BigDecimal.ZERO) <= 0) {
+                return BigDecimal.ZERO;
+            }
+            return target
+                    .divide(sum, SCALE_DIVISION, RoundingMode.HALF_UP)
+                    .multiply(BigDecimal.valueOf(100))
+                    .setScale(SCALE_RESULT, RoundingMode.HALF_UP);
+        }
+
+        return sum
+                .divide(target, SCALE_DIVISION, RoundingMode.HALF_UP)
+                .multiply(BigDecimal.valueOf(100))
+                .setScale(SCALE_RESULT, RoundingMode.HALF_UP);
+    }
+
+    public static BigDecimal calculateFromSum(BigDecimal targetValue, BigDecimal sumOfActualValue, String reverseYn) {
+        return calculateFromSum(targetValue, sumOfActualValue, "Y".equals(reverseYn));
+    }
+
+    /**
+     * 목표값·실적값·역계산 여부로 달성률(%)을 계산한다. (단일 실적값용, 예: 월별 활동 1건)
      *
      * @param targetValue 목표값 (null이거나 0 이하면 0 반환)
      * @param actualValue 실적값 (null이면 0으로 간주)
@@ -48,9 +149,6 @@ public final class AchievementRateCalculator {
                 .setScale(SCALE_RESULT, RoundingMode.HALF_UP);
     }
 
-    /**
-     * 역계산 여부가 문자열("Y"/"N")인 경우의 오버로드.
-     */
     public static BigDecimal calculate(BigDecimal targetValue, BigDecimal actualValue, String reverseYn) {
         return calculate(targetValue, actualValue, "Y".equals(reverseYn));
     }

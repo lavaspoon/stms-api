@@ -3,8 +3,6 @@ package devlava.stmsapi.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import devlava.stmsapi.util.AchievementRateCalculator;
-
 import javax.persistence.*;
 import java.sql.Date;
 import java.time.LocalDateTime;
@@ -58,14 +56,8 @@ public class TbTask {
     @Column(name = "target_value", precision = 15, scale = 2)
     private java.math.BigDecimal targetValue; // 목표값 (소수점 지원)
 
-    @Column(name = "actual_value", precision = 15, scale = 2)
-    private java.math.BigDecimal actualValue; // 실적값 (소수점 지원)
-
     @Column(name = "status", length = 20)
     private String status; // 진행중, 완료, 지연, 중단
-
-    @Column(name = "achievement", precision = 5, scale = 2)
-    private java.math.BigDecimal achievement; // 달성률 (%) - 소수점 지원
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -107,12 +99,6 @@ public class TbTask {
         }
         if (targetValue == null) {
             targetValue = java.math.BigDecimal.ZERO;
-        }
-        if (actualValue == null) {
-            actualValue = java.math.BigDecimal.ZERO;
-        }
-        if (achievement == null) {
-            achievement = java.math.BigDecimal.ZERO;
         }
     }
 
@@ -171,27 +157,6 @@ public class TbTask {
      */
     public void setTargetValue(java.math.BigDecimal targetValue) {
         this.targetValue = targetValue;
-    }
-
-    /**
-     * 실적값 설정
-     */
-    public void setActualValue(java.math.BigDecimal actualValue) {
-        this.actualValue = actualValue;
-    }
-
-    /**
-     * 달성률 업데이트 (자동 계산)
-     */
-    public void updateAchievement() {
-        this.achievement = AchievementRateCalculator.calculate(targetValue, actualValue, reverseYn);
-    }
-
-    /**
-     * 달성률 직접 설정
-     */
-    public void setAchievement(java.math.BigDecimal achievement) {
-        this.achievement = achievement;
     }
 
     /**

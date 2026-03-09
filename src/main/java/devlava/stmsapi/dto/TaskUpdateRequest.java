@@ -23,8 +23,7 @@ public class TaskUpdateRequest {
     private String performanceType;
     private String evaluationType;
     private String metric;
-    private BigDecimal targetValue; // 목표값 (정량일 때만)
-    private BigDecimal actualValue; // 실적값 (정량일 때만)
+    private BigDecimal targetValue; // 목표값 (정량일 때만, 실적/달성률은 활동 기준으로 백엔드 계산)
     private String status; // 진행중, 완료, 지연, 중단
     private String visibleYn; // 공개여부 (Y: 공개, N: 비공개)
     private String reverseYn; // 역계산 여부 (Y: 역계산, N: 일반계산)
