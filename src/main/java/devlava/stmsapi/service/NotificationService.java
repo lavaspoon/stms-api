@@ -1,11 +1,13 @@
 package devlava.stmsapi.service;
 
+import devlava.stmsapi.domain.AHrdb;
 import devlava.stmsapi.domain.TbNotification;
 import devlava.stmsapi.domain.TbTask;
 import devlava.stmsapi.domain.TbLmsMember;
 import devlava.stmsapi.dto.NotificationRequest;
 import devlava.stmsapi.dto.NotificationResponse;
 import devlava.stmsapi.dto.TaskResponse;
+import devlava.stmsapi.repository.AHrdbRepository;
 import devlava.stmsapi.repository.TbNotificationRepository;
 import devlava.stmsapi.repository.TbTaskRepository;
 import devlava.stmsapi.repository.TbTaskActivityRepository;
@@ -29,8 +31,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +51,7 @@ public class NotificationService {
     private final TbTaskRepository taskRepository;
     private final TbTaskActivityRepository activityRepository;
     private final TbLmsMemberRepository memberRepository;
+    private final AHrdbRepository aHrdbRepository;
 
     @Qualifier("smsRestTemplate")
     private final RestTemplate smsRestTemplate;
@@ -65,6 +70,40 @@ public class NotificationService {
             this.mobile = mobile;
             this.msg = msg;
         }
+    }
+
+    /**
+     * A_HRDB.mobile 컬럼(base64 인코딩)을 디코딩하여 휴대폰 번호 반환.
+     * 실패 시 null.
+     */
+    private String decodeMobileBase64(String encoded) {
+        if (encoded == null || encoded.isBlank())
+            return null;
+        try {
+            byte[] decoded = Base64.getDecoder().decode(encoded.trim());
+            return decoded != null && decoded.length > 0 ? new String(decoded, StandardCharsets.UTF_8) : null;
+        } catch (Exception e) {
+            log.warn("[SMS] mobile base64 디코딩 실패: {}", e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * 휴대폰 번호 조회: A_HRDB(skid-mobile, base64 디코딩) 우선, 없으면 TbLmsMember.mbHp
+     */
+    private String resolveMobile(String skid, java.util.Map<String, AHrdb> aHrdbMap,
+            java.util.Map<String, TbLmsMember> memberMap) {
+        if (skid == null || skid.isBlank())
+            return null;
+        AHrdb aHrdb = aHrdbMap != null ? aHrdbMap.get(skid) : null;
+        if (aHrdb != null && aHrdb.getMobile() != null && !aHrdb.getMobile().isBlank()) {
+            String decoded = decodeMobileBase64(aHrdb.getMobile());
+            if (decoded != null && !decoded.isBlank())
+                return decoded.trim();
+        }
+        TbLmsMember member = memberMap != null ? memberMap.get(skid) : null;
+        return member != null && member.getMbHp() != null && !member.getMbHp().isBlank()
+                ? member.getMbHp().trim() : null;
     }
 
     /**
@@ -120,6 +159,8 @@ public class NotificationService {
             taskType = "OI";
         } else if ("KPI".equals(gubun)) {
             taskType = "KPI";
+        } else if ("협업".equals(gubun)) {
+            taskType = "협업";
         } else {
             taskType = "중점추진";
         }
@@ -152,7 +193,8 @@ public class NotificationService {
 
         return notInputtedTasks.stream()
                 .map(task -> {
-                    List<BigDecimal> monthlyValues = (activitiesByTaskId.getOrDefault(task.getTaskId(), Collections.emptyList())).stream()
+                    List<BigDecimal> monthlyValues = (activitiesByTaskId.getOrDefault(task.getTaskId(),
+                            Collections.emptyList())).stream()
                             .map(devlava.stmsapi.domain.TbTaskActivity::getActualValue)
                             .filter(v -> v != null)
                             .collect(Collectors.toList());
@@ -167,7 +209,8 @@ public class NotificationService {
                         }
                     } else {
                         BigDecimal sum = monthlyValues.stream().reduce(BigDecimal.ZERO, BigDecimal::add);
-                        achievement = AchievementRateCalculator.calculateFromSum(task.getTargetValue(), sum, task.getReverseYn());
+                        achievement = AchievementRateCalculator.calculateFromSum(task.getTargetValue(), sum,
+                                task.getReverseYn());
                     }
 
                     List<TaskResponse.TaskManagerInfo> managers = task.getTaskManagers().stream()
@@ -217,7 +260,8 @@ public class NotificationService {
 
         for (Long taskId : request.getTaskIds()) {
             TbTask task = taskRepository.findByIdWithManagers(taskId);
-            if (task == null) continue;
+            if (task == null)
+                continue;
 
             List<String> managerSkids = task.getTaskManagers().stream()
                     .map(tm -> tm.getUserId())
@@ -230,16 +274,20 @@ public class NotificationService {
             }
         }
 
-        // 담당자 정보 일괄 조회 (N+1 방지)
+        // 담당자 정보 일괄 조회 (N+1 방지): TbLmsMember, A_HRDB(mobile base64)
         List<String> allSkids = new ArrayList<>(managerTaskMap.keySet());
         java.util.Map<String, TbLmsMember> memberMap = memberRepository.findAllById(allSkids)
                 .stream()
                 .filter(m -> m.getSkid() != null)
                 .collect(Collectors.toMap(TbLmsMember::getSkid, m -> m));
+        java.util.Map<String, AHrdb> aHrdbMap = aHrdbRepository.findBySkidIn(allSkids).stream()
+                .filter(a -> a.getSkid() != null)
+                .collect(Collectors.toMap(AHrdb::getSkid, a -> a));
 
-        // 알림 저장 + SMS 페이로드 수집
+        // 알림 저장 + SMS 페이로드 수집 (휴대폰: A_HRDB base64 디코딩 우선, 없으면 TbLmsMember.mbHp)
         List<TbNotification> savedNotifications = new ArrayList<>();
         List<SmsPayload> smsPayloads = new ArrayList<>();
+        List<String> smsSkidsToMark = new ArrayList<>();
 
         for (java.util.Map.Entry<String, java.util.List<String>> entry : managerTaskMap.entrySet()) {
             String skid = entry.getKey();
@@ -253,11 +301,11 @@ public class NotificationService {
             notificationRepository.save(notification);
             savedNotifications.add(notification);
 
-            // 휴대폰 번호 확인 후 SMS 페이로드 추가
-            TbLmsMember member = memberMap.get(skid);
-            String mobile = member != null ? member.getMbHp() : null;
+            // 휴대폰 번호: A_HRDB(skid-mobile base64 디코딩) 우선, 없으면 TbLmsMember.mbHp
+            String mobile = resolveMobile(skid, aHrdbMap, memberMap);
             if (mobile != null && !mobile.isBlank()) {
                 smsPayloads.add(new SmsPayload(mobile, buildSmsMessage(firstTaskName, taskCount)));
+                smsSkidsToMark.add(skid);
             } else {
                 log.warn("[SMS] skid={} 담당자 휴대폰 번호 없음 - SMS 발송 제외", skid);
             }
@@ -267,20 +315,7 @@ public class NotificationService {
         if (!smsPayloads.isEmpty()) {
             boolean smsSuccess = sendSmsRequests(smsPayloads);
             if (smsSuccess) {
-                // 발송 성공한 알림만 send_yn = 'Y' 처리
-                // (SMS 페이로드에 포함된 것만 성공 처리)
-                java.util.Set<String> smsSkids = smsPayloads.stream()
-                        .map(p -> {
-                            // 역으로 skid 찾기: mobile로 매핑
-                            return memberMap.entrySet().stream()
-                                    .filter(e -> p.getMobile().equals(e.getValue().getMbHp()))
-                                    .map(java.util.Map.Entry::getKey)
-                                    .findFirst()
-                                    .orElse(null);
-                        })
-                        .filter(java.util.Objects::nonNull)
-                        .collect(Collectors.toSet());
-
+                java.util.Set<String> smsSkids = new java.util.HashSet<>(smsSkidsToMark);
                 savedNotifications.stream()
                         .filter(n -> smsSkids.contains(n.getSkid()))
                         .forEach(TbNotification::markAsSent);
@@ -295,10 +330,12 @@ public class NotificationService {
      */
     @Transactional
     public boolean resendNotification(Long notificationId) {
-        if (notificationId == null) return false;
+        if (notificationId == null)
+            return false;
 
         Optional<TbNotification> notificationOpt = notificationRepository.findById(notificationId);
-        if (notificationOpt.isEmpty()) return false;
+        if (notificationOpt.isEmpty())
+            return false;
 
         TbNotification original = notificationOpt.get();
 
@@ -310,9 +347,17 @@ public class NotificationService {
                 original.getTaskCount() != null ? original.getTaskCount() : 1);
         notificationRepository.save(newNotification);
 
-        // SMS 발송
-        Optional<TbLmsMember> memberOpt = memberRepository.findById(original.getSkid());
-        String mobile = memberOpt.map(TbLmsMember::getMbHp).orElse(null);
+        // 휴대폰 번호: A_HRDB(skid-mobile base64 디코딩) 우선, 없으면 TbLmsMember.mbHp
+        String skid = original.getSkid();
+        java.util.Map<String, AHrdb> aHrdbMap = new java.util.HashMap<>();
+        Optional<AHrdb> aHrdbOpt = (skid != null && !skid.isBlank()) ? aHrdbRepository.findBySkid(skid)
+                : Optional.empty();
+        aHrdbOpt.ifPresent(a -> aHrdbMap.put(skid, a));
+        java.util.Map<String, TbLmsMember> memberMap = new java.util.HashMap<>();
+        if (skid != null && !skid.isBlank()) {
+            memberRepository.findById(skid).ifPresent(m -> memberMap.put(skid, m));
+        }
+        String mobile = resolveMobile(skid, aHrdbMap, memberMap);
 
         if (mobile != null && !mobile.isBlank()) {
             int taskCount = newNotification.getTaskCount() != null ? newNotification.getTaskCount() : 1;

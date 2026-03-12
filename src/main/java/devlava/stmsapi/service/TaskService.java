@@ -423,7 +423,8 @@ public class TaskService {
         }
 
         // 5. 응답 DTO 변환 (해당 월 실적·달성률은 활동 1건 기준)
-        BigDecimal monthlyActualValue = act != null && act.getActualValue() != null ? act.getActualValue() : BigDecimal.ZERO;
+        BigDecimal monthlyActualValue = act != null && act.getActualValue() != null ? act.getActualValue()
+                : BigDecimal.ZERO;
         BigDecimal achievementRate = toSingleMonthAchievementRate(task, monthlyActualValue);
 
         return TaskActivityResponse.builder()
@@ -488,7 +489,8 @@ public class TaskService {
                                     .build())
                             .collect(Collectors.toList());
 
-                    BigDecimal monthlyActualValue = activity.getActualValue() != null ? activity.getActualValue() : BigDecimal.ZERO;
+                    BigDecimal monthlyActualValue = activity.getActualValue() != null ? activity.getActualValue()
+                            : BigDecimal.ZERO;
                     BigDecimal achievementRate = toSingleMonthAchievementRate(task, monthlyActualValue);
 
                     return TaskActivityResponse.builder()
@@ -590,8 +592,12 @@ public class TaskService {
         boolean reverse = "Y".equals(task.getReverseYn());
         if ("percent".equals(metric) || "%".equals(metric)) {
             if (reverse) {
-                return AchievementRateCalculator.calculatePercentReverseSingleMonth(task.getTargetValue(), monthlyActualValue);
+                return AchievementRateCalculator.calculatePercentReverseSingleMonth(task.getTargetValue(),
+                        monthlyActualValue);
             }
+        }
+        if ("monthly_avg_count".equals(metric)) {
+            return AchievementRateCalculator.calculate(task.getTargetValue(), monthlyActualValue, false);
         }
         return AchievementRateCalculator.calculate(task.getTargetValue(), monthlyActualValue, task.getReverseYn());
     }
@@ -694,10 +700,20 @@ public class TaskService {
                 }
                 calculatedActualValue = monthlyValues.isEmpty() ? java.math.BigDecimal.ZERO
                         : monthlyValues.stream().reduce(java.math.BigDecimal.ZERO, java.math.BigDecimal::add)
-                                .divide(java.math.BigDecimal.valueOf(monthlyValues.size()), 2, java.math.RoundingMode.HALF_UP);
+                                .divide(java.math.BigDecimal.valueOf(monthlyValues.size()), 2,
+                                        java.math.RoundingMode.HALF_UP);
+            } else if ("monthly_avg_count".equals(metric)) {
+                // 기준이 평균 목표(건수): 실적 = 월 평균 건수, 달성률 = 각 월 달성률의 합 / 월 수 (역산 없음)
+                calculatedActualValue = monthlyValues.stream().reduce(java.math.BigDecimal.ZERO,
+                        java.math.BigDecimal::add)
+                        .divide(java.math.BigDecimal.valueOf(monthlyValues.size()), 2,
+                                java.math.RoundingMode.HALF_UP);
+                calculatedAchievement = AchievementRateCalculator.calculateMonthlyAvgCountFromActuals(
+                        task.getTargetValue(), monthlyValues);
             } else {
                 // 기준이 건수·금액: 달성률(%) = 각 월 실적의 합 / 과제 목표 * 100
-                calculatedActualValue = monthlyValues.stream().reduce(java.math.BigDecimal.ZERO, java.math.BigDecimal::add);
+                calculatedActualValue = monthlyValues.stream().reduce(java.math.BigDecimal.ZERO,
+                        java.math.BigDecimal::add);
                 calculatedAchievement = AchievementRateCalculator.calculateFromSum(
                         task.getTargetValue(), calculatedActualValue, task.getReverseYn());
             }
