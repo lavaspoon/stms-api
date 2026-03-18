@@ -63,6 +63,30 @@ public final class AchievementRateCalculator {
     }
 
     /**
+     * 기준이 % (일반 방향): 월별 달성률(%) = 실적 ÷ 목표 × 100
+     * 과제 달성률(%) = 각 월 달성률의 합 / 월 수
+     *
+     * @param targetValue    과제 목표값
+     * @param monthlyActuals 각 월 실적 목록
+     * @return 소수점 둘째자리까지 반올림, 목록이 비어 있으면 0
+     */
+    public static BigDecimal calculatePercentFromMonthlyActuals(BigDecimal targetValue,
+            List<BigDecimal> monthlyActuals) {
+        if (targetValue == null || targetValue.compareTo(BigDecimal.ZERO) <= 0 || monthlyActuals == null
+                || monthlyActuals.isEmpty()) {
+            return BigDecimal.ZERO;
+        }
+        List<BigDecimal> monthlyRates = monthlyActuals.stream()
+                .filter(v -> v != null)
+                .map(actual -> calculate(targetValue, actual, false))
+                .collect(Collectors.toList());
+        if (monthlyRates.isEmpty()) {
+            return BigDecimal.ZERO;
+        }
+        return calculatePercentFromMonthlyRates(monthlyRates);
+    }
+
+    /**
      * 기준이 % (일반 방향): 달성률(%) = 각 월 달성률의 합 / 월수
      *
      * @param monthlyRates 각 월의 달성률(%) 목록 (TbTaskActivity.actualValue가 월별 %인 경우)

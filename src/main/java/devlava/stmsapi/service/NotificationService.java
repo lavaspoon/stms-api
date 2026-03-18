@@ -130,7 +130,13 @@ public class NotificationService {
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<List<SmsPayload>> entity = new HttpEntity<>(payloads, headers);
 
-            ResponseEntity<String> response = smsRestTemplate.postForEntity(smsApiUrl, entity, String.class);
+            if (smsApiUrl == null || smsApiUrl.trim().isEmpty()) {
+                log.warn("[SMS] sms.api-url 값이 비어있어 발송을 건너뜁니다.");
+                return false;
+            }
+
+            String url = java.util.Objects.requireNonNull(smsApiUrl);
+            ResponseEntity<String> response = smsRestTemplate.postForEntity(url, entity, String.class);
             boolean success = response.getStatusCode().is2xxSuccessful();
             if (success) {
                 log.info("[SMS] {}건 발송 성공", payloads.size());
@@ -205,8 +211,14 @@ public class NotificationService {
                             achievement = AchievementRateCalculator.calculatePercentReverseFromMonthlyActuals(
                                     task.getTargetValue(), monthlyValues);
                         } else {
-                            achievement = AchievementRateCalculator.calculatePercentFromMonthlyRates(monthlyValues);
+                            achievement = AchievementRateCalculator.calculatePercentFromMonthlyActuals(
+                                    task.getTargetValue(), monthlyValues);
                         }
+                    } else if ("monthly_avg_count".equals(metric)
+                            || "monthly_avg_head".equals(metric)
+                            || "monthly_avg_minutes".equals(metric)) {
+                        achievement = AchievementRateCalculator.calculateMonthlyAvgCountFromActuals(
+                                task.getTargetValue(), monthlyValues);
                     } else {
                         BigDecimal sum = monthlyValues.stream().reduce(BigDecimal.ZERO, BigDecimal::add);
                         achievement = AchievementRateCalculator.calculateFromSum(task.getTargetValue(), sum,

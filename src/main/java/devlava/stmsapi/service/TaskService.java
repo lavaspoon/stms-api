@@ -596,7 +596,9 @@ public class TaskService {
                         monthlyActualValue);
             }
         }
-        if ("monthly_avg_count".equals(metric)) {
+        if ("monthly_avg_count".equals(metric)
+                || "monthly_avg_head".equals(metric)
+                || "monthly_avg_minutes".equals(metric)) {
             return AchievementRateCalculator.calculate(task.getTargetValue(), monthlyActualValue, false);
         }
         return AchievementRateCalculator.calculate(task.getTargetValue(), monthlyActualValue, task.getReverseYn());
@@ -696,14 +698,17 @@ public class TaskService {
                     calculatedAchievement = AchievementRateCalculator.calculatePercentReverseFromMonthlyActuals(
                             task.getTargetValue(), monthlyValues);
                 } else {
-                    calculatedAchievement = AchievementRateCalculator.calculatePercentFromMonthlyRates(monthlyValues);
+                    calculatedAchievement = AchievementRateCalculator.calculatePercentFromMonthlyActuals(
+                            task.getTargetValue(), monthlyValues);
                 }
                 calculatedActualValue = monthlyValues.isEmpty() ? java.math.BigDecimal.ZERO
                         : monthlyValues.stream().reduce(java.math.BigDecimal.ZERO, java.math.BigDecimal::add)
                                 .divide(java.math.BigDecimal.valueOf(monthlyValues.size()), 2,
                                         java.math.RoundingMode.HALF_UP);
-            } else if ("monthly_avg_count".equals(metric)) {
-                // 기준이 평균 목표(건수): 실적 = 월 평균 건수, 달성률 = 각 월 달성률의 합 / 월 수 (역산 없음)
+            } else if ("monthly_avg_count".equals(metric)
+                    || "monthly_avg_head".equals(metric)
+                    || "monthly_avg_minutes".equals(metric)) {
+                // 기준이 평균 목표: 실적 = 월 평균, 달성률 = 각 월 달성률의 합 / 월 수 (역산 없음)
                 calculatedActualValue = monthlyValues.stream().reduce(java.math.BigDecimal.ZERO,
                         java.math.BigDecimal::add)
                         .divide(java.math.BigDecimal.valueOf(monthlyValues.size()), 2,

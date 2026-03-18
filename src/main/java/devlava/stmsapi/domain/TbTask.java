@@ -51,7 +51,7 @@ public class TbTask {
     private String evaluationType; // 정성, 정량
 
     @Column(name = "metric", length = 20)
-    private String metric; // 건수, 금액, %
+    private String metric; // 건수, 명(인원), 분(시간), 금액, % (월 평균 건수 포함)
 
     @Column(name = "target_value", precision = 15, scale = 2)
     private java.math.BigDecimal targetValue; // 목표값 (소수점 지원)
