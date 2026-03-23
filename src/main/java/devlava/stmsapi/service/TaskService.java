@@ -715,6 +715,20 @@ public class TaskService {
                                 java.math.RoundingMode.HALF_UP);
                 calculatedAchievement = AchievementRateCalculator.calculateMonthlyAvgCountFromActuals(
                         task.getTargetValue(), monthlyValues);
+            } else if ("monthly_avg_amount".equals(metric)) {
+                // 기준이 평균 목표(금액): 실적 = 월 평균, 달성률 = 각 월 달성률의 평균
+                calculatedActualValue = monthlyValues.stream().reduce(java.math.BigDecimal.ZERO,
+                        java.math.BigDecimal::add)
+                        .divide(java.math.BigDecimal.valueOf(monthlyValues.size()), 2,
+                                java.math.RoundingMode.HALF_UP);
+
+                if ("Y".equals(task.getReverseYn())) {
+                    calculatedAchievement = AchievementRateCalculator.calculatePercentReverseFromMonthlyActuals(
+                            task.getTargetValue(), monthlyValues);
+                } else {
+                    calculatedAchievement = AchievementRateCalculator.calculatePercentFromMonthlyActuals(
+                            task.getTargetValue(), monthlyValues);
+                }
             } else {
                 // 기준이 건수·금액: 달성률(%) = 각 월 실적의 합 / 과제 목표 * 100
                 calculatedActualValue = monthlyValues.stream().reduce(java.math.BigDecimal.ZERO,

@@ -219,6 +219,14 @@ public class NotificationService {
                             || "monthly_avg_minutes".equals(metric)) {
                         achievement = AchievementRateCalculator.calculateMonthlyAvgCountFromActuals(
                                 task.getTargetValue(), monthlyValues);
+                    } else if ("monthly_avg_amount".equals(metric)) {
+                        if ("Y".equals(task.getReverseYn())) {
+                            achievement = AchievementRateCalculator.calculatePercentReverseFromMonthlyActuals(
+                                    task.getTargetValue(), monthlyValues);
+                        } else {
+                            achievement = AchievementRateCalculator.calculatePercentFromMonthlyActuals(
+                                    task.getTargetValue(), monthlyValues);
+                        }
                     } else {
                         BigDecimal sum = monthlyValues.stream().reduce(BigDecimal.ZERO, BigDecimal::add);
                         achievement = AchievementRateCalculator.calculateFromSum(task.getTargetValue(), sum,
