@@ -12,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TaskUpdateRequest {
+    private String taskType; // 콤마 구분 다중 과제유형 (예: OI,중점추진,KPI)
     private String category1;
     private String category2;
     private String taskName;

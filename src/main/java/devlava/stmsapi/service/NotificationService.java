@@ -103,7 +103,8 @@ public class NotificationService {
         }
         TbLmsMember member = memberMap != null ? memberMap.get(skid) : null;
         return member != null && member.getMbHp() != null && !member.getMbHp().isBlank()
-                ? member.getMbHp().trim() : null;
+                ? member.getMbHp().trim()
+                : null;
     }
 
     /**

@@ -211,6 +211,11 @@ public class TaskService {
                 request.getEvaluationType(),
                 request.getMetric());
 
+        // 과제 구분 수정 (콤마 구분 다중값 허용)
+        if (request.getTaskType() != null && !request.getTaskType().trim().isEmpty()) {
+            task.setTaskType(request.getTaskType().trim());
+        }
+
         // 목표값 수정 (정량일 때만, 실적/달성률은 TbTaskActivity 기준으로 백엔드에서 계산)
         if ("quantitative".equals(request.getEvaluationType())) {
             if (request.getTargetValue() != null) {

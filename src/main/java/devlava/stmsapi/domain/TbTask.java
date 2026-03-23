@@ -20,8 +20,8 @@ public class TbTask {
     @Column(name = "task_id")
     private Long taskId;
 
-    @Column(name = "task_type", length = 20, nullable = false)
-    private String taskType; // OI, 중점추진
+    @Column(name = "task_type", length = 200, nullable = false)
+    private String taskType; // 콤마 구분 다중 과제유형 (예: OI,중점추진,KPI)
 
     @Column(name = "category1", length = 100)
     private String category1; // 대주제
@@ -157,6 +157,13 @@ public class TbTask {
      */
     public void setTargetValue(java.math.BigDecimal targetValue) {
         this.targetValue = targetValue;
+    }
+
+    /**
+     * 과제 구분(복수) 설정
+     */
+    public void setTaskType(String taskType) {
+        this.taskType = taskType;
     }
 
     /**
