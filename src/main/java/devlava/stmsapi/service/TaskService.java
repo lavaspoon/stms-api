@@ -693,7 +693,7 @@ public class TaskService {
         if ("quantitative".equals(task.getEvaluationType()) && allActivities != null && !allActivities.isEmpty()) {
             java.util.List<BigDecimal> monthlyValues = allActivities.stream()
                     .map(TbTaskActivity::getActualValue)
-                    .filter(v -> v != null)
+                    .filter(AchievementRateCalculator::isMeaningfulMonthlyActual)
                     .collect(Collectors.toList());
 
             if ("percent".equals(metric) || "%".equals(metric)) {

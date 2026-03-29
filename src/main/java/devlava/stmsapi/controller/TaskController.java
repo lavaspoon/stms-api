@@ -178,6 +178,15 @@ public class TaskController {
     }
 
     /**
+     * 과제 전체 첨부파일 목록 (모든 월, 활동 연·월 포함)
+     * GET /api/tasks/{taskId}/activity-files
+     */
+    @GetMapping("/{taskId}/activity-files")
+    public List<TaskActivityFileResponse> getActivityFilesByTask(@PathVariable Long taskId) {
+        return fileService.getFilesByTaskId(taskId);
+    }
+
+    /**
      * 활동내역 파일 업로드
      * POST /api/tasks/activity/{activityId}/files
      */

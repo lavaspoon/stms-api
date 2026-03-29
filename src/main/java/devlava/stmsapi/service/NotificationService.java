@@ -203,7 +203,7 @@ public class NotificationService {
                     List<BigDecimal> monthlyValues = (activitiesByTaskId.getOrDefault(task.getTaskId(),
                             Collections.emptyList())).stream()
                             .map(devlava.stmsapi.domain.TbTaskActivity::getActualValue)
-                            .filter(v -> v != null)
+                            .filter(AchievementRateCalculator::isMeaningfulMonthlyActual)
                             .collect(Collectors.toList());
                     BigDecimal achievement;
                     String metric = task.getMetric();

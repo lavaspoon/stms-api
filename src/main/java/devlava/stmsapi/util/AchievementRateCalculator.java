@@ -21,6 +21,13 @@ public final class AchievementRateCalculator {
     }
 
     /**
+     * 월별 실적이 산식에 포함될 만한 값인지 (활동내역만 입력되어 0·null로 저장된 달은 제외).
+     */
+    public static boolean isMeaningfulMonthlyActual(BigDecimal v) {
+        return v != null && v.compareTo(BigDecimal.ZERO) > 0;
+    }
+
+    /**
      * 기준이 % (역계산) 단일 월: 월별 달성률 = 목표 ÷ 실적 × 100
      *
      * @param targetValue 목표값 (null이거나 0 이하면 0 반환)
@@ -53,7 +60,7 @@ public final class AchievementRateCalculator {
             return BigDecimal.ZERO;
         }
         List<BigDecimal> monthlyRates = monthlyActuals.stream()
-                .filter(v -> v != null)
+                .filter(AchievementRateCalculator::isMeaningfulMonthlyActual)
                 .map(actual -> calculatePercentReverseSingleMonth(targetValue, actual))
                 .collect(Collectors.toList());
         if (monthlyRates.isEmpty()) {
@@ -77,7 +84,7 @@ public final class AchievementRateCalculator {
             return BigDecimal.ZERO;
         }
         List<BigDecimal> monthlyRates = monthlyActuals.stream()
-                .filter(v -> v != null)
+                .filter(AchievementRateCalculator::isMeaningfulMonthlyActual)
                 .map(actual -> calculate(targetValue, actual, false))
                 .collect(Collectors.toList());
         if (monthlyRates.isEmpty()) {
@@ -194,7 +201,7 @@ public final class AchievementRateCalculator {
             return BigDecimal.ZERO;
         }
         List<BigDecimal> monthlyRates = monthlyActuals.stream()
-                .filter(v -> v != null)
+                .filter(AchievementRateCalculator::isMeaningfulMonthlyActual)
                 .map(actual -> calculate(monthlyTarget, actual, false))
                 .collect(Collectors.toList());
         if (monthlyRates.isEmpty()) {

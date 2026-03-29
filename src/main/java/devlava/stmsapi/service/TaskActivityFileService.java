@@ -76,6 +76,24 @@ public class TaskActivityFileService {
         return convertToResponse(savedFile);
     }
 
+    private TaskActivityFileResponse convertToResponse(TbTaskActivityFile file, TbTaskActivity activity) {
+        TaskActivityFileResponse.TaskActivityFileResponseBuilder b = TaskActivityFileResponse.builder()
+                .fileId(file.getFileId())
+                .activityId(file.getActivityId())
+                .fileName(file.getFileName())
+                .originalFileName(file.getOriginalFileName())
+                .fileSize(file.getFileSize())
+                .fileType(file.getFileType())
+                .uploadedBy(file.getUploadedBy())
+                .createdAt(file.getCreatedAt())
+                .updatedAt(file.getUpdatedAt());
+        if (activity != null) {
+            b.activityYear(activity.getActivityYear())
+                    .activityMonth(activity.getActivityMonth());
+        }
+        return b.build();
+    }
+
     /**
      * 파일 다운로드
      */
@@ -100,6 +118,16 @@ public class TaskActivityFileService {
         List<TbTaskActivityFile> files = fileRepository.findByActivityId(activityId);
         return files.stream()
                 .map(this::convertToResponse)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 과제 전체 첨부파일 (모든 월, 활동 연·월 포함)
+     */
+    public List<TaskActivityFileResponse> getFilesByTaskId(Long taskId) {
+        List<TbTaskActivityFile> files = fileRepository.findAllFilesByTaskId(taskId);
+        return files.stream()
+                .map(f -> convertToResponse(f, f.getActivity()))
                 .collect(Collectors.toList());
     }
 
@@ -142,19 +170,10 @@ public class TaskActivityFileService {
     }
 
     /**
-     * 엔티티 -> DTO 변환
+     * 엔티티 -> DTO 변환 (단일 활동 조회용, 연·월은 activity에서 채움)
      */
     private TaskActivityFileResponse convertToResponse(TbTaskActivityFile file) {
-        return TaskActivityFileResponse.builder()
-                .fileId(file.getFileId())
-                .activityId(file.getActivityId())
-                .fileName(file.getFileName())
-                .originalFileName(file.getOriginalFileName())
-                .fileSize(file.getFileSize())
-                .fileType(file.getFileType())
-                .uploadedBy(file.getUploadedBy())
-                .createdAt(file.getCreatedAt())
-                .updatedAt(file.getUpdatedAt())
-                .build();
+        TbTaskActivity act = activityRepository.findById(file.getActivityId()).orElse(null);
+        return convertToResponse(file, act);
     }
 }
